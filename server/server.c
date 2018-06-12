@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/06/12 16:37:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/12 17:01:05 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ int		create_server(int port)
 	return (sock);
 }
 
+int		test_read(int cs)
+{
+	char	buff[1024];
+	int		rs;
+	size_t	b_size;
+
+	b_size = 1023;
+
+	while ((rs = read(cs, buff, b_size)) > 0)
+	{
+		buff[rs - 1] = '\0';
+		ft_printf("Receive: [%s]\n", buff);
+	}
+	return (0);
+}
+
 int		main(int argc, char **argv)
 {
 	int					port;
@@ -58,6 +74,8 @@ int		main(int argc, char **argv)
 	if ((sock = create_server(port)) < 0)
 		return (-1);
 	cs = accept(sock, (struct sockaddr*)&csin, &cslen);
+
+	test_read(cs);
 
 	close(sock);
 	close(cs);
