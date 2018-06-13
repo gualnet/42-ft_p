@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/06/12 17:01:05 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/13 12:36:05 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ int		create_server(int port)
 	sin.sin_port = htons(port);
 	sin.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	bind(sock, (const struct sockaddr*)&sin, sizeof(sin));
+	if (bind(sock, (const struct sockaddr*)&sin, sizeof(sin)) < 0)
+		ft_printf("Binding error\n");
 
-	listen(sock, 10);
+	if (listen(sock, 10) == 0)
+		ft_printf("Server is listening on %ld:%d\n", ntohl(sin.sin_addr.s_addr), ntohs(sin.sin_port) );
+	else
+		ft_printf("Listening error\n");
+
 
 	return (sock);
 }
@@ -47,13 +52,39 @@ int		test_read(int cs)
 	size_t	b_size;
 
 	b_size = 1023;
-
 	while ((rs = read(cs, buff, b_size)) > 0)
 	{
 		buff[rs - 1] = '\0';
 		ft_printf("Receive: [%s]\n", buff);
 	}
 	return (0);
+}
+
+/*
+**	cp for child process..
+*/
+int		create_child_process(int cs)
+{
+	pid_t	cp_pid; // cp for child process
+	
+	if ((cp_pid = fork()) < 0)
+	{
+		ft_printf("fork failed..\n");
+		return (-1);
+	}
+	else if (cp_pid == 0)
+	{
+		ft_printf("[%d]Closing new connexion socket in parent process\n", (int)getpid());
+		close(cs);
+	}
+	else
+	{
+		ft_printf("fork successed: PID[%d] - PPID[%d]\n", (int)getpid(), (int)getppid());
+		test_read(cs);
+	}
+
+	
+	return (1);
 }
 
 int		main(int argc, char **argv)
@@ -70,13 +101,27 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 
+	ft_printf("MASTER PROCESS PID: [%d]\n", (int)getpid());
 	port = ft_atoi(argv[1]);
 	if ((sock = create_server(port)) < 0)
 		return (-1);
-	cs = accept(sock, (struct sockaddr*)&csin, &cslen);
-
-	test_read(cs);
-
+	while (1)
+	{
+		if ((cs = accept(sock, (struct sockaddr*)&csin, &cslen)) < 0)
+		{
+			ft_printf("Accept error\n");
+		}
+		else
+		{
+			ft_printf("New connection accepted...\n");
+			if (create_child_process(cs) > 0)
+				printf("[%d] Continue on accept\n", (int)getpid());
+			else
+				break;
+		}
+	}
+	// if (cs != -1)
+	// 	close(cs);
 	close(sock);
-	close(cs);
+	return (1);
 }
