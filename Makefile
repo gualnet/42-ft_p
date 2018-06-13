@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 12:59:30 by galy              #+#    #+#              #
-#    Updated: 2018/06/12 15:38:46 by galy             ###   ########.fr        #
+#    Updated: 2018/06/13 14:31:13 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ CUR_CLR		=	\033[K
 ####FILES####
 
 SRVSRC			=	\
-				server.c		usage.c 		\
+				create_child.c		create_server.c		server.c		usage.c\
 
 
 

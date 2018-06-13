@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/13 12:19:45 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/13 14:31:51 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 
 
 void	usage(char *str);
+int		create_server(int port);
+int		create_child_process(int cs);
 
 
 #endif
