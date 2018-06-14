@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftp_struct.h                                       :+:      :+:    :+:   */
+/*   cmd_syst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/13 18:57:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 18:43:58 by galy             ###   ########.fr       */
+/*   Created: 2018/06/14 17:15:25 by galy              #+#    #+#             */
+/*   Updated: 2018/06/14 17:25:03 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTP_STRUCT_H
-# define FTP_STRUCT_H
+#include "ftp_server.h"
 
-
-typedef struct	s_vault
+void	syst_response(t_vault *vault, int num)
 {
-	int				cs;
-	unsigned int	cslen;
+	char	*msg;
+	num = 0;
 
-	// ------------
-	char			*name;
-	char			*passw;
-	char			*cwd;
-}				t_vault;
+	msg = "";
+	#ifdef __gnu_linux__
+		msg = "UNIX \x0a\x0d";
+	#endif
+	#ifdef __APPLE__
+		msg = "MACHOS \x0a\x0d";
+	#endif
+	#ifdef __MACH__
+		msg = "MACHOS \x0a\x0d";
+	#endif
+	
 
+	sender_sock(vault, msg);
+}
 
-#endif
+int		cmd_syst(t_vault *vault)
+{
+	syst_response(vault, 0);
+
+	return (0);
+}

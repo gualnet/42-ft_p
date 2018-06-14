@@ -6,23 +6,19 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 15:25:33 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/14 18:34:04 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "ftp_server.h"
 
-int	TLS_non_implem(cs)
+int	cmd_auth(t_vault *vault)
 {
-	// char *snd_msg = "434 \x0a\x0d";
-	char *snd_msg = "502 \x0a\x0d";
-	
-	printf("[%d]Send :[%s]\n", getpid(), snd_msg);
+	char *msg;
 
-	if (write(cs, snd_msg, ft_strlen(snd_msg) + 1) != (ssize_t)(ft_strlen(snd_msg) + 1))
-		ft_printf("[%d]Echec envoi..\n", getpid());
-	
+	msg = "502 \x0a\x0d";
+	sender_sock(vault, msg);
 	return (1);
 }
 
@@ -30,13 +26,19 @@ int		dispatcher(t_vault *vault, char *buff)
 {
 	// ft_printf("[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
 	if (strncmp(buff, "AUTH", 4) == 0)
-		return (TLS_non_implem(vault->cs));
+		return (cmd_auth(vault));
 	else if (strncmp(buff, "USER", 4) == 0)
 		return (cmd_user(vault, buff));
 	else if (strncmp(buff, "PASS", 4) == 0)
 		return (cmd_pass(vault, buff));
-	// else if (strncmp(buff, "PWD", 3) == 0)
-	// 	return (cmd_pwd(vault, buff));
+	else if (strncmp(buff, "PWD", 3) == 0)
+		return (cmd_pwd(vault));
+	else if (strncmp(buff, "SYST", 4) == 0)
+		return (cmd_syst(vault));
+	else if (strncmp(buff, "TYPE", 4) == 0)
+		return (cmd_type(vault));
+	else if (strncmp(buff, "pasv", 4) == 0)
+		return (cmd_pasv(vault));
 	else if (strncmp(buff, "QUIT", 4) == 0)
 		return (999);
 	else
