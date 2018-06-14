@@ -6,11 +6,16 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/06/13 15:22:29 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/14 12:02:52 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
+
+void	free_vault(t_vault *vault)
+{
+	free(vault->name);
+}
 
 /*
 **	Test serveur basique
@@ -22,8 +27,7 @@ int		main(int argc, char **argv)
 	int					port;
 	int					sock;
 	struct sockaddr_in	csin;
-	int					cs;
-	unsigned int		cslen;
+	t_vault				vault;
 	
 	if (argc != 2)
 	{
@@ -37,13 +41,13 @@ int		main(int argc, char **argv)
 		return (-1);
 	while (1)
 	{
-		if ((cs = accept(sock, (struct sockaddr*)&csin, &cslen)) < 0)
+		if ((vault.cs = accept(sock, (struct sockaddr*)&csin, &(vault.cslen))) < 0)
 			ft_printf("Accept error\n");
 		else
 		{
 			ft_printf("New connection accepted...\n");
-			if (create_child_process(cs) > 0)
-				printf("[%d] Continue on accept\n", (int)getpid());
+			if (create_child_process(&vault) > 0)
+				printf("[%d] Continue master loop\n", (int)getpid());
 			else
 			{
 				ft_printf("[%d] BREAKING LOOP\n", getpid());
@@ -51,8 +55,10 @@ int		main(int argc, char **argv)
 			}
 		}
 	}
+	ft_printf("\nOUT LOOP\n");
 	// if (cs != -1)
 	// 	close(cs);
 	close(sock);
+	free_vault(&vault);
 	return (1);
 }
