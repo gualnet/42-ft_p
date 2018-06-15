@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 18:41:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/15 18:10:35 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 char	*build_pasive_addr(t_vault *vault)
 {
-	printf("[%d] \n", getpid(), inet_ntoa(vault->) );
+	struct sockaddr_in *sin;
+
+	sin = &vault->n_info.cmd_sin;
+	printf("[%d]inet : [%x]:[%d] \n", getpid(), \
+	ntohl(sin->sin_addr.s_addr), ntohs(sin->sin_port));
+	return ("MON CUL\n");
 }
 
 void	pasv_response(t_vault *vault)
@@ -23,7 +28,7 @@ void	pasv_response(t_vault *vault)
 
 	msg = "227 \x0a\x0d";
 	
-	build_pasive_addr();
+	msg = build_pasive_addr(vault);
 
 	sender_sock(vault, msg);
 	exit(0);
@@ -31,6 +36,6 @@ void	pasv_response(t_vault *vault)
 
 int		cmd_pasv(t_vault *vault)
 {
-	type_response(vault);
+	pasv_response(vault);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 18:37:58 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/15 16:38:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@
 #define CMD_SP_LEN			5		// cmd + space len before argument
 // #define	GETCWD_BUF_SIZE		128
 #define	GETCWD_BUF_SIZE		128
+#define CMD_SOCK_QUEUE		10
+#define DTP_SOCK_QUEUE		1
+#define CMD_SOCK			1
+#define DTP_SOCK			2
 
 
 /*
@@ -39,7 +43,7 @@
 */
 
 void	usage(char *str);
-int		create_server(int port);
+int		create_server(t_vault *vault, int port);
 int		create_child_process(t_vault *vault);
 int		init_connexion(t_vault *vault);
 int		state_machine(t_vault *vault, uint state);

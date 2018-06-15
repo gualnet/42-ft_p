@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 14:32:26 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/15 16:35:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ int		main(int argc, char **argv)
 
 	ft_printf("MASTER PROCESS PID: [%d]\n", (int)getpid());
 	port = ft_atoi(argv[1]);
-	if ((sock = create_server(port)) < 0)
+	if ((sock = create_server(&vault, port)) < 0)
 		return (-1);
+	// if ((sock = create_server2(port)) < 0)
+	// 	return (-1);
 	while (1)
 	{
 		if ((vault.cs = accept(sock, (struct sockaddr*)&csin, &(vault.cslen))) < 0)
+		{
 			ft_printf("Accept error\n");
+			exit(-1);
+		}
 		else
 		{
 			ft_printf("New connection accepted...\n");
