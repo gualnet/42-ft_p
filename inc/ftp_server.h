@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 16:38:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/15 20:01:56 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int		state_machine(t_vault *vault, uint state);
 int		read_sock(t_vault *vault, char *buff);
 int		sender_sock(t_vault *vault, char *msg);
 int		dispatcher(t_vault *vault, char *buff);
+int		create_dtp_socket(t_vault *vault);
 
 int		cmd_user(t_vault *vault, char *cmd);
 int		cmd_pass(t_vault *vault, char *cmd);
