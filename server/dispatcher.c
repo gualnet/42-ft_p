@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 18:11:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/17 15:18:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@ int		dispatcher(t_vault *vault, char *buff)
 		return (cmd_type(vault));
 	else if (strncmp(buff, "PASV", 4) == 0)
 		return (cmd_pasv(vault));
+	else if (strncmp(buff, "LIST", 4) == 0)
+		return (cmd_list(vault));
 	else if (strncmp(buff, "QUIT", 4) == 0)
 		return (999);
 	else
 	{
 		ft_printf("[%d] Commande non implem ");
 		sender_sock(vault, "502 \x0a\x0d");
-		exit(-1);
+		// exit(0);
+		// return (999);
 	}
 
 

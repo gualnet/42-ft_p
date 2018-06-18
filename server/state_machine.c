@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:37:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 15:00:01 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/17 14:24:15 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		state_machine(t_vault *vault, uint state)
 	while (state != 999)
 	{
 		read_sock(vault, buff);
-		dispatcher(vault, buff);
+		state = dispatcher(vault, buff);
 	}
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 20:01:56 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/18 18:38:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ int		init_connexion(t_vault *vault);
 int		state_machine(t_vault *vault, uint state);
 int		read_sock(t_vault *vault, char *buff);
 int		sender_sock(t_vault *vault, char *msg);
+int		sender_dtp(t_vault *vault, char *msg);
 int		dispatcher(t_vault *vault, char *buff);
 int		create_dtp_socket(t_vault *vault);
+int		wait_for_conn(t_vault *vault);
 
 int		cmd_user(t_vault *vault, char *cmd);
 int		cmd_pass(t_vault *vault, char *cmd);
@@ -58,5 +60,6 @@ int		cmd_pwd(t_vault *vault);
 int		cmd_syst(t_vault *vault);
 int		cmd_type(t_vault *vault);
 int		cmd_pasv(t_vault *vault);
+int		cmd_list(t_vault *vault);
 
 #endif

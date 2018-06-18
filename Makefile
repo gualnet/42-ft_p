@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/11 12:59:30 by galy              #+#    #+#              #
-#    Updated: 2018/06/15 11:48:29 by galy             ###   ########.fr        #
+#    Updated: 2018/06/18 18:38:40 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ SRVSRC			=	\
 				create_child.c		create_server.c		server.c		usage.c \
 				init_connexion.c	state_machine.c		cmd_user_pass.c	reader_sender.c \
 				dispatcher.c		cmd_pwd.c			cmd_syst.c		cmd_type.c \
-				cmd_pasv.c
+				cmd_pasv.c			cmd_list.c			data_ex_ch.c
 
 
 
@@ -97,7 +97,7 @@ re			: fclean all
 ####MORE_RULEZ####
 
 $(OBJDIR)/$(SRVDIR)/%.o	:	$(SRVDIR)/%.c
-	$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 # $(OBJDIR)/$(CLTDIR)/%.o	:	$(CLTDIR)/%.c
 # 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 #	@printf "$(CUR_RST)$(CUR_SVE)$(CYELLOW)BUILD MALLOC		: $<$(CRESET)$(CUR_CLR)"
@@ -109,5 +109,5 @@ reset_cursor :
 	@printf "$(CUR_SVE)"
 
 OBJD		:
-	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJDIR)/$(SRVDIR)
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)/$(SRVDIR)

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:57:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 19:47:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/18 18:24:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ typedef struct			s_inet_info
 
 typedef struct			s_vault
 {
-	int					cs;
+	int					csc;
+	int					csd;
+	int					dtp_sock;
 	unsigned int		cslen;
 	//	-----	-----	-----
 	char				*name;

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 14:27:34 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 14:52:11 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/18 18:37:12 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int		create_child_process(t_vault *vault)
 	else if (cp_pid > 0)
 	{
 		ft_printf("[%d][%d]Closing new connexion socket in parent process\n", (int)getpid(), (int)getppid());
-		close(vault->cs);
-		vault->cs = -1;
+		close(vault->csc);
+		vault->csc = -1;
 	}
 	else
 	{

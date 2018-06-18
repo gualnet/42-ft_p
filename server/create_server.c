@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 20:05:38 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/18 17:35:16 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 		return (-2);
 	
 	reg_vault_sin_param(vault, port, sock_type);
-	sin = &vault->n_info.cmd_sin;
+	if (sock_type == CMD_SOCK)
+		sin = &vault->n_info.cmd_sin;
+	if (sock_type == DTP_SOCK)
+		sin = &vault->n_info.dtp_sin;
 	if (bind(sock, (const struct sockaddr*)sin, sizeof(*sin)) < 0)
 	{
 		ft_printf("Binding error\n");
@@ -81,18 +84,23 @@ int		create_dtp_socket(t_vault *vault)
 	int i;
 	int port;
 
-	i = 0;
+	i = 1;
 	while (i < 10)
 	{
-		port = vault->n_info.cmd_sin.sin_port;
-		port += i * 2; 
-		if ((sock = new_socket(vault, port, DTP_SOCK)) < 1)
+		port = ntohs(vault->n_info.cmd_sin.sin_port);
+		port += i * 2;
+		ft_printf("DTP PORT [%d] - ", port);
+		if ((sock = new_socket(vault, port, DTP_SOCK)) > 1)
+		{
+			ft_printf("good sock [%d]\n", sock);
 			break ;
+		}
+			ft_printf("bad sock [%d]\n", sock);
 		i++;
 	}
 	if (sock < 1)
 	{
-		ft_printf("new dtp socket error\n");
+		ft_printf("new dtp socket error (sock[%d])\n", sock);
 		return (-1);
 	}
 	ft_printf("Data transfert socket listening on port :%d\n", \

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/06/15 20:07:40 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/18 18:38:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ void	pasv_response(t_vault *vault)
 
 int		cmd_pasv(t_vault *vault)
 {
-	create_dtp_socket(vault);
-	//boucle d'attente de connexion dtp...
+
+	vault->dtp_sock = create_dtp_socket(vault);
+	//boucle d'attente de connexion dtp... ???
+	
 	pasv_response(vault);
 	return (0);
 }
