@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/19 18:22:30 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/19 19:04:58 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // 450 Service fichier non traité. Fichier non disponible (ex., fichier verrouillé par un autre utilisateur).
 // 451 Service interrompu. Erreur locale de traitement.
 
-int		search_dir_info(void)
+char	*search_dir_info(void)
 {
 	int		tube[2];
 	int		pid;
@@ -44,17 +44,20 @@ int		search_dir_info(void)
 		dup2 (tube[1], STDOUT_FILENO);
 		close(tube[0]);
 		close(tube[1]);
-		execl("/bin/sh", "ls -la", NULL);
+		// execl("/bin/sh", "ls -la", NULL);
+		execl("/bin/ls", "ls", "-la", NULL);
 		exit(0);
 	}
 	if (pid != 0) //parent
 	{
 		close(tube[1]);
-		ret = read(tube[0], buf, b_size);
+		ret = read(tube[0], buf, b_size); // boucle pour la lecture sup a bufsize
 		ft_printf("SORTIE TUBE: (%s)\n", buf);
-
+		
+		wait4(pid, ); //wait pour la fin d'exec du fork pour faire propre
+		// wait4(cp_pid, &status, option, &rusage);
 	}
-	return (0);
+	return (buf);
 }
 
 void	list_dtp_response(t_vault *vault)
