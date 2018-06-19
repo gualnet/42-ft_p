@@ -6,13 +6,13 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 18:23:01 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 18:57:15 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/19 13:02:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
 
-int		create_child_dtp_process(t_vault *vault)
+pid_t	create_child_dtp_process(t_vault *vault)
 {
 	pid_t	cp_pid;
 	
@@ -35,12 +35,13 @@ int		create_child_dtp_process(t_vault *vault)
 		vault->csc = -1;
 
 	}
-	return (1);
+	return (cp_pid);
 }
 
 int		wait_for_conn(t_vault *vault)
 {
 	struct sockaddr_in	csin;
+	pid_t				cp_pid;
 
 	while (1)
 	{
@@ -52,7 +53,7 @@ int		wait_for_conn(t_vault *vault)
 		else
 		{
 			ft_printf("New connection accepted...\n");
-			if (create_child_dtp_process(vault) > 0)
+			if ((cp_pid = create_child_dtp_process(vault)) > 0)
 			{
 				ft_printf("[%d] Parent BREAKING LOOP\n", getpid());
 				break ;
@@ -64,5 +65,5 @@ int		wait_for_conn(t_vault *vault)
 			}
 		}
 	}
-	return (1);
+	return (cp_pid);
 }
