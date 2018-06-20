@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 16:51:48 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 15:00:37 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 14:52:13 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		init_connexion(t_vault *vault)
 {
 	char *snd_msg = "220 \x0a\x0d";
 	
-	printf("[%d]Send :[%s]\n", getpid(), snd_msg);
+	// ft_printf("[%d]Send :[%s]\n", getpid(), snd_msg);
 
 	sender_sock(vault, snd_msg);
 	

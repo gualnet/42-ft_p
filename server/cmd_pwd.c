@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 17:56:25 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 14:51:02 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*insert_path(t_vault *vault, char *msg)
 	char *newstr;
 
 	tab = ft_strsplit(msg, ' ');
-	printf("[%s]\n", vault->cwd);
+	// ft_printf("[%s]\n", vault->cwd);
 	
 	int i = ft_strlen(vault->cwd);
 	while (vault->cwd[i] != '/')
@@ -63,11 +63,11 @@ char	*loop_getcwd(void)
 	while (i != 10)
 	{
 		buf = (char*)malloc(i * GETCWD_BUF_SIZE);
-		printf("[%p]size[%d]",buf, i * GETCWD_BUF_SIZE);
+		// ft_printf("[%p]size[%d]",buf, i * GETCWD_BUF_SIZE);
 		if ((buf = getcwd(buf, i * GETCWD_BUF_SIZE)) == NULL)
 		{
 			free(buf);
-			printf("[%d] [%s]\n", i, buf);
+			// ft_printf("[%d] [%s]\n", i, buf);
 		}
 		else
 			break ;

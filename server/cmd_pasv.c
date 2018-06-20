@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 18:38:09 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 14:53:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ char	*build_pasive_addr(t_vault *vault)
 
 	sin = &vault->n_info.dtp_sin;
 
-	printf("[%d]inet : [%x]:[%d] \n", getpid(), \
-	ntohl(sin->sin_addr.s_addr), ntohs(sin->sin_port));
-	ft_printf("sizeof(int): %d\n", sizeof(int));
+	// ft_printf("[%d]inet : [%x]:[%d] \n", getpid(), \
+	// ntohl(sin->sin_addr.s_addr), ntohs(sin->sin_port));
+	// ft_printf("sizeof(int): %d\n", sizeof(int));
 	if (ntohs(sin->sin_port) != 0)
 		msg = "127,0,0,1,";
 	else
