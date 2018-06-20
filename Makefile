@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/19 13:10:31 by galy             ###   ########.fr        #
+#    Updated: 2018/06/20 17:42:45 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ SRVSRC			=	\
 				create_child.c		create_server.c		server.c		usage.c \
 				init_connexion.c	state_machine.c		cmd_user_pass.c	reader_sender.c \
 				dispatcher.c		cmd_pwd.c			cmd_syst.c		cmd_type.c \
-				cmd_pasv.c			cmd_list.c			data_ex_ch.c
+				cmd_pasv.c			cmd_list.c			data_ex_ch.c	cmd_cwd.c \
+
 
 
 

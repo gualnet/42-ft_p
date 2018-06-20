@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/19 14:11:17 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 18:34:47 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,12 @@ int		dispatcher(t_vault *vault, char *buff);
 int		create_dtp_socket(t_vault *vault);
 int		wait_for_conn(t_vault *vault);
 
+//????
+void	list_dtp_response(t_vault *vault);
+
 int		cmd_user(t_vault *vault, char *cmd);
 int		cmd_pass(t_vault *vault, char *cmd);
+int		cmd_cwd(t_vault *vault, char *cmd);
 int		cmd_pwd(t_vault *vault);
 int		cmd_syst(t_vault *vault);
 int		cmd_type(t_vault *vault);

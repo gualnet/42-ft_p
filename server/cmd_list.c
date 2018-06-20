@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 15:28:55 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 18:43:55 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,10 @@ char	*reparsing_dir_info(char *str)
 	char	**banana;
 	char	*msg;
 	char	*tmp;
+	int		i;
 
-	banana = ft_strsplit(str, '\n');
-	int i = 0;
-	while (banana[i] != NULL)
-	{
-		tmp = banana[i];
-		banana[i] = ft_strjoin("+", banana[i]);
-		free(tmp);
-		i++;
-	}
 	i = 1;
+	banana = ft_strsplit(str, '\n');
 	tmp = banana[0];
 	while (banana[i] != NULL)
 	{
@@ -49,14 +42,47 @@ char	*reparsing_dir_info(char *str)
 	return (msg);
 }
 
-char	*search_dir_info(void)
+void	fork_work(t_vault *vault, int *tube)
+{
+	ft_printf("======FORK WORK=====\n");
+	dup2 (tube[1], STDOUT_FILENO);
+	close(tube[0]);
+	close(tube[1]);
+	execl("/bin/ls", "ls", "-la", vault->cwd, NULL);
+	exit(0);
+}
+
+char	*father_work(int *tube, pid_t pid)
+{
+	ft_printf("======Father WORK=====\n");
+	int				ret;
+	char			*msg;
+	char			*tmp;
+	char			buf[R_BUFF_SIZE + 1];
+	struct rusage	rusage;
+
+	ret = 1;
+	close(tube[1]);
+	tmp = ft_strnew(1);
+	while (ret > 0)
+	{
+		ft_bzero(buf, R_BUFF_SIZE);
+		ret = read(tube[0], buf, R_BUFF_SIZE);
+		msg = ft_strjoin(tmp, buf);
+		free(tmp);
+		tmp = msg;
+	}
+	ret = 0;
+	while (ret == 0)
+		ret = wait4(pid, &ret, 0, &rusage); //wait pour la fin d'exec du fork pour faire propre
+	return (msg);
+}
+
+char	*search_dir_info(t_vault *vault)
 {
 	int		tube[2];
 	int		pid;
-	char	buf[R_BUFF_SIZE + 1];
-	int		ret;
 	char	*msg;
-	char	*tmp;
 
 	if (pipe(tube) == -1)
 	{
@@ -70,27 +96,11 @@ char	*search_dir_info(void)
 	}
 	if (pid == 0) //fils
 	{
-		dup2 (tube[1], STDOUT_FILENO);
-		close(tube[0]);
-		close(tube[1]);
-		execl("/bin/ls", "ls", "-la", NULL);
-		exit(0);
+		fork_work(vault, tube);
 	}
 	if (pid != 0) //parent
 	{
-		ret = 1;
-		close(tube[1]);
-		tmp = ft_strnew(1);
-		while (ret > 0)
-		{
-			ft_bzero(buf, R_BUFF_SIZE);
-			ret = read(tube[0], buf, R_BUFF_SIZE); // boucle pour la lecture sup a bufsize
-			msg = ft_strjoin(tmp, buf);
-			free(tmp);
-			tmp = msg;
-		}
-		// wait4(pid, ); //wait pour la fin d'exec du fork pour faire propre
-		// wait4(cp_pid, &status, option, &rusage);
+		msg = father_work(tube, pid);
 	}
 	return (ft_strdup(msg));
 }
@@ -98,32 +108,13 @@ char	*search_dir_info(void)
 void	list_dtp_response(t_vault *vault)
 {
 	char			*msg;
-	char			*tmp1;
-	//
-	// struct dirent	*dirent;
-	// DIR				*fdrep;
 
 	ft_printf("DIR to open [%s]\n", vault->cwd);
-	// if ((fdrep = opendir(vault->cwd)) == NULL)
-	// 	exit(98);
-	// dirent = (void*)1;
 
-	tmp1 = search_dir_info();
-	ft_printf("GET DIR DATA:::: (%s)\n", tmp1);
-	msg = reparsing_dir_info(tmp1);
+	msg = search_dir_info(vault);
+	msg = reparsing_dir_info(msg);
 	sender_dtp(vault, msg);
-
-	// while (dirent != NULL)
-	// {
-	// 	dirent = readdir(fdrep);
-	// 	if (dirent != NULL)
-	// 	{
-
-
-			
-	// 	}
-	// }
-	// closedir(fdrep);
+	free(msg);
 
 }
 
@@ -178,10 +169,8 @@ int		cmd_list(t_vault *vault)
 		ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
-	sleep(1); // test
 	
 	option = 0;
-	ft_printf("TOTO1\n");
 	if (vault->csc != -1)
 	{
 		wait4(cp_pid, &status, option, &rusage);
@@ -192,7 +181,5 @@ int		cmd_list(t_vault *vault)
 		// 	ft_printf("LE FILS A QUITTE SUR SIGNAL\n");
 		list_cmd_response(vault, 0, status);
 	}
-	ft_printf("TOTO2\n");
-
 	return (0);
 }

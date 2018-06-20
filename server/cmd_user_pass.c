@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   store_user.c                                       :+:      :+:    :+:   */
+/*   cmd_user_pass.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:51:46 by galy              #+#    #+#             */
-/*   Updated: 2018/06/14 15:28:47 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/20 18:21:33 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	user_response(t_vault *vault, int num)
 	char *msg;
 
 	if (num == 1)
-		msg = "331 \x0a\x0d";
+		msg = "331 Please specify the password\x0a\x0d";
 	else if (num == 2)
-		msg = "230 Connexion accepted\x0a\x0d";
+		msg = "230 Login successful.. GG\x0a\x0d";
 	else
 		msg = "501 \x0a\x0d";	// error in param command
 
