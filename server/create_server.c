@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 17:35:16 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/21 16:47:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,16 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 	return (sock);
 }
 
+void	init_vault(t_vault *vault)
+{
+	vault->dtp_sock = 0;
+}
+
 int		create_server(t_vault *vault, int port)
 {
 	int	sock;
 
+	init_vault(vault);
 	sock = new_socket(vault, port, CMD_SOCK);
 	if (sock < 1)
 	{
