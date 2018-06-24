@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:52:44 by galy              #+#    #+#             */
-/*   Updated: 2018/06/22 18:44:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/24 09:59:14 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void	retr_cmd_response(t_vault *vault, int status)
 
 	msg = "";
 	if (status == 1)
-		msg = "150 File checked, opening data channel..\x0a\x0d";
+		msg = "150 File checked, opening data connection...\x0a\x0d";
 	else if (status == 2)
-		msg = "125 Data channel open, starting transfert.\x0a\x0d";
+		msg = "125 Data connection open, transfert starting...\x0a\x0d";
 	else if (status == 3)
-		msg = "226 Data transfert well ended.\x0a\x0d";
+		msg = "226 Requested file action successful, closing data connection.\x0a\x0d";
 	else if (status == -2)
-		msg = "425 Error opening data channel.\x0a\x0d";
+		msg = "425 Error opening data connection.\x0a\x0d";
 	else
-		msg = "451 File transfer process error.\x0a\x0d";
+		msg = "451 File transfer aborted, local processing error.\x0a\x0d";
 	
 	sender_sock(vault, msg);
 }
@@ -60,7 +60,7 @@ void	retr_dtp_response(t_vault *vault, t_file_info *fi)
 	}
 }
 
-int		prep_transfer(t_vault *vault, char *file, t_file_info *fi)
+int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 {
 	char		*tmp;
 
@@ -95,7 +95,7 @@ int		cmd_retr(t_vault *vault, char *cmd)
 
 	file = cmd + 5;
 	ft_printf("file to download[%s]\n", file);
-	if ((fd = prep_transfer(vault, file, &fi)) < 0)
+	if ((fd = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
 		ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
 		retr_cmd_response(vault, 1); //file check.. open dtp

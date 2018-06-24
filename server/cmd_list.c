@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 18:43:55 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/24 11:31:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ void	list_dtp_response(t_vault *vault)
 
 	ft_printf("DIR to open [%s]\n", vault->cwd);
 
+	sleep(4);
 	msg = search_dir_info(vault);
+	ft_printf("INTERMED MSG[%s]\n", msg);
+	sleep(4);
 	msg = reparsing_dir_info(msg);
 	sender_dtp(vault, msg);
 	free(msg);
