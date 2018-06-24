@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 17:43:03 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 16:25:10 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int		dispatcher(t_vault *vault, char *buff)
 		return (cmd_list(vault));
 	else if (strncmp(buff, "CWD", 3) == 0)
 		return (cmd_cwd(vault, buff));
+	else if (strncmp(buff, "RETR", 4) == 0)
+		return (cmd_retr(vault, buff));
 	else if (strncmp(buff, "QUIT", 4) == 0)
 		return (999);
 	else

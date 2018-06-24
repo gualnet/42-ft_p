@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/06/21 16:52:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 17:42:57 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ char	*build_pasive_addr(t_vault *vault)
 	char				*tmp2;
 	int					port;
 	
-	
-
 	sin = &vault->n_info.dtp_sin;
 
 	// ft_printf("[%d]inet : [%x]:[%d] \n", getpid(), \
@@ -59,7 +57,8 @@ int		cmd_pasv(t_vault *vault)
 {
 	if (vault->dtp_sock == 0)
 		vault->dtp_sock = create_dtp_socket(vault);
-	
+	ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
+	ft_printf("vault->csd[%d]\n", vault->csd);
 	pasv_response(vault);
 	return (0);
 }

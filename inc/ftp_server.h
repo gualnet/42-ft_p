@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 18:34:47 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 17:26:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
+
 #include <dirent.h>
+#include <fcntl.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <unistd.h>
+#include <sys/mman.h>
+
 
 #include "ftp_struct.h"
 #include "libft.h"
@@ -50,9 +56,10 @@ int		init_connexion(t_vault *vault);
 int		state_machine(t_vault *vault, uint state);
 int		read_sock(t_vault *vault, char *buff);
 int		sender_sock(t_vault *vault, char *msg);
+int		create_dtp_socket(t_vault *vault);
+int		sender_dtp_bin(t_vault *vault, void *msg, size_t len);
 int		sender_dtp(t_vault *vault, char *msg);
 int		dispatcher(t_vault *vault, char *buff);
-int		create_dtp_socket(t_vault *vault);
 int		wait_for_conn(t_vault *vault);
 
 //????
@@ -61,6 +68,7 @@ void	list_dtp_response(t_vault *vault);
 int		cmd_user(t_vault *vault, char *cmd);
 int		cmd_pass(t_vault *vault, char *cmd);
 int		cmd_cwd(t_vault *vault, char *cmd);
+int		cmd_retr(t_vault *vault, char *cmd);
 int		cmd_pwd(t_vault *vault);
 int		cmd_syst(t_vault *vault);
 int		cmd_type(t_vault *vault);

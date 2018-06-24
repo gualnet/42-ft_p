@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 19:45:51 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 18:21:12 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 // 501 Erreur de syntaxe dans le paramètres ou arguments.
 // 550 Service fichier non traité. Fichier non accessible (ex., fichier non trouvé, accèsrefusé).
+
 void	cwd_dtp_response(t_vault *vault, int status)
 {
 	char *msg;

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 19:37:03 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 18:53:16 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,18 @@ char	*insert_path(t_vault *vault, char *msg)
 
 	tab = ft_strsplit(msg, ' ');
 	// ft_printf("[%s]\n", vault->cwd);
-	ft_printf("000\n");
 	int i = ft_strlen(vault->cwd);
-	while (vault->cwd[i] != '/')
+	while (vault->cwd[i] != '/' && (&vault->cwd[i] != vault->cwd))
 		i--;
 	
-	ft_printf("001\n");
 	tmp = ft_strjoin(tab[0], " ");
-	ft_printf("002\n");
 	free(tab[0]);
-	ft_printf("003\n");
 	// tab[0] = ft_strjoin(tmp, vault->cwd + i);
 	tab[0] = ft_strjoin(tmp, vault->cwd);
-	ft_printf("004\n");
 	newstr = ft_strjoin(tab[0], tab[1]);
-	ft_printf("005\n");
 	free(tab[1]);
-	ft_printf("006\n");
 	free(tab);
-	ft_printf("007\n");
 	free(tmp);
-	ft_printf("008\n");
 	return (newstr);
 }
 
@@ -59,6 +50,7 @@ void	pwd_response(t_vault *vault, int num)
 		msg = "257 \x0a\x0d";
 		msg = insert_path(vault, msg);
 		sender_sock(vault, msg);
+		ft_printf("\n\nCHEMIN RETOURNE ICI [%s]\n\n", msg);
 		free(msg);
 	}
 }

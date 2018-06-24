@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 12:37:11 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 18:37:51 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 17:58:14 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		sender_sock(t_vault *vault, char *msg)
 	}
 	else
 		ft_printf("[%d] sent : [%s]\n", getpid(), msg);
-	
+
 	return (1);
 }
 
@@ -51,6 +51,20 @@ int		sender_dtp(t_vault *vault, char *msg)
 	}
 	else
 		ft_printf("[%d] sent : [%s]\n", getpid(), msg);
-	
+	return (1);
+}
+
+int		sender_dtp_bin(t_vault *vault, void *msg, size_t len)
+{
+	int ret;
+
+	ft_printf("---------%d----------\n", vault->csd);
+	ft_printf("---------%d----------\n", vault->dtp_sock);
+	if ((ret = send(vault->csd, msg, len, 0)) < 0)
+	{
+		ft_printf("pb dans sender_dtp_bin\n");
+		return (-1);
+	}
+	ft_printf("[%d] sent_bin : [%d]\n", getpid(), ret);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:52:44 by galy              #+#    #+#             */
-/*   Updated: 2018/06/21 16:58:06 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/22 18:44:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,93 @@
 // 551 Service interrompu. Type de page inconnu.
 // 552 Service fichier interrompu. Quota dépassé (pour le répertoire ou compte courant).
 
-void	retr_cmd_response(t_vault *vault)
+void	retr_cmd_response(t_vault *vault, int status)
 {
+	char	*msg;
+
+	msg = "";
+	if (status == 1)
+		msg = "150 File checked, opening data channel..\x0a\x0d";
+	else if (status == 2)
+		msg = "125 Data channel open, starting transfert.\x0a\x0d";
+	else if (status == 3)
+		msg = "226 Data transfert well ended.\x0a\x0d";
+	else if (status == -2)
+		msg = "425 Error opening data channel.\x0a\x0d";
+	else
+		msg = "451 File transfer process error.\x0a\x0d";
+	
+	sender_sock(vault, msg);
+}
+
+void	retr_dtp_response(t_vault *vault, t_file_info *fi)
+{
+	if (fi->fstat.st_size < 80000000)
+	{
+		ft_printf("DTP FILE SENDER START\n");
+		if (sender_dtp_bin(vault, fi->fdump, fi->fstat.st_size) < 0)
+		{
+			ft_printf("DTP FILE SENDER NOK\n");
+			exit(0);
+		}
+	}
+}
+
+int		prep_transfer(t_vault *vault, char *file, t_file_info *fi)
+{
+	char		*tmp;
+
+	tmp = ft_strjoin(vault->cwd, "/");
+	fi->path = ft_strjoin(tmp, file);
+	ft_printf("file path to download[%s]\n", fi->path);
+	free(tmp);
+	if ((tmp = ft_strchr(fi->path, '\r')) != NULL)
+		tmp[0] = '\0';
+	if ((fi->fd = open(fi->path, O_RDONLY | O_NONBLOCK)) < 0)
+		return (-1);
+	if (fstat(fi->fd, &fi->fstat) == -1)
+		return (-2);
+	if ((fi->fdump = (void*)mmap(NULL, fi->fstat.st_size, PROT_READ, \
+	MAP_FILE | MAP_PRIVATE, fi->fd, 0)) == MAP_FAILED)
+		return (-3);
+	return (1);
+}
+
+void	clear_fi(t_file_info *fi)
+{
+	free(fi->path);
 
 }
 
-int		cmd_retr(t_vault *vault)
-{	
-	retr_cmd_response(vault);
+int		cmd_retr(t_vault *vault, char *cmd)
+{
+	int			fd;
+	char		*file;
+	pid_t		cp_pid;
+	t_file_info	fi;
+
+	file = cmd + 5;
+	ft_printf("file to download[%s]\n", file);
+	if ((fd = prep_transfer(vault, file, &fi)) < 0)
+	{
+		ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
+		retr_cmd_response(vault, 1); //file check.. open dtp
+		return (-1);
+	}
+	if ((cp_pid = wait_for_conn(vault)) == -1)
+		retr_cmd_response(vault, -2); // dtp connexion error
+	if (vault->csc != -1)
+		retr_cmd_response(vault, 2);
+	if (vault->csd != -1)
+	{
+		retr_dtp_response(vault, &fi);
+		ft_printf("[%d] fork dtp close\n", getpid());
+		exit(0);
+	}
+	close(fd);
+	munmap(fi.fdump, fi.fstat.st_size);
+	clear_fi(&fi);
+	retr_cmd_response(vault, 3);
+
 	return (0);
 }
