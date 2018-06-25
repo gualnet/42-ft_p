@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 23:09:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/25 19:28:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,12 @@ void	list_dtp_response(t_vault *vault)
 	ft_printf("DIR to open [%s]\n", vault->cwd);
 
 	msg = search_dir_info(vault);
-	ft_printf("INTERMED MSG[%s]\n", msg);
+	ft_printf("INTERMED MSG[%d][%s]\n", ft_strlen(msg), msg);
+	if (ft_strlen(msg) == 0)
+		exit(99);
 	msg = reparsing_dir_info(msg);
 	sender_dtp(vault, msg);
 	free(msg);
-
 }
 
 void	list_cmd_response(t_vault *vault, int status, int wstatus)
@@ -129,28 +130,28 @@ void	list_cmd_response(t_vault *vault, int status, int wstatus)
 		if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)
 		{
 			ft_printf("LE FILS A QUITTE CORRECTEMENT\n");
-			msg = "250 Service fichier terminé..\x0a\x0d";
+			msg = "250 SUCCESS Requested file action completed..\x0a\x0d";
 		}
 		else if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0) || \
 		WIFSIGNALED(wstatus))
 		{
 			ft_printf("LE FILS A QUITTE sur erreur\n");
-			msg = "451 Erreur locale de traitement..\x0a\x0d";
+			msg = "451 ERROR Local error in processing...\x0a\x0d";
+		}
+		else if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 99)
+		{
+			ft_printf("LE FILS A QUITTE Erreur le dossier n'existe pas\n");
+			msg = "450 ERROR Requested Directory action not taken. \
+			Directory unavailable...\x0a\x0d";
 		}
 	}
 	else if (status == 1)
-	{
-		msg = "125 \x0a\x0d";
-	}
+		msg = "125 SUCCESS\x0a\x0d";
 	else if (status == 2)
-	{
-		msg = "250 \x0a\x0d";
-	}
+		msg = "250 SUCCESS\x0a\x0d";
 	else if (status == 5)
-	{
-		msg = "425 \x0a\x0d";
-	}
-		sender_sock(vault, msg);
+		msg = "425 SUCCESS\x0a\x0d";
+	sender_sock(vault, msg);
 }
 
 int		cmd_list(t_vault *vault)
@@ -170,13 +171,12 @@ int		cmd_list(t_vault *vault)
 		ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
-	
 	option = 0;
 	if (vault->csc != -1)
 	{
 		wait4(cp_pid, &status, option, &rusage);
-		// ft_printf("[%d] TEST {status[%d]}{optin[%d]}} \n", \
-		// status, option);
+		ft_printf("[%d] TEST {status[%d]}{option[%d]}} \n", \
+		status, option);
 		// 
 		// if (WIFSIGNALED(status))
 		// 	ft_printf("LE FILS A QUITTE SUR SIGNAL\n");

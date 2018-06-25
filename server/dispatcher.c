@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 20:29:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/25 18:14:49 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cmd_auth(t_vault *vault)
 
 int		dispatcher(t_vault *vault, char *buff)
 {
-	// ft_printf("[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
+	ft_printf("[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
 	if (strncmp(buff, "AUTH", 4) == 0)
 		return (cmd_auth(vault));
 	else if (strncmp(buff, "USER", 4) == 0)
