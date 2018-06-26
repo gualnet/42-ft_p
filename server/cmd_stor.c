@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 17:37:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:14:51 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	stor_cmd_response(t_vault *vault, int status)
 		msg = "226 Requested file action successful, "
 		"closing data connection.\x0a\x0d";
 	else if (status == -1)
-		msg = "451 Requested action aborted: local error in processing\x0a\x0d";
+		msg = "451 Requested action aborted: "
+		"local error in processing\x0a\x0d";
 	else if (status == -2)
 		msg = "425 Error opening data connection.\x0a\x0d";
 	else if (status == -5)

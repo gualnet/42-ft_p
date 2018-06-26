@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:09:26 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:17:13 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@
 */
 
 #define R_BUFF_SIZE			1024	// read buffer size
-#define CMD_SP_LEN			5		// cmd + space len before argument
-// #define	GETCWD_BUF_SIZE		128
 #define	GETCWD_BUF_SIZE		128
 #define CMD_SOCK_QUEUE		10
 #define DTP_SOCK_QUEUE		1

@@ -6,20 +6,11 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 15:48:54 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:14:31 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
-
-// 125 Canal de données déjà ouvert; début de transfert.
-// 150 Statut de fichier vérifié; ouverture de canal de données en cours.
-// 226 Fermeture du canal de données. Service terminé (par exemple, transfert de fichier ou avortement).
-// 250 Service fichier terminé
-// 425 Erreur d'ouverture du canal de données.
-// 426 Connexion fermée, transfert interrompu.
-// 450 Service fichier non traité. Fichier non disponible (ex., fichier verrouillé par un autre utilisateur).
-// 451 Service interrompu. Erreur locale de traitement.
 
 char	*reparsing_dir_info(char *str)
 {
@@ -168,18 +159,12 @@ int		cmd_list(t_vault *vault)
 	if (vault->csd != -1)
 	{
 		list_dtp_response(vault);
-		// ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
 	option = 0;
 	if (vault->csc != -1)
 	{
 		wait4(cp_pid, &status, option, &rusage);
-		// ft_printf("[%d] TEST {status[%d]}{option[%d]}} \n", \
-		// status, option);
-		// 
-		// if (WIFSIGNALED(status))
-		// 	ft_printf("LE FILS A QUITTE SUR SIGNAL\n");
 		list_cmd_response(vault, 0, status);
 	}
 	return (0);

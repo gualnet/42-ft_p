@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 18:47:07 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:10:20 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:13:52 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void	rmd_cmd_response(t_vault *vault, int status)
 	if (status == 1)
 		msg = "250 Requested directory action completed.\x0a\x0d";
 	else if (status == -1)
-		msg = "451 Requested directory action aborted, local processing error.\x0a\x0d";
+		msg = "451 Requested directory action aborted, "
+		"local processing error.\x0a\x0d";
 	else if (status == -2)
-		msg = "450 Requested directory action not taken, directory unavailable\x0a\x0d";
+		msg = "450 Requested directory action not taken, "
+		"directory unavailable\x0a\x0d";
 	else if (status == -5)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	sender_sock(vault, msg);
