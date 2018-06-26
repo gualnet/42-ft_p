@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/24 20:18:52 by galy             ###   ########.fr        #
+#    Updated: 2018/06/26 16:05:59 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRVSRC			=	\
 				dispatcher.c		data_ex_ch.c		\
 				cmd_user_pass.c		cmd_type.c			cmd_syst.c		cmd_pwd.c \
 				cmd_pasv.c			cmd_list.c			cmd_cwd.c		cmd_stor.c \
-				cmd_retr.c			cmd_mkd.c
+				cmd_retr.c			cmd_mkd.c			cmd_noop.c
 
 
 

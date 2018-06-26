@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 19:30:13 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 23:09:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:41:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		create_dir(char *dir_name)
 	option = 0;
 	if ((pid = fork()) < 0) //echec
 	{
-		ft_printf("MKD fork failed\n");
+		// ft_printf("MKD fork failed\n");
 		return (-4);
 	}
 	if (pid == 0) // fork
@@ -58,10 +58,10 @@ char	*prep_dir_creat(char *cmd)
 
 	if ((dir = ft_strdup(cmd + 4)) == NULL)
 		return (NULL);
-	ft_printf("STEP1[%s]\n", dir);
+	// ft_printf("STEP1[%s]\n", dir);
 	if ((tmp = ft_strchr(dir, '\r')) != NULL)
 		tmp[0] = '\0';
-	ft_printf("STEP2[%s]\n", dir);
+	// ft_printf("STEP2[%s]\n", dir);
 	return (dir);
 	
 }

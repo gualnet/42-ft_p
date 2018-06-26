@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/22 18:53:16 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:46:27 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ void	pwd_response(t_vault *vault, int num)
 	msg = "";
 	if (num == -1)
 	{
-		msg = "500 \x0a\x0d";
+		msg = "500 Syntax error, command unrecognized.\x0a\x0d";
 		sender_sock(vault, msg);
 	}
 	else if (num == 1)
 	{
-		msg = "257 \x0a\x0d";
+		msg = "257 Directory verified.\x0a\x0d";
 		msg = insert_path(vault, msg);
 		sender_sock(vault, msg);
-		ft_printf("\n\nCHEMIN RETOURNE ICI [%s]\n\n", msg);
+		// ft_printf("\n\nCHEMIN RETOURNE ICI [%s]\n\n", msg);
 		free(msg);
 	}
 }
@@ -68,13 +68,13 @@ char	*loop_getcwd(void)
 		if ((buf = getcwd(buf, i * GETCWD_BUF_SIZE)) == NULL)
 		{
 			free(buf);
-			ft_printf("[%d] [%s]\n", i, buf);
+			// ft_printf("[%d] [%s]\n", i, buf);
 		}
 		else
 			break ;
 		i++;
 	}
-	ft_printf("[%d] [%s]\n", i, buf);
+	// ft_printf("[%d] [%s]\n", i, buf);
 	return (buf);
 }
 
@@ -82,7 +82,7 @@ int		cmd_pwd(t_vault *vault)
 {
 	if (vault->cwd == NULL)
 	{
-		ft_printf("COUCOU00[%s]\n", vault->cwd);
+		// ft_printf("COUCOU00[%s]\n", vault->cwd);
 		if ((vault->cwd = loop_getcwd()) == NULL)
 			pwd_response(vault, -1);
 		else
@@ -90,7 +90,7 @@ int		cmd_pwd(t_vault *vault)
 	}
 	else
 	{
-		ft_printf("COUCOU01 [%s]\n", vault->cwd);
+		// ft_printf("COUCOU01 [%s]\n", vault->cwd);
 		pwd_response(vault, 1);
 	}
 	

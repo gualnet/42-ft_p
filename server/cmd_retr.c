@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:52:44 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 09:59:14 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:50:32 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	retr_cmd_response(t_vault *vault, int status)
 		msg = "226 Requested file action successful, closing data connection.\x0a\x0d";
 	else if (status == -2)
 		msg = "425 Error opening data connection.\x0a\x0d";
+	else if (status == -3)
+		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	else
 		msg = "451 File transfer aborted, local processing error.\x0a\x0d";
 	
@@ -51,13 +53,14 @@ void	retr_dtp_response(t_vault *vault, t_file_info *fi)
 {
 	if (fi->fstat.st_size < 80000000)
 	{
-		ft_printf("DTP FILE SENDER START\n");
+		// ft_printf("DTP FILE SENDER START\n");
 		if (sender_dtp_bin(vault, fi->fdump, fi->fstat.st_size) < 0)
 		{
-			ft_printf("DTP FILE SENDER NOK\n");
-			exit(0);
+			// ft_printf("DTP FILE SENDER NOK\n");
+			exit(-1);
 		}
 	}
+	exit(0);
 }
 
 int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
@@ -66,7 +69,7 @@ int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file);
-	ft_printf("file path to download[%s]\n", fi->path);
+	// ft_printf("file path to download[%s]\n", fi->path);
 	free(tmp);
 	if ((tmp = ft_strchr(fi->path, '\r')) != NULL)
 		tmp[0] = '\0';
@@ -93,11 +96,16 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	pid_t		cp_pid;
 	t_file_info	fi;
 
+	if (verif_cmd_minimum_len(cmd, ML_RETR) != 1)
+	{
+		retr_cmd_response(vault, -3);
+		return (-1);
+	}
 	file = cmd + 5;
-	ft_printf("file to download[%s]\n", file);
+	// ft_printf("file to download[%s]\n", file);
 	if ((fd = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
-		ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
+		// ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
 		retr_cmd_response(vault, 1); //file check.. open dtp
 		return (-1);
 	}
@@ -108,7 +116,7 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	if (vault->csd != -1)
 	{
 		retr_dtp_response(vault, &fi);
-		ft_printf("[%d] fork dtp close\n", getpid());
+		// ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/25 19:28:39 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:48:54 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*reparsing_dir_info(char *str)
 
 void	fork_work(t_vault *vault, int *tube)
 {
-	ft_printf("======FORK WORK=====\n");
+	// ft_printf("======FORK WORK=====\n");
 	dup2 (tube[1], STDOUT_FILENO);
 	close(tube[0]);
 	close(tube[1]);
@@ -54,7 +54,7 @@ void	fork_work(t_vault *vault, int *tube)
 
 char	*father_work(int *tube, pid_t pid)
 {
-	ft_printf("======Father WORK=====\n");
+	// ft_printf("======Father WORK=====\n");
 	int				ret;
 	char			*msg;
 	char			*tmp;
@@ -109,10 +109,10 @@ void	list_dtp_response(t_vault *vault)
 {
 	char			*msg;
 
-	ft_printf("DIR to open [%s]\n", vault->cwd);
+	// ft_printf("DIR to open [%s]\n", vault->cwd);
 
 	msg = search_dir_info(vault);
-	ft_printf("INTERMED MSG[%d][%s]\n", ft_strlen(msg), msg);
+	// ft_printf("INTERMED MSG[%d][%s]\n", ft_strlen(msg), msg);
 	if (ft_strlen(msg) == 0)
 		exit(99);
 	msg = reparsing_dir_info(msg);
@@ -129,28 +129,28 @@ void	list_cmd_response(t_vault *vault, int status, int wstatus)
 	{
 		if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)
 		{
-			ft_printf("LE FILS A QUITTE CORRECTEMENT\n");
-			msg = "250 SUCCESS Requested file action completed..\x0a\x0d";
+			// ft_printf("LE FILS A QUITTE CORRECTEMENT\n");
+			msg = "250 Requested file action completed..\x0a\x0d";
 		}
 		else if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0) || \
 		WIFSIGNALED(wstatus))
 		{
-			ft_printf("LE FILS A QUITTE sur erreur\n");
-			msg = "451 ERROR Local error in processing...\x0a\x0d";
+			// ft_printf("LE FILS A QUITTE sur erreur\n");
+			msg = "451 Local error in processing...\x0a\x0d";
 		}
 		else if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 99)
 		{
-			ft_printf("LE FILS A QUITTE Erreur le dossier n'existe pas\n");
-			msg = "450 ERROR Requested Directory action not taken. \
+			// ft_printf("LE FILS A QUITTE Erreur le dossier n'existe pas\n");
+			msg = "450 Requested Directory action not taken. \
 			Directory unavailable...\x0a\x0d";
 		}
 	}
 	else if (status == 1)
-		msg = "125 SUCCESS\x0a\x0d";
+		msg = "125 Data connection already open; transfer starting.\x0a\x0d";
 	else if (status == 2)
-		msg = "250 SUCCESS\x0a\x0d";
+		msg = "250 Requested file action completed.\x0a\x0d";
 	else if (status == 5)
-		msg = "425 SUCCESS\x0a\x0d";
+		msg = "425 Error opening data connection.\x0a\x0d";
 	sender_sock(vault, msg);
 }
 
@@ -160,7 +160,7 @@ int		cmd_list(t_vault *vault)
 	int		option;
 	struct	rusage rusage;
 	pid_t	cp_pid;
-	//check data connexion
+	
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 		list_cmd_response(vault, 5, 0);
 	if (vault->csc != -1)
@@ -168,15 +168,15 @@ int		cmd_list(t_vault *vault)
 	if (vault->csd != -1)
 	{
 		list_dtp_response(vault);
-		ft_printf("[%d] fork dtp close\n", getpid());
+		// ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
 	option = 0;
 	if (vault->csc != -1)
 	{
 		wait4(cp_pid, &status, option, &rusage);
-		ft_printf("[%d] TEST {status[%d]}{option[%d]}} \n", \
-		status, option);
+		// ft_printf("[%d] TEST {status[%d]}{option[%d]}} \n", \
+		// status, option);
 		// 
 		// if (WIFSIGNALED(status))
 		// 	ft_printf("LE FILS A QUITTE SUR SIGNAL\n");

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:51:46 by galy              #+#    #+#             */
-/*   Updated: 2018/06/20 18:21:33 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:37:35 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,24 @@ void	user_response(t_vault *vault, int num)
 		msg = "331 Please specify the password\x0a\x0d";
 	else if (num == 2)
 		msg = "230 Login successful.. GG\x0a\x0d";
+	else if (num == -1)
+		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	else
-		msg = "501 \x0a\x0d";	// error in param command
+		msg = "451 Requested action aborted: local error in processing\x0a\x0d";	// error in param command
 
 	sender_sock(vault, msg);
 }
 
 int		cmd_user(t_vault *vault, char *cmd)
 {
-	int next_state;
 	int i;
 
-	next_state = 2;
-	i = CMD_SP_LEN;
 	if (ft_strlen(cmd) < CMD_SP_LEN)
-		user_response(vault, 0);
+	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
+	{
+		user_response(vault, -1);
+		return (-1);
+	}
 	vault->name = ft_strdup(cmd + CMD_SP_LEN);
 	i = 0;
 	while (vault->name[i] != '\x0a')
@@ -46,19 +49,19 @@ int		cmd_user(t_vault *vault, char *cmd)
 	ft_strlen(vault->name) == 0)
 		user_response(vault, 0);
 	user_response(vault, 1);
-	return (next_state);
+	return (1);
 }
 
 int		cmd_pass(t_vault *vault, char *cmd)
 {
-	int next_state;
 	int i;
 	
-	next_state = 2;
-	i = CMD_SP_LEN;
-	if (ft_strlen(cmd) < CMD_SP_LEN)
-		user_response(vault, 0);
-	vault->passw = ft_strdup(cmd + CMD_SP_LEN);
+	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
+	{
+		user_response(vault, -1);
+		return (-1);
+	}
+	vault->passw = ft_strdup(cmd + 5);
 	i = 0;
 	while (vault->passw[i] != '\x0a')
 		i++;
@@ -68,5 +71,5 @@ int		cmd_pass(t_vault *vault, char *cmd)
 	ft_strlen(vault->passw) == 0)
 		user_response(vault, 0);
 	user_response(vault, 2);
-	return (next_state);
+	return (1);
 }

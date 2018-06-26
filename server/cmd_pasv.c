@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 08:49:58 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:43:01 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*build_pasive_addr(t_vault *vault)
 	// ft_printf("[%d]inet : [%x]:[%d] \n", getpid(), \
 	// ntohl(sin->sin_addr.s_addr), ntohs(sin->sin_port));
 	// ft_printf("sizeof(int): %d\n", sizeof(int));
-	if (ntohs(sin->sin_port) != 0)
+	if (ntohs(sin->sin_port) != 0) // BESOIN D'UN PLAN POUR RECUP L'IP
 		msg = "127,0,0,1,";
 	else
 		msg = "123,123,123,123,";
@@ -57,8 +57,8 @@ int		cmd_pasv(t_vault *vault)
 {
 	if (vault->dtp_sock == 0)
 		vault->dtp_sock = create_dtp_socket(vault);
-	ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
-	ft_printf("vault->csd[%d]\n", vault->csd);
+	// ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
+	// ft_printf("vault->csd[%d]\n", vault->csd);
 	pasv_response(vault);
 	return (0);
 }

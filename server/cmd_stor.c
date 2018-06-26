@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 19:40:46 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 15:53:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	stor_cmd_response(t_vault *vault, int status)
 	else if (status == 2)
 		msg = "125 Data connection open...\x0a\x0d";
 	else if (status == 3)
-		msg = "226 Requested file action successful, closing data connection.\x0a\x0d";
+		msg = "226 Requested file action successful, "
+		"closing data connection.\x0a\x0d";
 	else if (status == -1)
 		msg = "451 Requested action aborted: local error in processing\x0a\x0d";
 	else if (status == -2)
@@ -65,7 +66,7 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
-	ft_printf("file path to download[%s]\n", fi->path);
+	// ft_printf("file path to download[%s]\n", fi->path);
 	free(tmp);
 	if ((tmp = ft_strchr(fi->path, '\r')) != NULL)
 		tmp[0] = '\0';
@@ -76,6 +77,16 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 	return (1);
 }
 
+void	wait_4_fork(pid_t cp_pid)
+{
+	int		status;
+	int		option;
+	struct	rusage rusage;
+
+	option = 0;
+	wait4(cp_pid, &status, option, &rusage);
+}
+
 int		cmd_stor(t_vault *vault, char *cmd)
 {
 	t_file_info	fi;
@@ -83,9 +94,7 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	int			ret;
 	pid_t		cp_pid;
 
-	size_t size = ft_strlen(cmd);
-	ft_printf("CMD SIZE[%d]\n", size);
-	if (ft_strlen(cmd) < 7)
+	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
 		stor_cmd_response(vault, -5);
 		return (-1);
@@ -102,25 +111,13 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	if (vault->csd != -1)
 	{
 		stor_dtp_listen(vault, &fi);
-		ft_printf("[%d] fork dtp close\n", getpid());
+		// ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
-
-
-	//	_____-----_____
-	int		status;
-	int		option;
-	struct	rusage rusage;
-
-	option = 0;
-	wait4(cp_pid, &status, option, &rusage);
-	//	_____-----_____
+	wait_4_fork(cp_pid);
 	stor_cmd_response(vault, 3);
 	close(fi.fd);
 	free(fi.path);
-
-
-
 	free(file_name);
 	return (0);
 }
