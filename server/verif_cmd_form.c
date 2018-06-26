@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 10:17:24 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 20:16:26 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 16:18:16 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		verif_cmd_minimum_len(char *cmd, size_t cmd_len)
 
 	if ((size = ft_strlen(cmd)) < cmd_len)
 	{
-		ft_printf("cmd is oo short to be a valide commande\n");
+		ft_printf("cmd is too short to be a valide commande\n");
 		return (-1);
 	}
 	return (1);

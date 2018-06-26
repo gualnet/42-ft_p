@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 15:53:39 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 17:37:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 		tmp[0] = '\0';
 	else
 		return (-5);
-	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT)) < 0)
+	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT, 0640)) < 0)
 		return (-1);
 	return (1);
 }

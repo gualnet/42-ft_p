@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 15:46:27 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 16:44:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	pwd_response(t_vault *vault, int num)
 	}
 	else if (num == 1)
 	{
-		msg = "257 Directory verified.\x0a\x0d";
+		msg = "257 \x0a\x0d";
 		msg = insert_path(vault, msg);
 		sender_sock(vault, msg);
 		// ft_printf("\n\nCHEMIN RETOURNE ICI [%s]\n\n", msg);

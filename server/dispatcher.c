@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 16:08:12 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 18:09:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	cmd_auth(t_vault *vault)
 
 int		dispatcher(t_vault *vault, char *buff)
 {
-	ft_printf("[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
+	// ft_printf("[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
 	if (strncmp(buff, "AUTH", 4) == 0)
 		return (cmd_auth(vault));
 	else if (strncmp(buff, "USER", 4) == 0)
@@ -49,6 +49,12 @@ int		dispatcher(t_vault *vault, char *buff)
 		return (cmd_stor(vault, buff));
 	else if (strncmp(buff, "MKD", 3) == 0)
 		return (cmd_mkd(vault, buff));
+	else if (strncmp(buff, "MODE", 4) == 0)
+		return (cmd_mode(vault));
+	else if (strncmp(buff, "PORT", 4) == 0)
+		return (cmd_port(vault));
+	else if (strncmp(buff, "DELE", 4) == 0)
+		return (cmd_dele(vault, buff));
 	else if (strncmp(buff, "NOOP", 4) == 0)
 		return (cmd_noop(vault));
 	else if (strncmp(buff, "QUIT", 4) == 0 || buff[0] == '\0')

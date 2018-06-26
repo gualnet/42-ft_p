@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 19:30:13 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 15:41:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 18:25:00 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,10 @@ char	*prep_dir_creat(char *cmd)
 	char *dir;
 	char *tmp;
 
-
 	if ((dir = ft_strdup(cmd + 4)) == NULL)
 		return (NULL);
-	// ft_printf("STEP1[%s]\n", dir);
 	if ((tmp = ft_strchr(dir, '\r')) != NULL)
 		tmp[0] = '\0';
-	// ft_printf("STEP2[%s]\n", dir);
 	return (dir);
 	
 }
@@ -81,26 +78,3 @@ int		cmd_mkd(t_vault *vault, char *cmd)
 	mkd_cmd_response(vault, ret);
 	return (1);
 }
-
-// int		cmd_mkd(t_vault *vault, char *cmd)
-// {
-// 	int ret;
-
-// 	if (verif_cmd_minimum_len(cmd, ML_MKD) != 1)
-// 	{
-// 		mkd_cmd_response(vault, -5);
-// 		return (-1);
-// 	}
-// 	if (ret = prep_dir_creat(vault, cmd) < 0)
-// 	{
-// 		mkd_cmd_response(vault, ret);
-// 		return (-1);
-// 	}
-// 	if ((ret = create_dir(vault)) < 0)
-// 	{
-// 		mkd_cmd_response(vault, ret);
-// 		return (-1)
-// 	}
-// 	mkd_cmd_response(vault, ret);
-// 	return (1);
-// }
