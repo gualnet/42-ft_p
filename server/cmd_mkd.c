@@ -6,12 +6,11 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 19:30:13 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 18:25:00 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 18:47:48 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
-
 
 void	mkd_cmd_response(t_vault *vault, int status)
 {

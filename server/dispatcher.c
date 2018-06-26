@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 18:09:26 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:08:42 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int		dispatcher(t_vault *vault, char *buff)
 		return (cmd_port(vault));
 	else if (strncmp(buff, "DELE", 4) == 0)
 		return (cmd_dele(vault, buff));
+	else if (strncmp(buff, "RMD", 3) == 0)
+		return (cmd_rmd(vault, buff));
 	else if (strncmp(buff, "NOOP", 4) == 0)
 		return (cmd_noop(vault));
 	else if (strncmp(buff, "QUIT", 4) == 0 || buff[0] == '\0')

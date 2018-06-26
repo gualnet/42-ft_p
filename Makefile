@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/26 17:52:33 by galy             ###   ########.fr        #
+#    Updated: 2018/06/26 19:09:08 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRVSRC			=	\
 				cmd_user_pass.c		cmd_type.c			cmd_syst.c		cmd_pwd.c \
 				cmd_pasv.c			cmd_list.c			cmd_cwd.c		cmd_stor.c \
 				cmd_retr.c			cmd_mkd.c			cmd_noop.c		cmd_mode.c \
-				cmd_port.c			cmd_dele.c
+				cmd_port.c			cmd_dele.c			cmd_rmd.c
 
 
 

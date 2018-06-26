@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 18:33:46 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 19:09:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 #define ML_RETR	8
 #define ML_STOR	8
 #define ML_DELE	8
+#define ML_RMD	8
 
 
 /*
@@ -85,6 +86,7 @@ int		cmd_mode(t_vault *vault);
 int		cmd_port(t_vault *vault);
 int		cmd_cwd(t_vault *vault, char *cmd);
 int		cmd_mkd(t_vault *vault, char *cmd);
+int		cmd_rmd(t_vault *vault, char *cmd);
 int		cmd_user(t_vault *vault, char *cmd);
 int		cmd_pass(t_vault *vault, char *cmd);
 int		cmd_retr(t_vault *vault, char *cmd);

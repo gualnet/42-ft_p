@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_dele.c                                         :+:      :+:    :+:   */
+/*   cmd_rmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/26 17:46:48 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:04:53 by galy             ###   ########.fr       */
+/*   Created: 2018/06/26 18:47:07 by galy              #+#    #+#             */
+/*   Updated: 2018/06/26 19:10:20 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
 
-void	dele_cmd_response(t_vault *vault, int status)
+void	rmd_cmd_response(t_vault *vault, int status)
 {
 	char *msg;
 
 	msg = "";
 	if (status == 1)
-		msg = "250 Requested file action completed.\x0a\x0d";
+		msg = "250 Requested directory action completed.\x0a\x0d";
 	else if (status == -1)
-		msg = "451 Requested file action aborted, local processing error.\x0a\x0d";
+		msg = "451 Requested directory action aborted, local processing error.\x0a\x0d";
 	else if (status == -2)
-		msg = "450 Requested file action not taken, file unavailable\x0a\x0d";
+		msg = "450 Requested directory action not taken, directory unavailable\x0a\x0d";
 	else if (status == -5)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	sender_sock(vault, msg);
 }
 
-char	*prep_file_name(char *cmd)
-{
-	char	*file;
-	char	*tmp;
-
-	if ((file = ft_strdup(cmd + 5)) == NULL)
-		return (NULL);
-	if ((tmp = ft_strchr(file, '\r')) != NULL)
-		tmp[0] = '\0';
-	return (file);
-}
-
-int		del_file(char *file)
+int		del_dir(char *dir)
 {
 	pid_t	pid;
 	int		status;
@@ -52,38 +40,50 @@ int		del_file(char *file)
 		return (-4);
 	if (pid == 0) // fork
 	{
-		execl("/bin/rm", "rm", file, NULL);
+		execl("/bin/rm", "rm", "-r", dir, NULL);
 		exit(0);
 	}
 	if (pid != 0) // father
 		wait4(pid, &status, option, &rusage);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
-		// ft_printf("le fichier \"%s\" n'est pas dispo return[%d]\n", file);
+		ft_printf("le dir \"%s\" n'est pas dispo return[%d]\n", dir);
 		return (-2);
 	}
-	// ft_printf("le fichier \"%s\" a ete supp return[%d]\n", file);
+	ft_printf("le dir \"%s\" a ete supp return[%d]\n", dir);
 	return (1);
 }
 
-int		cmd_dele(t_vault *vault, char *cmd)
+char	*prep_dir_name(char *cmd)
 {
-	char	*file;
+	char	*dir;
+	char	*tmp;
+
+	if ((dir = ft_strdup(cmd + 4)) == NULL)
+		return (NULL);
+	if ((tmp = ft_strchr(dir, '\r')) != NULL)
+		tmp[0] = '\0';
+	return (dir);
+}
+
+int		cmd_rmd(t_vault *vault, char *cmd)
+{
+	char	*dir;
 	int		ret;
 
-	if (verif_cmd_minimum_len(cmd, ML_DELE) != 1)
+	if (verif_cmd_minimum_len(cmd, ML_RMD) != 1)
 	{
-		dele_cmd_response(vault, -5);
+		rmd_cmd_response(vault, -5);
 		return (-1);
 	}
-	if ((file = prep_file_name(cmd)) == NULL)
+	if ((dir = prep_dir_name(cmd)) == NULL)
 	{
-		dele_cmd_response(vault, -1);
+		rmd_cmd_response(vault, -1);
 		return (-1);
 	}
-	ft_printf("FILE TO DELETE[%s]\n", file);
-	ret = del_file(file);
-	dele_cmd_response(vault, ret);
-	free(file);
+	ft_printf("DIR TO DELETE[%s]\n", dir);
+	ret = del_dir(dir);
+	rmd_cmd_response(vault, ret);
+	free(dir);
 	return (0);
 }
