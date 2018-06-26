@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/25 18:14:49 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/26 13:16:04 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int		dispatcher(t_vault *vault, char *buff)
 		return (cmd_stor(vault, buff));
 	else if (strncmp(buff, "MKD", 3) == 0)
 		return (cmd_mkd(vault, buff));
-	else if (strncmp(buff, "QUIT", 4) == 0)
-		return (999);
+	else if (strncmp(buff, "QUIT", 4) == 0 || buff[0] == '\0')
+		exit(0);
 	else
 	{
 		ft_printf("[%d] Commande non implem ");
