@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/26 19:09:08 by galy             ###   ########.fr        #
+#    Updated: 2018/06/27 16:26:34 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,12 +58,15 @@ SRVSRC			=	\
 				cmd_retr.c			cmd_mkd.c			cmd_noop.c		cmd_mode.c \
 				cmd_port.c			cmd_dele.c			cmd_rmd.c
 
-
+CLTSRC			=	\
+				client.c			usage.c				\
+				init_cmd_connect.c
 
 
 ####FUNC####
 
 SRVOBJP		=	$(addprefix $(OBJDIR)/$(SRVDIR)/, $(SRVSRC:.c=.o))
+CLTOBJP		=	$(addprefix $(OBJDIR)/$(CLTDIR)/, $(CLTSRC:.c=.o))
 
 
 ####RULEZ####
@@ -74,9 +77,10 @@ common		:
 
 serveur		: $(SRVOBJP)
 	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o ftp_server
-#	@printf "$(CUR_RST)$(CGREEN)BUILD MALLOC		: SUCCESS$(CRESET)$(CUR_CLR)\n"
 
-client		:
+client		: $(CLTOBJP)
+	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o ftp_client
+#	@printf "$(CUR_RST)$(CGREEN)BUILD MALLOC		: SUCCESS$(CRESET)$(CUR_CLR)\n"
 
 clean		:
 #	@make clean -C $(LIBDIR)
@@ -87,6 +91,7 @@ clean		:
 mini_clean	:
 
 	@$(RM) -f $(NAME)_server
+	@$(RM) -f $(NAME)_client
 	@$(RM) -f $(OBJP)
 	@$(RM) -rf $(OBJDIR)
 
@@ -102,6 +107,10 @@ re			: fclean all
 
 $(OBJDIR)/$(SRVDIR)/%.o	:	$(SRVDIR)/%.c
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+
+$(OBJDIR)/$(CLTDIR)/%.o	:	$(CLTDIR)/%.c
+	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+
 # $(OBJDIR)/$(CLTDIR)/%.o	:	$(CLTDIR)/%.c
 # 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
 #	@printf "$(CUR_RST)$(CUR_SVE)$(CYELLOW)BUILD MALLOC		: $<$(CRESET)$(CUR_CLR)"
@@ -115,3 +124,4 @@ reset_cursor :
 OBJD		:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(OBJDIR)/$(SRVDIR)
+	@mkdir -p $(OBJDIR)/$(CLTDIR)
