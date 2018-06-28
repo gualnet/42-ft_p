@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/27 16:26:34 by galy             ###   ########.fr        #
+#    Updated: 2018/06/28 12:13:07 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ SRVSRC			=	\
 				cmd_port.c			cmd_dele.c			cmd_rmd.c
 
 CLTSRC			=	\
-				client.c			usage.c				\
+				client.c			usage.c				read_send.c	\
 				init_cmd_connect.c
 
 
