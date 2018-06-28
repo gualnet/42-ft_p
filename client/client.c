@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/06/27 17:11:29 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/28 09:25:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,25 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 	sin.sin_port = htons(ft_atoi(argv[2]));
 	if ((sin.sin_addr.s_addr = inet_addr(argv[1])) == INADDR_NONE)
 		return (-3);
-	
 	if (connect(sock, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 		return (-4);
 	ft_printf("Connected ?\n");
 	return (sock);
+}
+
+int		read_send_loop(int sock)
+{
+	char	buf[BUF_SIZE + 1];
+	int		rs;
+
+	while (1)
+	{
+		ft_bzero(buf, BUF_SIZE);
+		if ((rs = read(1, buf, BUF_SIZE)) != 0)
+			ft_printf("INPUT[%s]\n", buf);
+		send(sock, buf, rs, 0);
+	}
+
 }
 
 
@@ -54,11 +68,8 @@ int		main(int argc, char **argv)
 		ft_printf("sock creation NOK error code [%d]\n", sock);
 		return (-1);
 	}
-	write(sock, "salut", 6);
-	ft_printf("LAAA\n");
-	// init_cmd_connect(&vault, argv);
 
-
+	read_send_loop(sock);
 
 	return (1);
 }
