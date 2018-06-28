@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:17:13 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/27 16:42:48 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
-
 #include "ftp_struct.h"
 #include "libft.h"
 #include "ft_printf.h"
-
 
 /*
 **	Defines
@@ -51,7 +49,6 @@
 #define ML_STOR	8
 #define ML_DELE	8
 #define ML_RMD	8
-
 
 /*
 **	Func
