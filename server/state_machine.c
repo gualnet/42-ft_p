@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 17:37:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/17 14:24:15 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/29 12:16:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int		state_machine(t_vault *vault, uint state)
 		read_sock(vault, buff);
 		state = dispatcher(vault, buff);
 	}
+	ft_printf("state machine return -1\n");
 	return (-1);
 }

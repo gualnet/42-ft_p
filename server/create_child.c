@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 14:27:34 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 18:37:12 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/29 12:16:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		create_child_process(t_vault *vault)
 	{
 		ft_printf("fork successed: PID[%d] - PPID[%d]\n", (int)getpid(), (int)getppid());
 		init_connexion(vault);
-		state_machine(vault, 0);
+		return (state_machine(vault, 0));
 	}
 	return (1);
 }

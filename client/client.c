@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/06/28 12:11:49 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/29 17:35:10 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
 
-	ft_printf("Connecting to [%s : %s] : ", argv[1], argv[2]);
+	ft_printf("[*]Connecting to [%s : %s] : ", argv[1], argv[2]);
 	vault->csd = 0;
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
@@ -30,12 +30,12 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 	sin.sin_port = htons(ft_atoi(argv[2]));
 	if ((sin.sin_addr.s_addr = inet_addr(argv[1])) == INADDR_NONE)
 	{
-		ft_printf("Error code [%d]: addres not well formated\n", sock);
+		ft_printf("\n[*]Error code [%d]: addres not well formated\n", sock);
 		return (-3);
 	}
 	if (connect(sock, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 	{
-		ft_printf("Error code [%d]: Server unreachable or too busy\n", sock);
+		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", sock);
 		return (-4);
 	}
 	ft_printf("SUCCESS\n\n");

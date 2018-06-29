@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:08:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/29 12:26:42 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ int		dispatcher(t_vault *vault, char *buff)
 	else if (strncmp(buff, "NOOP", 4) == 0)
 		return (cmd_noop(vault));
 	else if (strncmp(buff, "QUIT", 4) == 0 || buff[0] == '\0')
-		exit(0);
+	{
+		ft_printf("QUIT BYEBYE\n");
+		return (999);
+		// exit(0);
+	}
 	else
 	{
-		ft_printf("[%d] Commande non implem ");
+		ft_printf("[%d] Commande non implem ", getpid());
 		sender_sock(vault, "502 \x0a\x0d");
 		// exit(0);
 		// return (999);

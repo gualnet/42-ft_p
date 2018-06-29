@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/06/18 18:28:30 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/29 12:28:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,19 @@ int		main(int argc, char **argv)
 			else
 			{
 				ft_printf("[%d] BREAKING LOOP\n", getpid());
-				break;
+				break ;
 			}
 		}
 	}
 	ft_printf("\nOUT LOOP\n");
-	// if (cs != -1)
-	// 	close(cs);
+	if (vault.csc != -1)
+	{
+		ft_printf("[%d] closing client socket connector\n", getpid());
+		close(vault.csc);
+	}
 	close(sock);
+	ft_printf("[%d] closing socket\n", getpid());
 	free_vault(&vault);
+	ft_printf("[%d] the end\n", getpid());
 	return (1);
 }
