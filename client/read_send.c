@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/06/29 19:13:28 by galy             ###   ########.fr       */
+/*   Updated: 2018/06/30 14:10:32 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		read_send_loop(char *name, int sock)
 	char	*tmp2;
 	int		i;
 
-	ft_printf("*%s > ", name);
+	ft_printf("*%s\n", name);
 	ft_printf("[*]=> ");
 	while (1)
 	{
