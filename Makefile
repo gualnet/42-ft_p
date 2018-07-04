@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/06/30 14:17:19 by galy             ###   ########.fr        #
+#    Updated: 2018/07/04 12:48:33 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRVSRC			=	\
 CLTSRC			=	\
 				client.c			usage.c				read_send.c	\
 				init_cmd_connect.c	parsinterpreter.c	sender_receiver.c\
-				cmd_pwd.c
+				cmd_pwd.c			cmd_cd.c			cmd_list.c
 
 
 ####FUNC####

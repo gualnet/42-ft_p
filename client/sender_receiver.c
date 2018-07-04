@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:10:48 by galy              #+#    #+#             */
-/*   Updated: 2018/06/30 14:55:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/03 19:15:12 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,40 +31,42 @@ char	*cmd_receiver(int sock)
 			tmp = cmd;
 		else
 			tmp = ft_strdup("");
-		ft_printf("SSIZE[%d]\n", size);
+		// ft_printf("SSIZE[%d]\n", size);
 		if (size == BUF_SIZE)
 		{
-			ft_printf("\033[33m[INFO] size == BUF_SIZE\n\033[0m");
-			ft_printf("CONTENT BUF[%s]\n", buf);
+			// ft_printf("\033[33m[INFO] size == BUF_SIZE\n\033[0m");
+			// ft_printf("CONTENT BUF[%s]\n", buf);
 
 			cmd = ft_strjoin(tmp, buf);
 			free(tmp);
 
-			ft_printf("CONTENT CMD[%s]\n", cmd);
+			// ft_printf("CONTENT CMD[%s]\n", cmd);
 		}
 		else if (size == 0)
 		{
 			ft_printf("\033[33m[INFO] size == 0\n\033[0m");
-			ft_printf("CONTENT BUF[%s]\n", buf);
-			ft_printf("CONTENT CMD[%s]\n", cmd);
+			ft_printf("\033[35m NOT HANDLED\n\033[0m");
+			// ft_printf("CONTENT BUF[%s]\n", buf);
+			// ft_printf("CONTENT CMD[%s]\n", cmd);
 		}
 		else if (size > 0 && size < BUF_SIZE)
 		{
-			ft_printf("\033[33m[INFO] size > 0 && size < BUF_SIZE\n\033[0m");
-			ft_printf("CONTENT BUF[%s]\n", buf);
+			// ft_printf("\033[33m[INFO] size > 0 && size < BUF_SIZE\n\033[0m");
+			// ft_printf("CONTENT BUF[%s]\n", buf);
 
 			cmd = ft_strjoin(tmp, buf);
 			free(tmp);
 			cmd[ft_strlen(cmd) - 2] = '\0';
-			ft_printf("CONTENT CMD[%s]\n", cmd);
+			// ft_printf("CONTENT CMD[%s]\n", cmd);
 
 			break ;
 		}
 		else
 		{
 			ft_printf("\033[33m[INFO] ELSE...\n\033[0m");
-			ft_printf("CONTENT BUF[%s]\n", buf);
-			ft_printf("CONTENT CMD[%s]\n", cmd);
+			ft_printf("\033[35m NOT HANDLED\n\033[0m");
+			// ft_printf("CONTENT BUF[%s]\n", buf);
+			// ft_printf("CONTENT CMD[%s]\n", cmd);
 		}
 	}
 	ft_printf("END[%s]\n", cmd);

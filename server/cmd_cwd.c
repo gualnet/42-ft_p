@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 15:39:13 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/03 18:38:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,25 @@ int		partial_path(t_vault *vault, char *cmd)
 {
 	char	*tmp;
 
+	ft_printf("00>vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, "/");
 	free(tmp);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, cmd + 4);
 	free(tmp);
+	ft_printf("-->vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
 	if ((tmp = ft_strchr(vault->cwd, '\r')) != NULL)
 	{
+		ft_printf("-->tmp [%p][%s]\n", tmp, tmp);
 		tmp[0] = '\0';
 		// ft_printf("=========%s========\n", vault->cwd);
 	}
 	else
+	{
+		ft_printf("TMP === NULL\n");
 		return (-1);
+	}
 	return (1);
 }
 
@@ -106,6 +112,14 @@ int		cmd_cwd(t_vault *vault, char *cmd)
 	{
 		cwd_cmd_response(vault, -2);
 		return (-1);
+	}
+	if (vault->cwd == NULL)
+	{
+		if ((vault->cwd = loop_getcwd()) == NULL)
+		{
+			cwd_cmd_response(vault, -1);
+			return (-1);
+		}
 	}
 	ret = goto_new_rep(vault, cmd);
 	cwd_cmd_response(vault, ret);

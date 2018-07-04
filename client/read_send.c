@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/06/30 14:10:32 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/03 16:48:03 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ char	*overflow_prot(int rs, char *buf)
 	ft_printf("strlen(%d)(%d)\n", ft_strlen(tmp), BUF_SIZE);
 	if (ft_strlen(tmp) >= BUF_SIZE)
 		tmp[BUF_SIZE] = '\0';
+
+	if (ft_strlen(tmp) == BUF_SIZE)
+		return (tmp);
+
 	input = NULL;
 
 	if (ft_strlen(tmp) < BUF_SIZE)
@@ -31,7 +35,8 @@ char	*overflow_prot(int rs, char *buf)
 	{
 		ft_printf("000\n");
 		ft_bzero(buf, BUF_SIZE);
-		if ((rs = read(1, buf, BUF_SIZE)) < 1)
+		rs = read(1, buf, BUF_SIZE);
+		if (rs < 1)
 		{
 			ft_printf("break1\n");
 			break ;
@@ -55,7 +60,9 @@ char	*overflow_prot(int rs, char *buf)
 		ft_printf("004\n");
 		
 	}
+	ft_printf("005\n");
 	input[ft_strlen(input) - 1] = '\0';
+	ft_printf("006\n");
 	return (input);
 }
 

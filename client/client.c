@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/06/29 17:35:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 12:12:07 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,14 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", sock);
 		return (-4);
 	}
-	ft_printf("SUCCESS\n\n");
+	
+	// char *welcome;
+	// ft_printf("Waiting for server response\n");
+	// welcome = cmd_receiver(sock);
+	// if (welcome != NULL && ft_strstr(welcome, "220 ") != NULL)
+		ft_printf("[*]Connection SUCCESS\n\n");
+	// else
+	// 	return (-4);
 	return (sock);
 }
 

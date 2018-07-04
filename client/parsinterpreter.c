@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/06/29 19:59:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 12:42:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,24 @@ int		cmd_box(int sock, char *str)
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
 		return (cmd_pwd(sock, str));
+	if (ft_strncmp(str, "CD", 2) == 0)
+		return (cmd_cd(sock, str));
+	if (ft_strncmp(str, "LIST", 2) == 0)
+		return (cmd_list(sock, str));
+	
 	return (-1);
 }
 
 void	parsinterpreter(int sock, char *str)
 {
 	// ft_printf("\n=====PARSINTERPRETER=====\n");
-	
-	force_cmd_toupper(str);
+	char *tmp;
+	tmp = force_cmd_toupper(str);
+
+	str = ft_strtrim(tmp);
+	if (str != tmp)
+		free(tmp);
+
 
 	if (cmd_box(sock, str) < 0)
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");

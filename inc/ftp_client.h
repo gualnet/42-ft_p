@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/06/30 14:17:33 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 12:48:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ typedef struct			s_vault
 {
 	int					csc;
 	int					csd;
+
+	int					cmd_sock;
 	int					dtp_sock;
-	unsigned int		cslen;
+	// unsigned int		cslen;
 	//	-----	-----	-----
 	char				*name;
 	char				*passw;
 	char				*cwd;
+	char				**dir_content_name;
+	char				**dir_content_type;
 	//	-----	-----	-----
 	// t_inet_info			n_info;
 }						t_vault;
@@ -51,9 +55,11 @@ typedef struct			s_vault
 void	usage(char *str);
 int		read_send_loop(char *name, int sock);
 void	parsinterpreter(int sock, char *buf);
-int		cmd_pwd(int sock, char *str);
 char	*cmd_receiver(int sock);
 
+int		cmd_pwd(int sock, char *str);
+int		cmd_cd(int sock, char *str);
+int		cmd_list(int sock, char *str);
 
 
 

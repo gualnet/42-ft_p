@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/06/30 14:57:20 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/03 19:12:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ int		cmd_pwd(int sock, char *str)
 	char	*cmd;
 
 	free(str); // str is useless in this case
-	cmd = ft_strdup("PWD\r\n");
+	if ((cmd = ft_strdup("PWD\r\n")) == NULL)
+		return (-1);
 	if (send(sock, cmd, ft_strlen(cmd), 0) < 0)
-		ft_printf("[*] Error sendind ls commande \n");
+		ft_printf("[*] Error sendind ls command \n");
 	free(cmd); //free after sending cmd
 	cmd = cmd_receiver(sock);
 	if (trait(cmd) < 0)
