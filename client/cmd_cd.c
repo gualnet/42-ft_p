@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 12:42:34 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 16:37:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*str_process(char *str)
 	return (cmd);
 }
 
-int		cmd_cd(int sock, char *str)
+int		cmd_cd(t_vault *vault, char *str)
 {
 	char	*rsp;
 
@@ -47,11 +47,11 @@ int		cmd_cd(int sock, char *str)
 		ft_printf("[*] Error internal process failure, abort command\n");
 		return (-1);
 	}
-	if (send(sock, str, ft_strlen(str), 0) < 0)
+	if (send(vault->csc, str, ft_strlen(str), 0) < 0)
 		ft_printf("[*] Error sendind cd commande \n");
 	free(str);
 
-	rsp = cmd_receiver(sock);
+	rsp = cmd_receiver(vault->csc);
 	handle_cd_rsp(rsp);
 
 	return (1);

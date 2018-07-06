@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 12:42:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 16:35:47 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ char	*force_cmd_toupper(char *str)
 	return (str);
 }
 
-int		cmd_box(int sock, char *str)
+int		cmd_box(t_vault *vault, char *str)
 {
 	// ft_printf("\n=====CMD_BOX=====\n");
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
-		return (cmd_pwd(sock, str));
+		return (cmd_pwd(vault, str));
 	if (ft_strncmp(str, "CD", 2) == 0)
-		return (cmd_cd(sock, str));
+		return (cmd_cd(vault, str));
 	if (ft_strncmp(str, "LIST", 2) == 0)
-		return (cmd_list(sock, str));
+		return (cmd_list(vault, str));
 	
 	return (-1);
 }
 
-void	parsinterpreter(int sock, char *str)
+void	parsinterpreter(t_vault *vault, char *str)
 {
 	// ft_printf("\n=====PARSINTERPRETER=====\n");
 	char *tmp;
@@ -59,7 +59,7 @@ void	parsinterpreter(int sock, char *str)
 		free(tmp);
 
 
-	if (cmd_box(sock, str) < 0)
+	if (cmd_box(vault, str) < 0)
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");
 	else
 		ft_printf("\n[*] cmd sent\n");

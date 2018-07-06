@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/03 19:12:24 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 16:36:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@ int		trait(char *cmd)
 	return (1);
 }
 
-int		cmd_pwd(int sock, char *str)
+int		cmd_pwd(t_vault *vault, char *str)
 {
 	char	*cmd;
 
 	free(str); // str is useless in this case
 	if ((cmd = ft_strdup("PWD\r\n")) == NULL)
 		return (-1);
-	if (send(sock, cmd, ft_strlen(cmd), 0) < 0)
+	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[*] Error sendind ls command \n");
 	free(cmd); //free after sending cmd
-	cmd = cmd_receiver(sock);
+	cmd = cmd_receiver(vault->csc);
 	if (trait(cmd) < 0)
 	{
 		// retour d'un message d'erreur du serveur
@@ -41,7 +41,7 @@ int		cmd_pwd(int sock, char *str)
 		return (-1);
 	}
 	free(cmd); // free after receiving cmd
-	cmd = cmd_receiver(sock);
+	cmd = cmd_receiver(vault->csc);
 	if (trait(cmd) < 0)
 	{
 		// retour d'un message d'erreur du serveur
@@ -51,4 +51,3 @@ int		cmd_pwd(int sock, char *str)
 	free(cmd); // free after receiving cmd
 	return (1);
 }
-

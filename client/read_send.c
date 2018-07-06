@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/03 16:48:03 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 17:28:03 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*overflow_prot(int rs, char *buf)
 	return (input);
 }
 
-int		read_send_loop(char *name, int sock)
+int		read_send_loop(t_vault *vault, char *name)
 {
 	char	buf[BUF_SIZE + 1];
 	int		rs;
@@ -97,9 +97,9 @@ int		read_send_loop(char *name, int sock)
 			buf[i] = '\n';
 			tmp = ft_strdup(buf);
 		}
-		
-		parsinterpreter(sock, tmp);
+
+		parsinterpreter(vault, tmp);
 		ft_printf("[x]=> ");
-		
+
 	}
 }

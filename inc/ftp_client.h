@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 12:48:17 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/04 18:48:54 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ typedef struct			s_vault
 
 
 void	usage(char *str);
-int		read_send_loop(char *name, int sock);
-void	parsinterpreter(int sock, char *buf);
+int		read_send_loop(t_vault *vault, char *name);
+void	parsinterpreter(t_vault *vault, char *str);
 char	*cmd_receiver(int sock);
+char	*pasv(t_vault *vault);
+int		create_dtp_sock(t_vault *vault, char *params);
 
-int		cmd_pwd(int sock, char *str);
-int		cmd_cd(int sock, char *str);
-int		cmd_list(int sock, char *str);
-
+int		cmd_pwd(t_vault *vault, char *str);
+int		cmd_cd(t_vault *vault, char *str);
+int		cmd_list(t_vault *vault, char *str);
 
 
 #endif
