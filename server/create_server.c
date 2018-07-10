@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/06/21 16:47:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/06 13:07:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 		return (-1);
 	if ((sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
-	
+
 	reg_vault_sin_param(vault, port, sock_type);
 	if (sock_type == CMD_SOCK)
 		sin = &vault->n_info.cmd_sin;

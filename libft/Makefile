@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 16:28:28 by galy              #+#    #+#              #
-#    Updated: 2018/03/09 20:50:31 by galy             ###   ########.fr        #
+#    Updated: 2018/07/06 13:07:43 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRCLIBFT	=\
 	ft_memalloc.c   ft_memmove.c    ft_putnbr.c     ft_strclr.c\
 	ft_striter.c    ft_strmapi.c    ft_strnstr.c    ft_tolower.c\
 	ft_lstnew.c		ft_lstadd.c		ft_lstdelone.c	ft_lstdel.c\
-	ft_lstiter.c	ft_lstmap.c		ft_sqrt_.c
+	ft_lstiter.c	ft_lstmap.c		ft_sqrt_.c	\
+	ft_strjoin3.c
 
 SRCGNL		=\
 	get_next_line.c\

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 14:10:39 by galy              #+#    #+#             */
-/*   Updated: 2017/02/08 18:08:11 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/06 12:55:16 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strcpy(char *dst, const char *src);
 char				*ft_strdup(const char *s1);
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoin3(char const*s1, char const *s2, char const *s3);
 char				*ft_strmap(char const *s, char (*f)(char));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_strncat(char *s1, const char *s2, size_t n);

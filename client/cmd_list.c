@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 19:19:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/06 14:00:31 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,50 @@ int		check_data_connection(t_vault *vault)
 	return (1);
 }
 
+char	*join_names(char *full_old, char *new_part)
+{
+	char	*full_new;
+
+	full_new = ft_strjoin3(full_old, "\t\n", new_part);
+	free(full_old);
+
+	return (full_new);
+}
+
 int		data_process(char *data)
 {
+	char	*names;
 	char	**line;
 	char	**split2;
+	int		i;
 	int		y;
 
 	line = ft_strsplit(data, '\n');
-	for (int i = 3; line[i] != NULL; i++)
+	i = 1;
+	names = NULL;
+	while (line[i] != NULL)
 	{
-		// ft_printf("[%x]process [%s]\n", vault, line[i]);
-		// for (int i = 0; split2[i] != NULL; i++)
 		split2 = ft_strsplit(line[i], ' ');
 		y = 0;
 		while (split2[y] != NULL)
+		{
+			if (split2[y + 1] == NULL)
+			{
+				if (names == NULL)
+				{
+					ft_printf("This is usefull\n");
+					free(names);
+				}
+				if ((names = join_names(names, split2[y])) == NULL)
+					return (-1);
+			}
+			free(split2[y]);
 			y++;
-		ft_printf("Splited line[%s]\n", split2[y - 1]);
+		}
+		free(split2);
+		i++;
 	}
-
-	
-
+	// ft_printf("TEST NAMES [%s]\n", names);
 	return (1);
 }
 

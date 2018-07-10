@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 18:48:54 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/06 13:58:59 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct			s_vault
 	char				*name;
 	char				*passw;
 	char				*cwd;
-	char				**dir_content_name;
+	char				*dir_content_name;
 	char				**dir_content_type;
 	//	-----	-----	-----
 	// t_inet_info			n_info;
