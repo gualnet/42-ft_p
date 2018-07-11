@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/10 16:46:47 by galy             ###   ########.fr        #
+#    Updated: 2018/07/11 12:19:56 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ client		: $(CLTOBJP)
 #	@printf "$(CUR_RST)$(CGREEN)BUILD MALLOC		: SUCCESS$(CRESET)$(CUR_CLR)\n"
 
 clean		:
-#	@make clean -C $(LIBDIR)
+	@make clean - C $(LIBDIR)
 	@$(RM) -f $(OBJP)
 	@$(RM) -rf $(OBJDIR)
 #	@printf "$(CYELLOW)MALLOC	: CLEANED$(CRESET)\n"

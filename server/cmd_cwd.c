@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/03 18:38:25 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 11:40:02 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,32 @@ int		dot_dot(t_vault *vault)
 	return (0);
 }
 
-int		partial_path(t_vault *vault, char *cmd)
+void	truncate_end_signs(char *str)
 {
 	char	*tmp;
 
+	tmp = NULL;
+	if ((tmp = ft_strstr(str, "\x0a\x0d")) != NULL)
+	{
+		tmp[0] = '\0';
+		// ft_printf("trunc 01[%s]\n", str);
+	}
+	else if ((tmp = ft_strchr(str, '\r')) != NULL)
+	{
+		tmp[0] = '\0';
+		// ft_printf("trunc 02[%s]\n", str);
+	}
+	else if ((tmp = ft_strchr(str, '\n')) != NULL)
+	{
+		tmp[0] = '\0';
+		// ft_printf("trunc 03[%s]\n", str);
+	}
+}
+
+int		partial_path(t_vault *vault, char *cmd)
+{
+	char	*tmp;
+	// trouver ou changer pour avoir le bon path enregister dans le vault
 	ft_printf("00>vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, "/");
@@ -63,18 +85,13 @@ int		partial_path(t_vault *vault, char *cmd)
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, cmd + 4);
 	free(tmp);
-	ft_printf("-->vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
-	if ((tmp = ft_strchr(vault->cwd, '\r')) != NULL)
-	{
-		ft_printf("-->tmp [%p][%s]\n", tmp, tmp);
-		tmp[0] = '\0';
-		// ft_printf("=========%s========\n", vault->cwd);
-	}
-	else
-	{
-		ft_printf("TMP === NULL\n");
-		return (-1);
-	}
+	// for (int i = 0; vault->cwd[i] != '\0'; i++)
+	// 	ft_printf("TEST[%d][%d][%c]\n",i,vault->cwd[i],vault->cwd[i]);
+	truncate_end_signs(vault->cwd);
+	ft_printf("-->vault->cwd [%s]\n", vault->cwd);
+	// for (int i = 0; vault->cwd[i] != '\0'; i++)
+	// 	ft_printf("TEST[%d][%d][%c]\n",i,vault->cwd[i],vault->cwd[i]);
+	
 	return (1);
 }
 

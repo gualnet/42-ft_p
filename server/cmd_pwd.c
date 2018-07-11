@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 16:44:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 11:56:51 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,5 @@ int		cmd_pwd(t_vault *vault)
 		// ft_printf("COUCOU01 [%s]\n", vault->cwd);
 		pwd_response(vault, 1);
 	}
-	
-
 	return (0);
 }

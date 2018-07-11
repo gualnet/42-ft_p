@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 19:38:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/10 20:12:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,11 @@ int		read_send_loop(t_vault *vault, char *name)
 		}
 		else
 		{
-			ft_printf("On passe ici [%s] i=%d\n", buf, i);
 			buf[i - 1] = '\r';
 			buf[i] = '\n';
 			tmp = ft_strdup(buf);
 		}
-
 		parsinterpreter(vault, tmp);
 		ft_printf("[x]=> ");
-
 	}
 }

@@ -6,15 +6,15 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 13:34:45 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/10 23:38:48 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-int		trait(char *cmd)
+int		trait(t_vault *vault, char *cmd)
 {
-	char	*tmp;
+	// char	*tmp;
 	if (ft_strncmp(cmd, "220", 3) == 0)
 	{
 		ft_printf("[*] Server processing..\n");
@@ -22,10 +22,15 @@ int		trait(char *cmd)
 	}
 	else if (ft_strncmp(cmd, "257", 3) == 0)
 	{
-		if ((tmp = ft_strchr(cmd, '\r')) != NULL || \
-		(tmp = ft_strchr(cmd, '\n')) != NULL)
-			cmd[ft_strlen(cmd) - 1] = '\0';
+		// if ((tmp = ft_strchr(cmd, '\r')) != NULL || \
+		// (tmp = ft_strchr(cmd, '\n')) != NULL)
+		// 	cmd[ft_strlen(cmd) - 1] = '\0';
 		ft_printf("[*] PWD \'%s\'", cmd + 4);
+		if (vault->cwd != NULL)
+			free(vault->cwd);
+		vault->cwd = ft_strdup(cmd + 4);
+		truncate_end_signs(vault->cwd);
+		ft_printf("[*] vault->cwd \'%s\'\n", vault->cwd);
 	}
 	else
 		ft_printf("\nESLE ??????\n"); // test
@@ -44,7 +49,7 @@ int		cmd_pwd(t_vault *vault, char *str)
 		ft_printf("[*] Error sendind ls command \n");
 	free(cmd); //free after sending cmd
 	cmd = cmd_receiver(vault->csc);
-	if ((ret = trait(cmd)) < 0)
+	if ((ret = trait(vault, cmd)) < 0)
 	{
 		// retour d'un message d'erreur du serveur
 		// ou erreur de traitement - voir code de retour de trait()
@@ -54,7 +59,7 @@ int		cmd_pwd(t_vault *vault, char *str)
 	if (ret != 2)
 		return (1);
 	cmd = cmd_receiver(vault->csc);
-	if (trait(cmd) < 0)
+	if (trait(vault, cmd) < 0)
 	{
 		// retour d'un message d'erreur du serveur
 		// ou erreur de traitement - voir code de retour de trait()

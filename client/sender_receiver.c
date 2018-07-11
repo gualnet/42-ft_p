@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:10:48 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 20:02:38 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/10 22:53:04 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ char	*cmd_receiver(int sock)
 			ft_printf("CONTENT CMD[%s]\n", cmd);
 		}
 	}
-	ft_printf("CMD RECEIVER END[%s]\n", cmd);
+	// ft_printf("CMD RECEIVER END[%s]\n", cmd);
 	return (cmd);
 }

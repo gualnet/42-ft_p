@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 16:28:28 by galy              #+#    #+#              #
-#    Updated: 2018/07/06 13:07:43 by galy             ###   ########.fr        #
+#    Updated: 2018/07/11 12:16:52 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCLIBFT	=\
 	ft_striter.c    ft_strmapi.c    ft_strnstr.c    ft_tolower.c\
 	ft_lstnew.c		ft_lstadd.c		ft_lstdelone.c	ft_lstdel.c\
 	ft_lstiter.c	ft_lstmap.c		ft_sqrt_.c	\
-	ft_strjoin3.c
+	ft_strjoin3.c	ft_freestrsplited.c
 
 SRCGNL		=\
 	get_next_line.c\

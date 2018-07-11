@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/07/03 18:39:20 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 11:56:42 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 **	Min Cmd Len
 */
 #define ML_MKD	7
-#define ML_CWD	7
+#define ML_CWD	5
 #define ML_RETR	8
 #define ML_STOR	8
 #define ML_DELE	8
