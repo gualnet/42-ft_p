@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 12:33:39 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 13:58:28 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,29 @@ void	print_dir_content(t_vault *vault)
 {
 	int		i;
 	char	**line;
+	int		cpt;
 
 	i = 1;
+	cpt = 0;
 	ft_printf("\n\033[36;1;4mDir:\033[0m\n");
 	while (vault->dir_content[i] != NULL)
 	{
 		line = ft_strsplit(vault->dir_content[i], ' ');
 		if (line[0][0] == 'd' && line[8] != NULL)
+		{
 			ft_printf("\033[36m%s\t\033[0m", line[8]);
+			cpt++;
+		}
 		ft_freestrsplited(line);
+		if (cpt != 0 && ((cpt % 4) == 0))
+		{
+			ft_printf("\n", cpt);
+			cpt = 0;
+		}
 		i++;
 	}
 	i = 1;
+	cpt = 0;
 	ft_printf("\n\n\033[36;1;4mFile:\033[0m\n");
 	while (vault->dir_content[i] != NULL)
 	{
@@ -35,9 +46,14 @@ void	print_dir_content(t_vault *vault)
 		if (line[0][0] != 'd' && line[8] != NULL)
 			ft_printf("%s\t", line[8]);
 		ft_freestrsplited(line);
+		if (cpt != 0 && ((cpt % 4) == 0))
+		{
+			ft_printf("\n", cpt);
+			cpt = 0;
+		}
 		i++;
 	}
-	ft_printf("\n");
+	ft_printf("\n\n");
 }
 
 int		check_data_connection(t_vault *vault)
@@ -84,7 +100,7 @@ int		data_process(t_vault *vault, char *data)
 	return (1);
 }
 
-int		cmd_list(t_vault *vault, char *str)
+int		cmd_list(t_vault *vault, char *str, int	print)
 {
 	char	*data;
 	short	ret;
@@ -106,7 +122,8 @@ int		cmd_list(t_vault *vault, char *str)
 		vault->dir_content_name = NULL;
 	}
 	data_process(vault, data);
-	print_dir_content(vault);
+	if (print != 0)
+		print_dir_content(vault);
 	str = cmd_receiver(vault->csc);
 	// ft_printf("ICI la liste [%s]\n", data);
 	return (1);

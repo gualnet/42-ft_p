@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 20:12:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 13:22:59 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*overflow_prot(int rs, char *buf)
 	char	*input;
 
 	tmp = ft_strdup(buf);
-	ft_printf("strlen(%d)(%d)\n", ft_strlen(tmp), BUF_SIZE);
+	// ft_printf("strlen(%d)(%d)\n", ft_strlen(tmp), BUF_SIZE);
 	if (ft_strlen(tmp) >= BUF_SIZE)
 		tmp[BUF_SIZE] = '\0';
 
@@ -75,7 +75,7 @@ int		read_send_loop(t_vault *vault, char *name)
 	int		i;
 
 	ft_printf("*%s\n", name);
-	ft_printf("[*]=> ");
+	ft_printf("[<] ");
 	while (1)
 	{
 		tmp = NULL;
@@ -98,6 +98,6 @@ int		read_send_loop(t_vault *vault, char *name)
 			tmp = ft_strdup(buf);
 		}
 		parsinterpreter(vault, tmp);
-		ft_printf("[x]=> ");
+		ft_printf("[<] ");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 16:35:47 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 13:19:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int		cmd_box(t_vault *vault, char *str)
 	// ft_printf("\n=====CMD_BOX=====\n");
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
-		return (cmd_pwd(vault, str));
+		return (cmd_pwd(vault, str, CMD_PRINT));
 	if (ft_strncmp(str, "CD", 2) == 0)
-		return (cmd_cd(vault, str));
-	if (ft_strncmp(str, "LIST", 2) == 0)
-		return (cmd_list(vault, str));
+		return (cmd_cd(vault, str), CMD_PRINT);
+	if (ft_strncmp(str, "LIST", 4) == 0)
+		return (cmd_list(vault, str, CMD_PRINT));
 	
 	return (-1);
 }
@@ -61,7 +61,7 @@ void	parsinterpreter(t_vault *vault, char *str)
 
 	if (cmd_box(vault, str) < 0)
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");
-	else
-		ft_printf("\n[*] cmd sent\n");
+	// else
+	// 	ft_printf("\n[*] cmd sent\n");
 
 }

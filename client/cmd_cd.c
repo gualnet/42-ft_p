@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 12:19:35 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 13:47:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	handle_cd_rsp(char *rsp)
 {
 	int		code;
 	
-	ft_printf("SRV RSP [%s]\n", rsp);
+	// ft_printf("SRV RSP [%s]\n", rsp);
 	code = ft_atoi(rsp);
-	if (code > 199 && code < 300)
+	if (code > 120 && code < 300)
 		ft_printf("SUCCESS\n");
-	else if (code > 199 && code < 300)
+	else if (code > 400 )
 		ft_printf("FAILURE\n");
 	else
 		ft_printf("CODE NON HANDLED\n");
@@ -39,17 +39,17 @@ void	truncate_end_signs(char *str)
 	if ((tmp = ft_strstr(str, "\x0a\x0d")) != NULL)
 	{
 		tmp[0] = '\0';
-		ft_printf("trunc 01[%s]\n", str);
+		// ft_printf("trunc 01[%s]\n", str);
 	}
 	else if ((tmp = ft_strchr(str, '\r')) != NULL)
 	{
 		tmp[0] = '\0';
-		ft_printf("trunc 02[%s]\n", str);
+		// ft_printf("trunc 02[%s]\n", str);
 	}
 	else if ((tmp = ft_strchr(str, '\n')) != NULL)
 	{
 		tmp[0] = '\0';
-		ft_printf("trunc 03[%s]\n", str);
+		// ft_printf("trunc 03[%s]\n", str);
 	}
 }
 
@@ -132,10 +132,10 @@ int		cmd_cd(t_vault *vault, char *str)
 
 	if (vault->dir_content_name == NULL)
 	{
-		cmd_pwd(vault, ft_strdup(str));
-		cmd_list(vault, ft_strdup(str));
+		cmd_pwd(vault, ft_strdup(str), CMD_NOPRINT);
+		cmd_list(vault, ft_strdup(str), CMD_NOPRINT);
 	}
-	ft_printf("CD STR [%s]\n", str);
+	// ft_printf("CD STR [%s]\n", str);
 	if (ft_strncmp(str + 3, "..", 2) == 0)
 		cmd = NULL;
 	else if (verif_dir(vault->dir_content, str) != 1)
@@ -144,10 +144,12 @@ int		cmd_cd(t_vault *vault, char *str)
 		return (-1);
 	}
 	cmd = build_cmd(vault, str);
-	ft_printf("CMD TEST [%s]\n", cmd);
+	// ft_printf("CMD TEST [%s]\n", cmd);
+	ft_printf("\nMARK I\n");
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[*] Error sendind cd commande \n");
 	free(cmd);
+	ft_printf("\nMARK II\n");
 	rsp = cmd_receiver(vault->csc);
 	handle_cd_rsp(rsp);
 	// cmd_list(vault, ft_strdup(str));

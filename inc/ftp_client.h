@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 23:46:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 14:00:57 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 #include "libft.h"
 #include "ft_printf.h"
 
-// #define BUF_SIZE	1024
-#define BUF_SIZE	10
+#define BUF_SIZE	1024
+// #define BUF_SIZE	10
+#define CMD_PRINT	1
+#define CMD_NOPRINT	0
 
 typedef struct			s_vault
 {
@@ -53,9 +55,9 @@ char	*pasv(t_vault *vault);
 int		create_dtp_sock(t_vault *vault, char *params);
 void	truncate_end_signs(char *str);
 
-int		cmd_pwd(t_vault *vault, char *str);
+int		cmd_pwd(t_vault *vault, char *str, int print);
 int		cmd_cd(t_vault *vault, char *str);
-int		cmd_list(t_vault *vault, char *str);
+int		cmd_list(t_vault *vault, char *str, int	print);
 
 
 #endif

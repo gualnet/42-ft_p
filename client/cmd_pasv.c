@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 15:59:16 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 16:13:48 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 12:58:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ char	*pasv(t_vault *vault)
 	{
 		tmp[0] = '\0';
 	}
-	ft_printf("from cmd pasv[%s]\n", str);
+	// ft_printf("from cmd pasv[%s]\n", str);
 	return (str);
 }

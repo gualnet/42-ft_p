@@ -6,11 +6,16 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/10 23:38:48 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 12:56:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
+
+void	print_pwd(t_vault *vault)
+{
+	ft_printf("[>] PWD [%s]\n", vault->cwd);
+}
 
 int		trait(t_vault *vault, char *cmd)
 {
@@ -25,19 +30,19 @@ int		trait(t_vault *vault, char *cmd)
 		// if ((tmp = ft_strchr(cmd, '\r')) != NULL || \
 		// (tmp = ft_strchr(cmd, '\n')) != NULL)
 		// 	cmd[ft_strlen(cmd) - 1] = '\0';
-		ft_printf("[*] PWD \'%s\'", cmd + 4);
+		// ft_printf("[*] PWD \'%s\'", cmd + 4);
 		if (vault->cwd != NULL)
 			free(vault->cwd);
 		vault->cwd = ft_strdup(cmd + 4);
 		truncate_end_signs(vault->cwd);
-		ft_printf("[*] vault->cwd \'%s\'\n", vault->cwd);
+		// ft_printf("[*] vault->cwd \'%s\'\n", vault->cwd);
 	}
 	else
 		ft_printf("\nESLE ??????\n"); // test
 	return (1);
 }
 
-int		cmd_pwd(t_vault *vault, char *str)
+int		cmd_pwd(t_vault *vault, char *str, int print)
 {
 	char	*cmd;
 	short	ret;
@@ -56,6 +61,8 @@ int		cmd_pwd(t_vault *vault, char *str)
 		return (-1);
 	}
 	free(cmd); // free after receiving cmd
+	if (print != 0)
+		print_pwd(vault);
 	if (ret != 2)
 		return (1);
 	cmd = cmd_receiver(vault->csc);
