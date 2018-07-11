@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 11:40:02 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/11 20:44:07 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,12 @@ int		goto_new_rep(t_vault *vault, char *cmd)
 {
 	char	*tmp;
 
-	if (ft_strncmp("CWD ..\r\n", cmd, ft_strlen("CWD ..\r\n")) == 0)
+	ft_printf("000[%s]\n", vault->cwd);
+	if (ft_strncmp("CWD ..\x0a\x0d", cmd, ft_strlen("CWD ..\x0a\x0d")) == 0)
 	{
+		ft_printf("001[%s]\n", vault->cwd);
 		dot_dot(vault);
+		ft_printf("002[%s]\n", vault->cwd);
 		return (1);
 	}
 	else if (ft_strchr(cmd, '/') == NULL)
@@ -130,15 +133,21 @@ int		cmd_cwd(t_vault *vault, char *cmd)
 		cwd_cmd_response(vault, -2);
 		return (-1);
 	}
+	ft_printf("AA1[%s]\n", vault->cwd);
 	if (vault->cwd == NULL)
 	{
+		ft_printf("AA2[%s]\n", vault->cwd);
 		if ((vault->cwd = loop_getcwd()) == NULL)
 		{
+			ft_printf("AA3[%s]\n", vault->cwd);
 			cwd_cmd_response(vault, -1);
 			return (-1);
 		}
+		ft_printf("AA4[%s]\n", vault->cwd);
 	}
+	ft_printf("AA5[%s]\n", vault->cwd);
 	ret = goto_new_rep(vault, cmd);
+	ft_printf("AA6[%s]\n", vault->cwd);
 	cwd_cmd_response(vault, ret);
 	return (0);
 }
