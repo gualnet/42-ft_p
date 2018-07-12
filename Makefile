@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/11 12:19:56 by galy             ###   ########.fr        #
+#    Updated: 2018/07/12 20:55:14 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ CC			=	gcc
 
 # CFLAGS		=	-Wall -Werror -Wextra
 # CFLAGS		=	-Wall -Werror -Wextra -g
-# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
-CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
+# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
 
 LIBFLAG		=	-L./libft -lftall
 
@@ -62,7 +62,8 @@ CLTSRC			=	\
 				client.c			usage.c				read_send.c	\
 				init_cmd_connect.c	parsinterpreter.c	sender_receiver.c\
 				cmd_pwd.c			cmd_cd.c			cmd_list.c \
-				cmd_pasv.c			create_dtp_socket.c	
+				cmd_pasv.c			cmd_get_file.c \
+				create_dtp_socket.c	check_data_conection.c
 
 
 ####FUNC####

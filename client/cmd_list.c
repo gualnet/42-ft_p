@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 13:58:28 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 20:55:00 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,6 @@ void	print_dir_content(t_vault *vault)
 	ft_printf("\n\n");
 }
 
-int		check_data_connection(t_vault *vault)
-{
-	char	*con_param;
-	char	**split;
-	con_param = pasv(vault);
-	// ft_printf("CON PARAM [%p][%s]\n", con_param, con_param);
-	split = ft_strsplit(con_param, ' ');
-	// ft_printf("SPLIT [%p][%s]\n", split, split[0]);
-	if (split[0] != NULL && ft_strncmp("227", split[0], 3) == 0)
-	{
-		create_dtp_sock(vault, con_param);
-	}
-	else
-	{
-		ft_printf("PAS BINGO - Bad response from server no data "
-		"connection has been initiated\n");
-		return (-1);
-	}
-	return (1);
-}
-
 char	*join_names(char *full_old, char *new_part)
 {
 	char	*full_new;
@@ -105,7 +84,7 @@ int		cmd_list(t_vault *vault, char *str, int	print)
 	char	*data;
 	short	ret;
 
-	ret = check_data_connection(vault);
+	ret = check_data_conection(vault);
 	free(str);
 	if (ret < 0)
 		return (ret);

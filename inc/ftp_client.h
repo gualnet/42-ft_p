@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 14:00:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 20:54:53 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ char	*cmd_receiver(int sock);
 char	*pasv(t_vault *vault);
 int		create_dtp_sock(t_vault *vault, char *params);
 void	truncate_end_signs(char *str);
+int		check_data_conection(t_vault *vault);
 
 int		cmd_pwd(t_vault *vault, char *str, int print);
 int		cmd_cd(t_vault *vault, char *str);
 int		cmd_list(t_vault *vault, char *str, int	print);
+int		cmd_get_file(t_vault *vault, char *str);
 
 
 #endif

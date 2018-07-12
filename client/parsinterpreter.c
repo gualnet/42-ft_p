@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 19:30:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 20:29:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int		cmd_box(t_vault *vault, char *str)
 		return (cmd_cd(vault, str), CMD_PRINT);
 	if (ft_strncmp(str, "LS", 2) == 0)
 		return (cmd_list(vault, str, CMD_PRINT));
+	if (ft_strncmp(str, "GET ", 4) == 0 || ft_strncmp(str, "GET\t", 4) == 0)
+		return (cmd_get_file(vault, str));
+
+	
 	if (ft_strncmp(str, "HELP", 4) == 0)
 	{
 		int i = 0;
