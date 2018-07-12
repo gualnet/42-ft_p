@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 20:42:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 19:30:12 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ void	handle_cd_rsp(t_vault *vault, char *rsp)
 	code = ft_atoi(rsp);
 	if (code > 120 && code < 300)
 	{
-		ft_printf("[*] SUCCESS\n");
 		cmd_pwd(vault, ft_strdup("useless"), CMD_NOPRINT);
+		ft_printf("[SUCCESS] %s\n", vault->cwd);
 	}
 	else if (code > 400 )
-		ft_printf("[*] FAILURE\n");
+		ft_printf("[FAILURE] \n");
 	else
 		ft_printf("CODE NON HANDLED\n");
 	free(rsp);
-	ft_printf("[>] Working dir : %s\n", vault->cwd);
 }
 
 void	truncate_end_signs(char *str)
@@ -92,38 +91,17 @@ int		verif_dir(char **lines, char *str)
 	return (match);
 }
 
-char	*build_cmd(t_vault *vault, char *str)
+char	*build_cmd(char *str)
 {
 	char	*cmd;
 	char	*tmp;
-	// size_t	i;
 
-	ft_printf("BB0 [%s]\n", str, vault);
 	tmp = ft_strdup(str + 3);
-	// if (ft_strstr(tmp, "..") != NULL)
-	// {
-	// 	free(tmp);
-	// 	tmp = ft_strdup(vault->cwd);
-	// 	i = ft_strlen(tmp);
-	// 	while (&tmp[i] != tmp)
-	// 	{
-	// 		if (tmp[i] == '/')
-	// 		{
-	// 			tmp[i] = '\0';
-	// 			break ;
-	// 		}
-	// 		i--;
-	// 	}
-	// }
-	
-	ft_printf("BB1 [%s]\n", tmp);
 	truncate_end_signs(tmp);
 	cmd = ft_strjoin("CWD ", tmp);
-	ft_printf("BB2 [%s]\n", cmd);
 	free(tmp);
 	tmp = cmd;
 	cmd = ft_strjoin(tmp, "\x0a\x0d");
-	ft_printf("BB3 [%s]\n", cmd);
 	free(tmp);
 	free(str);
 	return (cmd);
@@ -131,37 +109,38 @@ char	*build_cmd(t_vault *vault, char *str)
 
 int		cmd_cd(t_vault *vault, char *str)
 {
+	int		ret;
 	char	*cmd;
 	char	*rsp;
 
+	// ft_printf("CD STR [%s]\n", str);
 	if (vault->dir_content_name == NULL)
 	{
-		ft_printf("001\n");
 		cmd_pwd(vault, ft_strdup(str), CMD_NOPRINT);
-		ft_printf("002\n");
 		cmd_list(vault, ft_strdup(str), CMD_NOPRINT);
 	}
-	// ft_printf("CD STR [%s]\n", str);
-	ft_printf("003\n");
-	if (ft_strncmp(str + 3, "..", 2) == 0)
-		cmd = NULL;
-	else if (verif_dir(vault->dir_content, str) != 1)
+	if (ft_strncmp(str + 3, ".\x0d", 2) == 0)
 	{
-		ft_printf("[*] Error internal process failure, abort command\n");
+		ft_printf("[SUCCESS] %s\n", vault->cwd);
+		return (1);
+	}
+	if ((ret = verif_dir(vault->dir_content, str)) < 0)
+	{
+		ft_printf("[FAILURE] Error internal process failure, abort command\n");
 		return (-1);
 	}
-	ft_printf("004\n");
-	cmd = build_cmd(vault, str);
-	ft_printf("005 [%s]\n", cmd);
-	ft_printf("\033[33mCMD_CD SEND (%d char)[%s]\n\033[0m", ft_strlen(cmd), cmd);
+	else if (ret == 0)
+	{
+		ft_printf("[FAILURE] Error in parameters\n");
+		return (-1);
+	}
+	cmd = build_cmd(str);
+	// ft_printf("\033[33mCMD_CD SEND (%d char)[%s]\n\033[0m", ft_strlen(cmd), cmd);
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
-		ft_printf("[*] Error sendind cd commande \n");
+		ft_printf("[FAILURE] Error sendind cd commande \n");
 	free(cmd);
-	ft_printf("006\n");
 	rsp = cmd_receiver(vault->csc);
-	ft_printf("007\n");
 	handle_cd_rsp(vault, rsp);
-	ft_printf("008\n");
 	// cmd_list(vault, ft_strdup(str));
 	return (1);
 }

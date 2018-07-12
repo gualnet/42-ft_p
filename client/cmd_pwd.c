@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 12:56:43 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 19:31:58 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_pwd(t_vault *vault)
 {
-	ft_printf("[>] PWD [%s]\n", vault->cwd);
+	ft_printf("[SUCCESS] PWD [%s]\n", vault->cwd);
 }
 
 int		trait(t_vault *vault, char *cmd)

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 13:19:24 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 19:30:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,20 @@ int		cmd_box(t_vault *vault, char *str)
 		return (cmd_pwd(vault, str, CMD_PRINT));
 	if (ft_strncmp(str, "CD", 2) == 0)
 		return (cmd_cd(vault, str), CMD_PRINT);
-	if (ft_strncmp(str, "LIST", 4) == 0)
+	if (ft_strncmp(str, "LS", 2) == 0)
 		return (cmd_list(vault, str, CMD_PRINT));
+	if (ft_strncmp(str, "HELP", 4) == 0)
+	{
+		int i = 0;
+		while (i < 4)
+		{
+			sleep(1);
+			ft_putchar('.');
+			i++;
+		}
+		ft_printf("\n\tSOS lol ;)\n");
+		return (1);
+	}
 	
 	return (-1);
 }
