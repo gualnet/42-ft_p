@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 21:27:13 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 21:21:57 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,6 @@ int		dot_dot(t_vault *vault)
 		len--;
 	}
 	return (0);
-}
-
-void	truncate_end_signs(char *str)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if ((tmp = ft_strstr(str, "\x0a\x0d")) != NULL)
-	{
-		tmp[0] = '\0';
-		// ft_printf("trunc 01[%s]\n", str);
-	}
-	else if ((tmp = ft_strchr(str, '\r')) != NULL)
-	{
-		tmp[0] = '\0';
-		// ft_printf("trunc 02[%s]\n", str);
-	}
-	else if ((tmp = ft_strchr(str, '\n')) != NULL)
-	{
-		tmp[0] = '\0';
-		// ft_printf("trunc 03[%s]\n", str);
-	}
 }
 
 int		partial_path(t_vault *vault, char *cmd)

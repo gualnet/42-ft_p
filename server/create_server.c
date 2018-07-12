@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/07/06 13:07:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 21:14:55 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		create_server(t_vault *vault, int port)
 		ft_printf("new server socket error\n");
 		return (-1);
 	}
-
+	cmd_pwd(vault);
 	ft_printf("Server is listening on port :%d\n", \
 	ntohs(vault->n_info.cmd_sin.sin_port) );
 	return (sock);

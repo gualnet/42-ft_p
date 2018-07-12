@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 11:56:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 21:22:33 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		dispatcher(t_vault *vault, char *buff);
 int		wait_for_conn(t_vault *vault);
 int		verif_cmd_minimum_len(char *cmd, size_t cmd_len);
 char	*loop_getcwd(void);
+void	truncate_end_signs(char *str);
 
 //????
 void	list_dtp_response(t_vault *vault);
