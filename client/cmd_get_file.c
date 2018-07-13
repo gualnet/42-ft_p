@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:37:31 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 20:57:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 14:53:28 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,55 @@
 ** Calling RETR (nom rfc)
 */
 
+int		cmd_rsp_handler(char *rsp)
+{
+	int	code;
 
+	code = ft_atoi(rsp);
+	if (code > 99 && code < 300)
+		ft_printf("[*] Data transfert in progress..\n");
+	else if (code > 450 && code < 560)
+	{
+		ft_printf("[*] Data transfert aborted.\n");
+		return (-1);
+	}
+	else
+		ft_printf("[*] Response from server UNHANDLED \nMessage from server: [%s]\n", rsp);
+	return (1);
+}
+
+int		data_rsp_handler(char *data, char *file_name)
+{
+	int		fd;
+	int		i;
+	char	*tmp;
+
+	i = 1;
+	if ((fd = open(file_name, O_CREAT | O_WRONLY | O_NONBLOCK)) < 0)
+	{
+		while (i < 25)
+		{
+			tmp = file_name;
+			file_name = ft_strjoin3(file_name, "_", ft_itoa(i));
+			free(tmp);
+			if ((fd = open(file_name, O_WRONLY)) > 0)
+				break ;
+			i++;
+		}
+		if (fd < 0)
+		{
+			ft_printf("[ERROR] Unable to open \'%s\'\n", file_name);
+			return (fd);
+		}
+	}
+	if (write(fd, data, ft_strlen(data)) < 0)
+	{
+		ft_printf("[Error] An error has occured while writing the new file\n");
+		return (1);
+	}
+	close(fd);
+	return (1);
+}
 
 int		cmd_get_file(t_vault *vault, char *str)
 {
@@ -57,22 +105,13 @@ int		cmd_get_file(t_vault *vault, char *str)
 	}
 	free(tmp);
 	tmp = cmd_receiver(vault->csc);
-	data = cmd_receiver(vault->csd);
-	ft_printf("CMD RSP [%s]\n", tmp);
-	ft_printf("==================\n");
-	ft_printf("DTP RSP [%s]\n", data);
-
+	if (cmd_rsp_handler(tmp) == 1)
+	{
+		data = cmd_receiver(vault->csd);
+		data_rsp_handler(data, file_name);
+	}
 	free(tmp);
 
-
-
-
-
-
-
-
-
 	free(file_name);
-	// exit(0);
 	return (1);
 }

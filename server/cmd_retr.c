@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:52:44 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 21:22:21 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/12 21:28:01 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file);
-	ft_printf("file path to download[%s]\n", fi->path);
+	// ft_printf("file path to download[%s]\n", fi->path);
 	free(tmp);
 	truncate_end_signs(fi->path);
-	ft_printf("file path to download[%s]\n", fi->path);
-	// if ((tmp = ft_strchr(fi->path, '\r')) != NULL)
-	// 	tmp[0] = '\0';
+	// ft_printf("file path to download[%s]\n", fi->path);
 	if ((fi->fd = open(fi->path, O_RDONLY | O_NONBLOCK)) < 0)
 		return (-1);
 	if (fstat(fi->fd, &fi->fstat) == -1)
@@ -98,21 +96,19 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	pid_t		cp_pid;
 	t_file_info	fi;
 
-	ft_printf("BUUUUUUUUUUUUUUUUG\n");
 	if (verif_cmd_minimum_len(cmd, ML_RETR) != 1)
 	{
 		retr_cmd_response(vault, -3);
 		return (-1);
 	}
 	file = cmd + 5;
-	ft_printf("file to download[%s]\n", file);
+	// ft_printf("file to download[%s]\n", file);
 	if ((fd = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
-		ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
+		// ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
 		retr_cmd_response(vault, 1); //file check.. open dtp
 		return (-1);
 	}
-	ft_printf("NO BUG ??\n");
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 		retr_cmd_response(vault, -2); // dtp connexion error
 	if (vault->csc != -1)

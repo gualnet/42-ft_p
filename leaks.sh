@@ -23,5 +23,5 @@ if [ $? != "1" ]
 then
 exit
 fi
-
+sleep 2
 done
