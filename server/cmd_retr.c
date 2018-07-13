@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/21 16:52:44 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 21:28:01 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 18:20:10 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	retr_cmd_response(t_vault *vault, int status)
 	else if (status == 2)
 		msg = "125 Data connection open, transfert starting...\x0a\x0d";
 	else if (status == 3)
-		msg = "226 Requested file action successful, closing data connection.\x0a\x0d";
+		msg = "226 Reque/////sted file action successful, closing data connection.\x0a\x0d";
 	else if (status == -2)
 		msg = "425 Error opening data connection.\x0a\x0d";
 	else if (status == -3)
@@ -53,14 +53,14 @@ void	retr_dtp_response(t_vault *vault, t_file_info *fi)
 {
 	if (fi->fstat.st_size < 80000000)
 	{
-		// ft_printf("DTP FILE SENDER START\n");
+		ft_printf("DTP FILE SENDER START\n");
 		if (sender_dtp_bin(vault, fi->fdump, fi->fstat.st_size) < 0)
 		{
-			// ft_printf("DTP FILE SENDER NOK\n");
+			ft_printf("DTP FILE SENDER NOK\n");
 			exit(-1);
 		}
+		ft_printf("DTP FILE SENDER END\n");
 	}
-	exit(0);
 }
 
 int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
@@ -83,12 +83,6 @@ int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 	return (1);
 }
 
-void	clear_fi(t_file_info *fi)
-{
-	free(fi->path);
-
-}
-
 int		cmd_retr(t_vault *vault, char *cmd)
 {
 	int			fd;
@@ -102,27 +96,50 @@ int		cmd_retr(t_vault *vault, char *cmd)
 		return (-1);
 	}
 	file = cmd + 5;
-	// ft_printf("file to download[%s]\n", file);
+	ft_printf("file to download[%s]\n", file);
 	if ((fd = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
-		// ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
+		ft_printf("[%d] Pb in prep_transfert fd[%d]\n", getpid(), fd);
 		retr_cmd_response(vault, 1); //file check.. open dtp
 		return (-1);
 	}
 	if ((cp_pid = wait_for_conn(vault)) == -1)
+	{
+		ft_printf("[%d]step001\n", getpid());
 		retr_cmd_response(vault, -2); // dtp connexion error
+	}
 	if (vault->csc != -1)
+	{
+		ft_printf("[%d]step002\n", getpid());
 		retr_cmd_response(vault, 2);
+	}
 	if (vault->csd != -1)
 	{
+		ft_printf("[%d]step003\n", getpid());
 		retr_dtp_response(vault, &fi);
-		// ft_printf("[%d] fork dtp close\n", getpid());
+		ft_printf("[%d]step003-2\n", getpid());
+		ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
+
+	int		status;
+	int		option;
+	struct	rusage rusage;
+
+	option = 0;
+	if (cp_pid != 0)
+		wait4(cp_pid, &status, option, &rusage);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+	{
+		ft_printf("Une erreur la\n");
+		return (-2);
+	}
+	ft_printf("[%d]step004\n", getpid());
 	close(fd);
 	munmap(fi.fdump, fi.fstat.st_size);
-	clear_fi(&fi);
+	free(fi.path);
 	retr_cmd_response(vault, 3);
+	ft_printf("[%d]step005\n", getpid());
 
 	return (0);
 }

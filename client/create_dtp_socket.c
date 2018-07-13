@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:48:14 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 12:58:01 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 17:56:33 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ int		create_dtp_sock(t_vault *vault, char *params)
 	free(params);
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
+	ft_printf("01vault->csd[%d]\n", vault->csd);
 	if ((vault->csd = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
+	ft_printf("02vault->csd[%d]\n", vault->csd);
 
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
@@ -89,6 +91,6 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", vault->csd);
 		return (-4);
 	}
-	ft_printf("[*] Data connection established !\n");
+	ft_printf("[*] Data conection established !\n");
 	return (1);
 }

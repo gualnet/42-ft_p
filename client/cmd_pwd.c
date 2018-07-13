@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 19:31:58 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 15:33:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		trait(t_vault *vault, char *cmd)
 		// ft_printf("[*] vault->cwd \'%s\'\n", vault->cwd);
 	}
 	else
-		ft_printf("\nESLE ??????\n"); // test
+		ft_printf("\nESLE [%s]??????\n", cmd); // test
 	return (1);
 }
 
@@ -50,6 +50,7 @@ int		cmd_pwd(t_vault *vault, char *str, int print)
 	free(str); // str is useless in this case
 	if ((cmd = ft_strdup("PWD\r\n")) == NULL)
 		return (-1);
+	ft_printf("CMD TO SENT [%s]\n", cmd);
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[*] Error sendind ls command \n");
 	free(cmd); //free after sending cmd

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 20:29:46 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 15:48:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*force_cmd_toupper(char *str)
 int		cmd_box(t_vault *vault, char *str)
 {
 	// ft_printf("\n=====CMD_BOX=====\n");
+	// ft_printf("\n=====[%s]=====\n", str);
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
 		return (cmd_pwd(vault, str, CMD_PRINT));

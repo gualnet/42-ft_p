@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 20:55:00 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 17:55:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,13 @@ int		cmd_list(t_vault *vault, char *str, int	print)
 	if (print != 0)
 		print_dir_content(vault);
 	str = cmd_receiver(vault->csc);
+	if (close(vault->csd) == -1)
+		ft_printf("vault->csd not closed properly\n");
+	else
+	{
+		vault->csd = 0;
+		ft_printf("[*] Data conection closed\n");
+	}
 	// ft_printf("ICI la liste [%s]\n", data);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 19:37:31 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 14:53:28 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 18:02:52 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,35 @@ int		cmd_rsp_handler(char *rsp)
 int		data_rsp_handler(char *data, char *file_name)
 {
 	int		fd;
-	int		i;
-	char	*tmp;
+	// int		i;
+	// char	*tmp;
 
-	i = 1;
-	if ((fd = open(file_name, O_CREAT | O_WRONLY | O_NONBLOCK)) < 0)
+	// i = 1;
+	if ((fd = open(file_name, O_CREAT | O_WRONLY, 0644)) < 0)
 	{
-		while (i < 25)
-		{
-			tmp = file_name;
-			file_name = ft_strjoin3(file_name, "_", ft_itoa(i));
-			free(tmp);
-			if ((fd = open(file_name, O_WRONLY)) > 0)
-				break ;
-			i++;
-		}
+		// pour dl plusieurs fois le meme fichier
+		// while (i < 25)
+		// {
+		// 	if ((tmp = ft_strchr(file_name, '_')) != NULL)
+		// 		tmp[0] = '\0';
+		// 	tmp = file_name;
+		// 	file_name = ft_strjoin3(file_name, "_", ft_itoa(i));
+		// 	free(tmp);
+		// 	if ((fd = open(file_name, O_WRONLY)) > 0)
+		// 		break ;
+		// 	i++;
+		// }
 		if (fd < 0)
 		{
 			ft_printf("[ERROR] Unable to open \'%s\'\n", file_name);
 			return (fd);
 		}
 	}
+	ft_printf("write in fd[%d]\n", fd);
 	if (write(fd, data, ft_strlen(data)) < 0)
 	{
 		ft_printf("[Error] An error has occured while writing the new file\n");
-		return (1);
+		return (-1);
 	}
 	close(fd);
 	return (1);
@@ -73,7 +77,7 @@ int		cmd_get_file(t_vault *vault, char *str)
 
 	char	*data;
 
-
+	data = NULL;
 	ft_printf("=====GET_FILE=====\n", vault);
 	truncate_end_signs(str);
 	ft_printf("=====%s=====\n", str);
@@ -105,13 +109,32 @@ int		cmd_get_file(t_vault *vault, char *str)
 	}
 	free(tmp);
 	tmp = cmd_receiver(vault->csc);
+	ft_printf("TMP01[%s]\n", tmp);
 	if (cmd_rsp_handler(tmp) == 1)
 	{
 		data = cmd_receiver(vault->csd);
-		data_rsp_handler(data, file_name);
-	}
-	free(tmp);
+		if (data != NULL && data_rsp_handler(data, file_name) == 1)
+		{
+			ft_printf("[SUCCESS] File \'%s\' %d bytes transfered.\n", \
+			file_name, ft_strlen(data));
 
+		}
+		else
+			return (-1);
+	}
+	ft_printf("ici\n");
+	free(tmp);
+	tmp = cmd_receiver(vault->csc);
+	ft_printf("TMP02[%s]\n", tmp);
+	free(tmp);
+	free(data);
 	free(file_name);
+	if (close(vault->csd) == -1)
+		ft_printf("vault->csd not closed properly\n");
+	else
+	{
+		vault->csd = 0;
+		ft_printf("[*] Data conection closed\n");
+	}
 	return (1);
 }

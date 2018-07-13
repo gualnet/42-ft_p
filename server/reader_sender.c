@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 12:37:11 by galy              #+#    #+#             */
-/*   Updated: 2018/06/24 10:49:06 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/13 15:51:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,3 @@ int		sender_dtp_bin(t_vault *vault, void *msg, size_t len)
 	ft_printf("[%d] sent_bin : [%d]\n", getpid(), ret);
 	return (1);
 }
-
-// int		dtp_receiver(t_vault *vault)
-// {
-
-// }
