@@ -5,130 +5,99 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/12 19:37:31 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 18:02:52 by galy             ###   ########.fr       */
+/*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
+/*   Updated: 2018/07/16 19:49:42 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-/*
-** Calling RETR (nom rfc)
-*/
-
-int		cmd_rsp_handler(char *rsp)
+int		rsp_handler(char *rsp)
 {
-	int	code;
+	int		code;
 
 	code = ft_atoi(rsp);
-	if (code > 99 && code < 300)
-		ft_printf("[*] Data transfert in progress..\n");
-	else if (code > 450 && code < 560)
-	{
-		ft_printf("[*] Data transfert aborted.\n");
-		return (-1);
-	}
-	else
-		ft_printf("[*] Response from server UNHANDLED \nMessage from server: [%s]\n", rsp);
-	return (1);
+	if (100 < code && code < 300)
+		return (1);
+	
+	return (-1);
 }
 
-int		data_rsp_handler(char *data, char *file_name)
+char	*prep_cmd(char *str)
 {
-	int		fd;
-	// int		i;
-	// char	*tmp;
-
-	// i = 1;
-	if ((fd = open(file_name, O_CREAT | O_WRONLY, 0644)) < 0)
-	{
-		// pour dl plusieurs fois le meme fichier
-		// while (i < 25)
-		// {
-		// 	if ((tmp = ft_strchr(file_name, '_')) != NULL)
-		// 		tmp[0] = '\0';
-		// 	tmp = file_name;
-		// 	file_name = ft_strjoin3(file_name, "_", ft_itoa(i));
-		// 	free(tmp);
-		// 	if ((fd = open(file_name, O_WRONLY)) > 0)
-		// 		break ;
-		// 	i++;
-		// }
-		if (fd < 0)
-		{
-			ft_printf("[ERROR] Unable to open \'%s\'\n", file_name);
-			return (fd);
-		}
-	}
-	ft_printf("write in fd[%d]\n", fd);
-	if (write(fd, data, ft_strlen(data)) < 0)
-	{
-		ft_printf("[Error] An error has occured while writing the new file\n");
-		return (-1);
-	}
-	close(fd);
-	return (1);
-}
-
-int		cmd_get_file(t_vault *vault, char *str)
-{
-	char	*file_name;
+	char	*file;
 	char	*tmp;
+	char	*cmd;
 
-	char	*data;
-
-	data = NULL;
-	ft_printf("=====GET_FILE=====\n", vault);
 	truncate_end_signs(str);
-	ft_printf("=====%s=====\n", str);
-
-	tmp = ft_strdup(str + 4);
-	free(str);
-	file_name = ft_strtrim(tmp);
-	if (file_name == tmp)
-	{
-		ft_printf("CASE1 AHAHAHAHAHAHA\n");
-		exit(0);
-	}
-	else if (file_name != tmp)
+	if ((tmp = ft_strdup(str + 4)) == NULL)
+		return (NULL);
+	file = ft_strtrim(tmp);
+	if (file != tmp)
 		free(tmp);
-	ft_printf("File name [%s]\n", file_name);
 
-	//**************************************************
+	if ((cmd = ft_strjoin3("RETR ", file, "\x0a\x0d")) == NULL)
+		return (NULL);
+	free(file);
 
+	return (cmd);
+}
+
+int		init_data_con(t_vault *vault)
+{
+	
 	if (check_data_conection(vault) < 0)
 	{
 		ft_printf("Echec 001\n");
 		return (-1);
 	}
-	tmp = ft_strjoin3("RETR ", file_name, "\x0a\x0d");
-	if (send(vault->csc, tmp, ft_strlen(tmp), 0) < 0)
-	{
-		ft_printf("[ERROR] command not sent or partialy\n");
-		return (-1);
-	}
-	free(tmp);
-	tmp = cmd_receiver(vault->csc);
-	ft_printf("TMP01[%s]\n", tmp);
-	if (cmd_rsp_handler(tmp) == 1)
-	{
-		data = cmd_receiver(vault->csd);
-		if (data != NULL && data_rsp_handler(data, file_name) == 1)
-		{
-			ft_printf("[SUCCESS] File \'%s\' %d bytes transfered.\n", \
-			file_name, ft_strlen(data));
+	else
+		ft_printf("Data con init OK\n");
+	return (1);
+}
 
-		}
-		else
-			return (-1);
-	}
-	ft_printf("ici\n");
-	free(tmp);
-	tmp = cmd_receiver(vault->csc);
-	ft_printf("TMP02[%s]\n", tmp);
-	free(tmp);
-	free(data);
-	free(file_name);
+
+int		srv_com_echange(t_vault *vault)
+{
+	char *rsp;
+	char *data;
+
+	rsp = cmd_receiver(vault->csc);
+	ft_printf("\033[34m RSP{%s}\n\033[0m", rsp);
+	
+	if (rsp_handler(rsp) < 0)
+		return (-1);
+	free(rsp);
+	data = cmd_receiver(vault->csd);
+	ft_printf("\033[32m DATA{%s}\n\033[0m", data);
+	
+	rsp = cmd_receiver(vault->csc);
+	ft_printf("\033[34m RSP{%s}\n\033[0m", rsp);
+	free(rsp);
+
+
+	return (1);
+}
+
+int		cmd_get_file(t_vault *vault, char *str)
+{
+	char	*cmd;
+
+	ft_printf("CMD [%s]\n", str);
+	if (init_data_con(vault) < 0)
+		return (-1);
+
+
+	if ((cmd = prep_cmd(str)) == NULL)
+		return (-1);
+	free(str);
+	ft_printf("CMD2SEND [%s]\n", cmd);
+	send(vault->csc, cmd, ft_strlen(cmd), 0);
+
+
+	srv_com_echange(vault);
+
+
 	if (close(vault->csd) == -1)
 		ft_printf("vault->csd not closed properly\n");
 	else
@@ -136,5 +105,7 @@ int		cmd_get_file(t_vault *vault, char *str)
 		vault->csd = 0;
 		ft_printf("[*] Data conection closed\n");
 	}
+
+
 	return (1);
 }
