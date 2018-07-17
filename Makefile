@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/17 14:48:29 by galy             ###   ########.fr        #
+#    Updated: 2018/07/17 17:44:44 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ CLTSRC			=	\
 				client.c			usage.c				read_send.c	\
 				init_cmd_connect.c	parsinterpreter.c	sender_receiver.c\
 				cmd_pwd.c			cmd_cd.c			cmd_list.c \
-				cmd_pasv.c			cmd_get_file.c \
+				cmd_pasv.c			cmd_get_file.c		cmd_put_file.c\
 				create_dtp_socket.c	check_data_conection.c
 
 

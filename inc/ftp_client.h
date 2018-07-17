@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 14:23:07 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/17 18:35:08 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
 
 // #include "ftp_struct.h"
 #include "libft.h"
@@ -47,6 +49,13 @@ typedef struct			s_vault
 	// t_inet_info			n_info;
 }						t_vault;
 
+typedef struct			s_file_info
+{
+	char				*path;
+	int					fd;
+	void				*fdump;
+	struct stat 		fstat;
+}						t_file_info;
 
 void	usage(char *str);
 int		read_send_loop(t_vault *vault, char *name);
@@ -61,6 +70,7 @@ int		cmd_pwd(t_vault *vault, char *str, int print);
 int		cmd_cd(t_vault *vault, char *str);
 int		cmd_list(t_vault *vault, char *str, int	print);
 int		cmd_get_file(t_vault *vault, char *str);
+int		cmd_put_file(t_vault *vault, char *str);
 
 
 #endif
