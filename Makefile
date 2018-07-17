@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/12 21:22:53 by galy             ###   ########.fr        #
+#    Updated: 2018/07/17 14:48:29 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ CC			=	gcc
 
 # CFLAGS		=	-Wall -Werror -Wextra
 # CFLAGS		=	-Wall -Werror -Wextra -g
-CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
-# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
+# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
+CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
 
 LIBFLAG		=	-L./libft -lftall
 
