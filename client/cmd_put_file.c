@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/17 19:39:19 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/19 16:28:37 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ char	*extract_filename(char *str)
 
 int		prep_data(t_vault *vault, char *filename, t_file_info *file)
 {
-	if ((file->path = ft_strjoin3(vault->cwd, "/", filename)) == NULL)
+	if ((file->path = ft_strjoin3(vault->s_cwd, "/", filename)) == NULL)
 		return (-1);
-	ft_printf("[%s][%s] -> [%s]\n",vault->cwd, filename, file->path);
+	ft_printf("[%s][%s] -> [%s]\n",vault->s_cwd, filename, file->path);
 	
 	if ((file->fd = open(file->path, O_RDONLY | O_NONBLOCK)) < 0)
 		return (-2);

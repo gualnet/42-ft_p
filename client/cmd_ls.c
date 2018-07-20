@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_list.c                                         :+:      :+:    :+:   */
+/*   cmd_ls.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 17:55:17 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/19 16:31:27 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	print_dir_content(t_vault *vault)
 	i = 1;
 	cpt = 0;
 	ft_printf("\n\033[36;1;4mDir:\033[0m\n");
-	while (vault->dir_content[i] != NULL)
+	while (vault->s_dir_content[i] != NULL)
 	{
-		line = ft_strsplit(vault->dir_content[i], ' ');
+		line = ft_strsplit(vault->s_dir_content[i], ' ');
 		if (line[0][0] == 'd' && line[8] != NULL)
 		{
 			ft_printf("\033[36m%s\t\033[0m", line[8]);
@@ -40,9 +40,9 @@ void	print_dir_content(t_vault *vault)
 	i = 1;
 	cpt = 0;
 	ft_printf("\n\n\033[36;1;4mFile:\033[0m\n");
-	while (vault->dir_content[i] != NULL)
+	while (vault->s_dir_content[i] != NULL)
 	{
-		line = ft_strsplit(vault->dir_content[i], ' ');
+		line = ft_strsplit(vault->s_dir_content[i], ' ');
 		if (line[0][0] != 'd' && line[8] != NULL)
 			ft_printf("%s\t", line[8]);
 		ft_freestrsplited(line);
@@ -75,11 +75,11 @@ int		data_process(t_vault *vault, char *data)
 		ft_printf("NO DATA TO BE PRINTED");
 		return (-1);
 	}
-	vault->dir_content = data_lines;
+	vault->s_dir_content = data_lines;
 	return (1);
 }
 
-int		cmd_list(t_vault *vault, char *str, int	print)
+int		cmd_ls(t_vault *vault, char *str, int	print)
 {
 	char	*data;
 	short	ret;
@@ -95,10 +95,10 @@ int		cmd_list(t_vault *vault, char *str, int	print)
 	str = cmd_receiver(vault->csc);
 	free(str);
 	data = cmd_receiver(vault->csd);
-	if (vault->dir_content_name != NULL)
+	if (vault->s_dir_content_name != NULL)
 	{
-		free(vault->dir_content_name);
-		vault->dir_content_name = NULL;
+		free(vault->s_dir_content_name);
+		vault->s_dir_content_name = NULL;
 	}
 	data_process(vault, data);
 	if (print != 0)

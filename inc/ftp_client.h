@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/17 18:35:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/19 17:40:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ typedef struct			s_vault
 	//	-----	-----	-----
 	char				*name;
 	char				*passw;
-	char				*cwd;
-	char				*dir_content_name;
-	char				**dir_content;
+	char				*s_cwd;
+	char				*s_dir_content_name;
+	char				**s_dir_content;
+	char				*c_cwd;
+	char				*c_dir_content_name;
+	char				**c_dir_content;
 	//	-----	-----	-----
 	// t_inet_info			n_info;
 }						t_vault;
@@ -55,6 +58,7 @@ typedef struct			s_file_info
 	int					fd;
 	void				*fdump;
 	struct stat 		fstat;
+	unsigned long		dump_len;
 }						t_file_info;
 
 void	usage(char *str);
@@ -65,10 +69,11 @@ char	*pasv(t_vault *vault);
 int		create_dtp_sock(t_vault *vault, char *params);
 void	truncate_end_signs(char *str);
 int		check_data_conection(t_vault *vault);
+char	*dtp_receiver(int sock, ssize_t	*size);
 
 int		cmd_pwd(t_vault *vault, char *str, int print);
 int		cmd_cd(t_vault *vault, char *str);
-int		cmd_list(t_vault *vault, char *str, int	print);
+int		cmd_ls(t_vault *vault, char *str, int	print);
 int		cmd_get_file(t_vault *vault, char *str);
 int		cmd_put_file(t_vault *vault, char *str);
 

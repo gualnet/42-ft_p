@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 15:33:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/19 16:31:10 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_pwd(t_vault *vault)
 {
-	ft_printf("[SUCCESS] PWD [%s]\n", vault->cwd);
+	ft_printf("[SUCCESS] PWD [%s]\n", vault->s_cwd);
 }
 
 int		trait(t_vault *vault, char *cmd)
@@ -31,11 +31,11 @@ int		trait(t_vault *vault, char *cmd)
 		// (tmp = ft_strchr(cmd, '\n')) != NULL)
 		// 	cmd[ft_strlen(cmd) - 1] = '\0';
 		// ft_printf("[*] PWD \'%s\'", cmd + 4);
-		if (vault->cwd != NULL)
-			free(vault->cwd);
-		vault->cwd = ft_strdup(cmd + 4);
-		truncate_end_signs(vault->cwd);
-		// ft_printf("[*] vault->cwd \'%s\'\n", vault->cwd);
+		if (vault->s_cwd != NULL)
+			free(vault->s_cwd);
+		vault->s_cwd = ft_strdup(cmd + 4);
+		truncate_end_signs(vault->s_cwd);
+		// ft_printf("[*] vault->s_cwd \'%s\'\n", vault->s_cwd);
 	}
 	else
 		ft_printf("\nESLE [%s]??????\n", cmd); // test

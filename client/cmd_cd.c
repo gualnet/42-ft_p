@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 19:30:12 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/19 16:31:22 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	handle_cd_rsp(t_vault *vault, char *rsp)
 	if (code > 120 && code < 300)
 	{
 		cmd_pwd(vault, ft_strdup("useless"), CMD_NOPRINT);
-		ft_printf("[SUCCESS] %s\n", vault->cwd);
+		ft_printf("[SUCCESS] %s\n", vault->s_cwd);
 	}
 	else if (code > 400 )
 		ft_printf("[FAILURE] \n");
@@ -114,17 +114,17 @@ int		cmd_cd(t_vault *vault, char *str)
 	char	*rsp;
 
 	// ft_printf("CD STR [%s]\n", str);
-	if (vault->dir_content_name == NULL)
+	if (vault->s_dir_content_name == NULL)
 	{
 		cmd_pwd(vault, ft_strdup(str), CMD_NOPRINT);
-		cmd_list(vault, ft_strdup(str), CMD_NOPRINT);
+		cmd_ls(vault, ft_strdup(str), CMD_NOPRINT);
 	}
 	if (ft_strncmp(str + 3, ".\x0d", 2) == 0)
 	{
-		ft_printf("[SUCCESS] %s\n", vault->cwd);
+		ft_printf("[SUCCESS] %s\n", vault->s_cwd);
 		return (1);
 	}
-	if ((ret = verif_dir(vault->dir_content, str)) < 0)
+	if ((ret = verif_dir(vault->s_dir_content, str)) < 0)
 	{
 		ft_printf("[FAILURE] Error internal process failure, abort command\n");
 		return (-1);
