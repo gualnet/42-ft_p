@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 12:38:19 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 14:57:11 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,19 @@ void	stor_cmd_response(t_vault *vault, int status)
 int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 {
 	char	*buf[R_BUFF_SIZE + 1];
+	char	*tmp;
 	ssize_t	rs;
 
 	while (1)
 	{
-		ft_bzero(buf, R_BUFF_SIZE);
+		ft_bzero(buf, R_BUFF_SIZE + 1);
 		rs = recv(vault->csd, buf, R_BUFF_SIZE, 0);
-		ft_printf("IN [%s]\n", buf);
-		write(fi->fd, buf, rs);
-		if (rs == 0)
+		ft_printf("IN [%d][%s]\n", rs, buf);
+		if ((tmp = ft_strstr((char*)buf, "\x0a\x0d")) != NULL)
+			write(fi->fd, buf, rs - 2);
+		else
+			write(fi->fd, buf, rs);
+		if (rs == 0 || rs < R_BUFF_SIZE)
 		{
 			ft_printf("GO OUT..\n");
 			break ;
@@ -71,17 +75,12 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
-	ft_printf("file path to download[%s]\n", fi->path);
-	for (int i = 0; fi->path[i] != '\0'; i++)
-		ft_printf("[%d][%c][%d]\n", i, fi->path[i], fi->path[i]);
 	free(tmp);
 	if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
 		tmp[0] = '\0';
 	else
-	{
-		ft_printf("pb 0002\n");
 		return (-5);
-	}
+	ft_printf("file path to download[%s]\n", fi->path);
 	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT, 0640)) < 0)
 		return (-1);
 	return (1);
@@ -106,7 +105,6 @@ int		cmd_stor(t_vault *vault, char *cmd)
 
 	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
-		ft_printf("pb 0001\n");
 		stor_cmd_response(vault, -5);
 		return (-1);
 	}

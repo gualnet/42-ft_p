@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 13:04:46 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 14:58:33 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,21 @@ int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
 		ft_printf("SRV_COM_PB 002\n");
 		return (-1);
 	}
+	ft_printf("SENDING DATA part 2\n");
+	send(vault->csd, "\x0a\x0d", 2, 0);
 	ft_printf("END SENDING DATA\n");
 
-	// rsp = cmd_receiver(vault->csc);
-	// ft_printf("RSP [%s]\n", rsp);
-	// if (rsp == NULL || rsp_handler_put(rsp) < 0)
-	// {
-	// 	ft_printf("SRV_COM_PB 003\n");
-	// 	return (-1);
-	// }
+
+	rsp = cmd_receiver(vault->csc);
+	ft_printf("RSP [%s]\n", rsp);
+	if (rsp == NULL || rsp_handler_put(rsp) < 0)
+	{
+		ft_printf("SRV_COM_PB 003\n");
+		return (-1);
+	}
 
 	return (1);
 }
-
-
-
 
 int		cmd_put_file(t_vault *vault, char *str)
 {
@@ -136,6 +136,7 @@ int		cmd_put_file(t_vault *vault, char *str)
 	ft_printf("PUT CMD [%s]\n", cmd);
 
 	srv_com_exchange_put(vault, cmd, &file);
+	
 
 	if (close(vault->csd) == -1)
 		ft_printf("vault->csd not closed properly\n");
