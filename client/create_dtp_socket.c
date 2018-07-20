@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:48:14 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 17:56:33 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 12:19:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		return (-3);
 	}
 	
-	// ft_printf("DATA SOCK [%s:%d]\n", addr, port);
+	ft_printf("DATA SOCK [%s:%d]\n", addr, port);
 	if (connect(vault->csd, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 	{
 		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", vault->csd);

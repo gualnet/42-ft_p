@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/07/17 19:15:16 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 12:38:19 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 	char	*buf[R_BUFF_SIZE + 1];
 	ssize_t	rs;
 
-	ft_printf("TOOOOP\n");
 	while (1)
 	{
 		ft_bzero(buf, R_BUFF_SIZE);
@@ -63,7 +62,6 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 			break ;
 		}
 	}
-	ft_printf("TOOOOP\n");
 	return (1);
 }
 
@@ -73,12 +71,17 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
-	// ft_printf("file path to download[%s]\n", fi->path);
+	ft_printf("file path to download[%s]\n", fi->path);
+	for (int i = 0; fi->path[i] != '\0'; i++)
+		ft_printf("[%d][%c][%d]\n", i, fi->path[i], fi->path[i]);
 	free(tmp);
-	if ((tmp = ft_strchr(fi->path, '\r')) != NULL)
+	if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
 		tmp[0] = '\0';
 	else
+	{
+		ft_printf("pb 0002\n");
 		return (-5);
+	}
 	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT, 0640)) < 0)
 		return (-1);
 	return (1);
@@ -103,10 +106,12 @@ int		cmd_stor(t_vault *vault, char *cmd)
 
 	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
+		ft_printf("pb 0001\n");
 		stor_cmd_response(vault, -5);
 		return (-1);
 	}
 	file_name = ft_strdup(cmd + 5);
+	// truncate_end_signs(file_name);
 	if ((ret = prep_transfer_stor(vault, file_name, &fi)) < 0)
 		stor_cmd_response(vault, ret);
 	if (ret < 0)

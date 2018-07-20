@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 21:22:33 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 11:03:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 #define ML_MKD	7
 #define ML_CWD	5
 #define ML_RETR	8
-#define ML_STOR	8
+#define ML_STOR	6
 #define ML_DELE	8
 #define ML_RMD	8
 

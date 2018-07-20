@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/19 16:28:37 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/20 13:04:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		init_data_con_bis(t_vault *vault)
 {
-	
+	ft_printf("init data con START\n");
 	if (check_data_conection(vault) < 0)
 	{
 		ft_printf("Echec 001\n");
@@ -22,6 +22,7 @@ int		init_data_con_bis(t_vault *vault)
 	}
 	else
 		ft_printf("Data con init OK\n");
+	ft_printf("init data con END\n");
 	return (1);
 }
 
@@ -50,16 +51,17 @@ char	*extract_filename(char *str)
 	filename = ft_strtrim(tmp);
 	if (filename != tmp)
 		free(tmp);
+	ft_printf("extracted filename [%s]\n", filename);
 	return (filename);
 }
 
-int		prep_data(t_vault *vault, char *filename, t_file_info *file)
+int		prep_data(char *filename, t_file_info *file)
 {
-	if ((file->path = ft_strjoin3(vault->s_cwd, "/", filename)) == NULL)
-		return (-1);
-	ft_printf("[%s][%s] -> [%s]\n",vault->s_cwd, filename, file->path);
-	
-	if ((file->fd = open(file->path, O_RDONLY | O_NONBLOCK)) < 0)
+	// if ((file->path = ft_strjoin3(vault->s_cwd, "/", filename)) == NULL)
+	// 	return (-1);
+	// ft_printf("[%s][%s] -> [%s]\n",vault->s_cwd, filename, file->path);
+
+	if ((file->fd = open(filename, O_RDONLY | O_NONBLOCK)) < 0)
 		return (-2);
 	if (fstat(file->fd, &file->fstat) == -1)
 		return (-3);
@@ -122,18 +124,26 @@ int		cmd_put_file(t_vault *vault, char *str)
 	if ((filename = extract_filename(str)) == NULL)
 		return (-1);
 	free(str);
-	if (prep_data(vault, filename, &file) < 0)
+	int ret;
+	if ((ret = prep_data(filename, &file)) < 0)
 	{
-		ft_printf("PB IN PREP DATA...\n");
+		ft_printf("PB IN PREP DATA...[%d]\n", ret);
 		return (-1);
 	}
-	free(filename);
 	if ((cmd = ft_strjoin3("STOR ", filename, "\x0a\x0d")) == NULL)
 		return (-1);
+	free(filename);
 	ft_printf("PUT CMD [%s]\n", cmd);
 
 	srv_com_exchange_put(vault, cmd, &file);
 
+	if (close(vault->csd) == -1)
+		ft_printf("vault->csd not closed properly\n");
+	else
+	{
+		vault->csd = 0;
+		ft_printf("[*] Data conection closed\n");
+	}
 	
 	return (1);
 }
