@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_send.c                                        :+:      :+:    :+:   */
+/*   running_loop.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/13 15:48:25 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/23 11:15:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*overflow_prot(int rs, char *buf)
 	return (input);
 }
 
-int		read_send_loop(t_vault *vault, char *name)
+void	running_loop(t_vault *vault, char *name)
 {
 	char	buf[BUF_SIZE + 1];
 	int		rs;
@@ -97,7 +97,8 @@ int		read_send_loop(t_vault *vault, char *name)
 			buf[i] = '\n';
 			tmp = ft_strdup(buf);
 		}
-		parsinterpreter(vault, tmp);
+		if (parsinterpreter(vault, tmp) == -999)
+			break ;
 		ft_printf("[<] ");
 	}
 }

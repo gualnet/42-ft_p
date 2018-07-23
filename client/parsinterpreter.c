@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/19 16:19:54 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/23 11:16:34 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ int		cmd_box(t_vault *vault, char *str)
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
 		return (cmd_pwd(vault, str, CMD_PRINT));
-	if (ft_strncmp(str, "CD", 2) == 0)
-		return (cmd_cd(vault, str), CMD_PRINT);
 	if (ft_strncmp(str, "LS", 2) == 0)
 		return (cmd_ls(vault, str, CMD_PRINT));
+	if (ft_strncmp(str, "QUIT", 4) == 0)
+		return (cmd_quit());
+	if (ft_strncmp(str, "CD ", 3) == 0 || ft_strncmp(str, "cd\t", 3) == 0)
+		return (cmd_cd(vault, str), CMD_PRINT);
 	if (ft_strncmp(str, "GET ", 4) == 0 || ft_strncmp(str, "GET\t", 4) == 0)
 		return (cmd_get_file(vault, str));
 	if (ft_strncmp(str, "PUT ", 4) == 0 || ft_strncmp(str, "PUT\t", 4) == 0)
@@ -67,20 +69,23 @@ int		cmd_box(t_vault *vault, char *str)
 	return (-1);
 }
 
-void	parsinterpreter(t_vault *vault, char *str)
+int		parsinterpreter(t_vault *vault, char *str)
 {
 	// ft_printf("\n=====PARSINTERPRETER=====\n");
-	char *tmp;
+	char	*tmp;
+	int		ret;
+
+	ret = 0;
 	tmp = force_cmd_toupper(str);
 
 	str = ft_strtrim(tmp);
 	if (str != tmp)
 		free(tmp);
 
-
-	if (cmd_box(vault, str) < 0)
+	ret = cmd_box(vault, str);
+	// if (ret == -999)
+	// 	ft_printf("ici je quitte\n");
+	if (ret < 0 && ret != -999)
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");
-	// else
-	// 	ft_printf("\n[*] cmd sent\n");
-
+	return (ret);
 }

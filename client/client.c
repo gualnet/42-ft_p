@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/07/19 16:22:53 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/23 11:11:29 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		main(int argc, char **argv)
 	if (create_cmd_sock(&vault, argv) < 0)
 		return (-1);
 
-	read_send_loop(&vault, argv[0]);
+	running_loop(&vault, argv[0]);
 
 	return (1);
 }

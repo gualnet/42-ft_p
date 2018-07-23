@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/19 17:41:16 by galy             ###   ########.fr        #
+#    Updated: 2018/07/23 11:09:21 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,9 +59,9 @@ SRVSRC			=	\
 				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c
 
 CLTSRC			=	\
-				client.c			usage.c				read_send.c	\
+				client.c			usage.c				running_loop.c	\
 				init_cmd_connect.c	parsinterpreter.c	sender_receiver.c\
-				cmd_pwd.c			cmd_cd.c			cmd_ls.c \
+				cmd_pwd.c			cmd_cd.c			cmd_ls.c		cmd_quit.c\
 				cmd_pasv.c			cmd_get_file.c		cmd_put_file.c	dtp_receiver.c\
 				create_dtp_socket.c	check_data_conection.c
 

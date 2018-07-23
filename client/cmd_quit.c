@@ -6,13 +6,31 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/03 16:07:43 by galy              #+#    #+#             */
-/*   Updated: 2018/07/03 16:25:30 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/23 11:21:00 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-int		cmd_quit(void)
+
+void	quit_process(t_vault *vault)
 {
 
+	free_vault()
+
+
+
+
+}
+
+int		cmd_quit(t_vault *vault, char *str)
+{
+
+	free(str);
+	quit_process(vault);
+
+	ft_printf("[*] ftp client : \"GOOD BYE !!!\"");
+
+
+	return (-999);
 }

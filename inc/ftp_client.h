@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 10:49:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/23 11:20:20 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef struct			s_file_info
 }						t_file_info;
 
 void	usage(char *str);
-int		read_send_loop(t_vault *vault, char *name);
-void	parsinterpreter(t_vault *vault, char *str);
+void	running_loop(t_vault *vault, char *name);
+int		parsinterpreter(t_vault *vault, char *str);
 char	*cmd_receiver(int sock);
 char	*pasv(t_vault *vault);
 int		create_dtp_sock(t_vault *vault, char *params);
@@ -76,6 +76,6 @@ int		cmd_cd(t_vault *vault, char *str);
 int		cmd_ls(t_vault *vault, char *str, int	print);
 int		cmd_get_file(t_vault *vault, char *str);
 int		cmd_put_file(t_vault *vault, char *str);
-
+int		cmd_quit(t_vault *vault, char *str);
 
 #endif
