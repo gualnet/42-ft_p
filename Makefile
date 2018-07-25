@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/07/23 11:09:21 by galy             ###   ########.fr        #
+#    Updated: 2018/07/24 13:33:07 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@
 NAME		=	ftp
 CC			=	gcc
 
-# CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-Wall -Werror -Wextra
 # CFLAGS		=	-Wall -Werror -Wextra -g
 # CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
-CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
+# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
 
 LIBFLAG		=	-L./libft -lftall
 
@@ -59,7 +59,7 @@ SRVSRC			=	\
 				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c
 
 CLTSRC			=	\
-				client.c			usage.c				running_loop.c	\
+				client.c			usage.c				running_loop.c	init_vault.c\
 				init_cmd_connect.c	parsinterpreter.c	sender_receiver.c\
 				cmd_pwd.c			cmd_cd.c			cmd_ls.c		cmd_quit.c\
 				cmd_pasv.c			cmd_get_file.c		cmd_put_file.c	dtp_receiver.c\

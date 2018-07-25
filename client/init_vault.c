@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 16:22:35 by galy              #+#    #+#             */
-/*   Updated: 2018/07/23 11:24:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/24 13:18:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_vault(t_vault *vault)
 {
 	if (vault == NULL)
-		return ();
+		return ;
 	
 	if (vault->name != NULL)
 		free(vault->name);
