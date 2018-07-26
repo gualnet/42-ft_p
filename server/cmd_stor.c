@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 14:57:11 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 17:04:53 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,12 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 	{
 		ft_bzero(buf, R_BUFF_SIZE + 1);
 		rs = recv(vault->csd, buf, R_BUFF_SIZE, 0);
-		ft_printf("IN [%d][%s]\n", rs, buf);
 		if ((tmp = ft_strstr((char*)buf, "\x0a\x0d")) != NULL)
 			write(fi->fd, buf, rs - 2);
 		else
 			write(fi->fd, buf, rs);
 		if (rs == 0 || rs < R_BUFF_SIZE)
-		{
-			ft_printf("GO OUT..\n");
 			break ;
-		}
 	}
 	return (1);
 }

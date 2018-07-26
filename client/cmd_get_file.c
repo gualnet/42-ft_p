@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 09:23:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 16:37:16 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int		init_data_con(t_vault *vault)
 		ft_printf("Echec 001\n");
 		return (-1);
 	}
-	else
-		ft_printf("Data con init OK\n");
+	// else
+	// 	ft_printf("Data con init OK\n");=
 	return (1);
 }
 
@@ -61,39 +61,29 @@ char	*srv_com_echange(t_vault *vault, ssize_t *size)
 	char	*data;
 
 	rsp = cmd_receiver(vault->csc);
-	ft_printf("\033[34m RSP{%s}\n\033[0m", rsp);
-	
 	if (rsp_handler(rsp) < 0)
 		return (NULL);
 	free(rsp);
 	data = dtp_receiver(vault->csd, size);
-	// ft_printf("\033[32m DATA{%s}\n\033[0m", data);
-	// ft_printf("\033[32m SIZE of data{%d}\n\033[0m", *size);
-	
 	rsp = cmd_receiver(vault->csc);
-	ft_printf("\033[34m RSP{%s}\n\033[0m", rsp);
 	free(rsp);
-
 	return (data);
 }
 
 
 int		data_to_file(char *file_name, char *data, ssize_t size)
 {
-	int		i;
 	int		fd;
 
-	i = 0;
-	// while (i < size)
-	// {
-	// 	ft_printf("[%d]TEST DATA LOOP [%c][%d]\n", i, data[i], data[i]);
-	// 	i++;
-	// }
-	if ((fd = open(file_name, O_WRONLY | O_CREAT | O_NONBLOCK)) < 0)
+	if ((fd = open(file_name, O_CREAT | O_RDWR, 0640)) < 0)
+	{
+		ft_printf("[ERROR] Unable to open \'%s\'\n", file_name);
 		return (-1);
+	}
 	write(fd, data, (size_t)size);
 	close(fd);
 	free(data);
+	ft_printf("[SUCCESS] \'%s\' created.\n", file_name);
 	return (1);
 }
 
@@ -105,33 +95,24 @@ int		cmd_get_file(t_vault *vault, char *str)
 
 	file_name = NULL;
 
-	ft_printf("CMD [%s]\n", str);
+	// ft_printf("CMD [%s]\n", str);
 	if (init_data_con(vault) < 0)
 		return (-1);
-
 
 	if ((cmd = prep_cmd(str, &file_name)) == NULL)
 		return (-1);
 	free(str);
-	ft_printf("CMD2SEND [%s]\n", cmd);
-	ft_printf("FILENAME [%s]\n", file_name);
 	send(vault->csc, cmd, ft_strlen(cmd), 0);
-
-
 	str = srv_com_echange(vault, &size);
-	
 	if (str != NULL && size > 0)
 		data_to_file(file_name, str, size);
 
 	if (close(vault->csd) == -1)
-		ft_printf("vault->csd not closed properly\n");
+		ft_printf("[!] Data socket not closed properly.\n");
 	else
 	{
 		vault->csd = 0;
-		ft_printf("[*] Data conection closed\n");
+		// ft_printf("[*] Data conection closed\n");
 	}
-
-
-	ft_printf("[*] END GET FUNC\n");
 	return (1);
 }

@@ -38,14 +38,13 @@ void	retr_cmd_response(t_vault *vault, int status)
 	else if (status == 2)
 		msg = "125 Data connection open, transfert starting...\x0a\x0d";
 	else if (status == 3)
-		msg = "226 Reque/////sted file action successful, closing data connection.\x0a\x0d";
+		msg = "226 Requested file action successful, closing data connection.\x0a\x0d";
 	else if (status == -2)
 		msg = "425 Error opening data connection.\x0a\x0d";
 	else if (status == -3)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	else
 		msg = "451 File transfer aborted, local processing error.\x0a\x0d";
-	
 	sender_sock(vault, msg);
 }
 
@@ -53,13 +52,13 @@ void	retr_dtp_response(t_vault *vault, t_file_info *fi)
 {
 	if (fi->fstat.st_size < 80000000)
 	{
-		ft_printf("DTP FILE SENDER START\n");
+		// ft_printf("DTP FILE SENDER START\n");
 		if (sender_dtp_bin(vault, fi->fdump, fi->fstat.st_size) < 0)
 		{
 			ft_printf("DTP FILE SENDER NOK\n");
 			exit(-1);
 		}
-		ft_printf("DTP FILE SENDER END\n");
+		// ft_printf("DTP FILE SENDER END\n");
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/07/04 16:29:51 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 17:42:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		main(int argc, char **argv)
 		return (-1);
 	}
 
-	ft_printf("MASTER PROCESS PID: [%d]\n", (int)getpid());
+	ft_printf("[INFO] MASTER PROCESS PID: [%d]\n", (int)getpid());
 	port = ft_atoi(argv[1]);
 	if ((sock = create_server(&vault, port)) < 0)
 		return (-1);
@@ -48,9 +48,11 @@ int		main(int argc, char **argv)
 		}
 		else
 		{
-			ft_printf("New connection accepted...\n");
+			ft_printf("[%d] (1)New connection accepted...\n", getpid());
 			if (create_child_process(&vault) > 0)
+			{
 				printf("[%d] Continue master loop\n", (int)getpid());
+			}
 			else
 			{
 				ft_printf("[%d] BREAKING LOOP\n", getpid());
@@ -58,7 +60,7 @@ int		main(int argc, char **argv)
 			}
 		}
 	}
-	ft_printf("\nOUT LOOP\n");
+	// ft_printf("\nOUT LOOP\n");
 	if (vault.csc != -1)
 	{
 		ft_printf("[%d] closing client socket connector\n", getpid());

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 21:14:55 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 12:44:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 
 void	init_vault(t_vault *vault)
 {
+	// ft_printf("\t=====CALL INIT VAULT=====\n");
 	vault->dtp_sock = 0;
+	// vault->cwd = ft_strdup(".");
+	vault->cwd = loop_getcwd();
+	
+
 }
 
 int		create_server(t_vault *vault, int port)
@@ -95,13 +100,9 @@ int		create_dtp_socket(t_vault *vault)
 	{
 		port = ntohs(vault->n_info.cmd_sin.sin_port);
 		port += i * 2;
-		ft_printf("DTP PORT [%d] - ", port);
+		// ft_printf("DTP PORT [%d] - ", port);
 		if ((sock = new_socket(vault, port, DTP_SOCK)) > 1)
-		{
-			ft_printf("good sock [%d]\n", sock);
 			break ;
-		}
-			ft_printf("bad sock [%d]\n", sock);
 		i++;
 	}
 	if (sock < 1)

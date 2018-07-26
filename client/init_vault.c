@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 16:22:35 by galy              #+#    #+#             */
-/*   Updated: 2018/07/24 13:18:24 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 10:57:04 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void	free_vault(t_vault *vault)
 	
 	if (vault->name != NULL)
 		free(vault->name);
-	if (vault->passw)
+	if (vault->passw != NULL)
 		free(vault->passw);
-	if (vault->s_cwd)
+	if (vault->s_cwd != NULL)
 		free(vault->s_cwd);
-	if (vault->s_dir_content)
+	if (vault->s_dir_content != NULL)
 		free(vault->s_dir_content);
-	if (vault->s_dir_content_name)
+	if (vault->s_dir_content_name != NULL)
 		free(vault->s_dir_content_name);
-	if (vault->c_cwd)
+	if (vault->c_cwd != NULL)
 		free(vault->c_cwd);
-	if (vault->c_dir_content)
+	if (vault->c_dir_content != NULL)
 		free(vault->c_dir_content);
-	if (vault->c_dir_content_name)
+	if (vault->c_dir_content_name != NULL)
 		free(vault->c_dir_content_name);
 }
 
@@ -50,5 +50,6 @@ void	zero_vault(t_vault *vault)
 
 void	init_vault(t_vault *vault)
 {
+	ft_printf("\t=====CALL INIT VAULT=====\n");
 	zero_vault(vault);
 }

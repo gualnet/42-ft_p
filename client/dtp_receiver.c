@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 17:25:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/23 10:59:52 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 16:18:38 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ char	*dtp_receiver(int sock, ssize_t	*size)
 	msg = NULL;
 	tmp = NULL;
 	*size = 0;
-	ft_printf("00DTP RCV SIZE [%d]\n", *size);
 	while (1)
 	{
 		ft_bzero(buf, BUF_SIZE + 1);
 		size_2 = *size;
 		if ((*size += recv(sock, buf, BUF_SIZE, 0)) < 0)
 			ft_printf("[*] Error receiving message from server !\n");
-		ft_printf("DTP RCV SIZE [%d]\n", *size);
 		if (*size == size_2)
 			break ;
 		if (msg != NULL)
@@ -46,9 +44,6 @@ char	*dtp_receiver(int sock, ssize_t	*size)
 			ft_memcpy(msg, buf, *size);
 		}
 	}
-	ft_printf("11DTP RCV SIZE [%d]\n", *size);
-	// for (int i = 0; i < *size; i++)
-		// ft_printf("[\'%c\'][\'%d\']\n", msg[i], msg[i]);
 	return (msg);
 }
 

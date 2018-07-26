@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/25 16:00:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 12:10:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	print_dir_content(t_vault *vault)
 	i = 1;
 	cpt = 0;
 	ft_printf("\n\033[36;1;4mDir:\033[0m\n");
-	ft_printf("001 [%p]\n", vault->s_dir_content);
 	while (vault->s_dir_content[i] != NULL)
 	{
-		ft_printf("002\n");
 		line = ft_strsplit(vault->s_dir_content[i], ' ');
 		if (line[0][0] == 'd' && line[8] != NULL)
 		{
@@ -39,7 +37,6 @@ void	print_dir_content(t_vault *vault)
 		}
 		i++;
 	}
-	ft_printf("003\n");
 	i = 1;
 	cpt = 0;
 	ft_printf("\n\n\033[36;1;4mFile:\033[0m\n");
@@ -72,7 +69,7 @@ char	*join_names(char *full_old, char *new_part)
 int		data_process(t_vault *vault, char *data)
 {
 	char	**data_lines;
-	ft_printf("DATA [%s]\n", data);
+	// ft_printf("DATA [%s]\n", data);
 	if ((data_lines = ft_strsplit(data, '\n')) == NULL)
 	{
 		ft_printf("NO DATA TO BE PRINTED");
@@ -99,9 +96,7 @@ int		cmd_ls(t_vault *vault, char *str, int	print)
 	free(str);
 	if ((data = cmd_receiver(vault->csd)) == NULL)
 	{
-		ft_printf("[Error] No data received from server "
-		"(pb sur le serveur au niveau de l'interpretation de la commande... "
-		"voir \'ls: \031: No such file or directory\'\n)");
+		ft_printf("[Error] No data received from server\n)");
 		return (-1);
 	}
 	if (vault->s_dir_content_name != NULL)
@@ -118,7 +113,7 @@ int		cmd_ls(t_vault *vault, char *str, int	print)
 	else
 	{
 		vault->csd = 0;
-		ft_printf("[*] Data conection closed\n");
+		// ft_printf("[*] Data conection closed\n");
 	}
 	// ft_printf("ICI la liste [%s]\n", data);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/29 12:26:42 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/26 12:49:48 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,11 @@ int		dispatcher(t_vault *vault, char *buff)
 	{
 		ft_printf("QUIT BYEBYE\n");
 		return (999);
-		// exit(0);
 	}
 	else
 	{
 		ft_printf("[%d] Commande non implem ", getpid());
 		sender_sock(vault, "502 \x0a\x0d");
-		// exit(0);
-		// return (999);
 	}
 
 
