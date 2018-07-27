@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 17:52:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 12:06:32 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int		prep_data(char *filename, t_file_info *file)
 int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
 {
 	char	*rsp;
-	char	*rsp2;
 	ssize_t	ret;
 
 	if ((ret = send(vault->csc, cmd, ft_strlen(cmd), 0)) < 0)
@@ -85,14 +84,15 @@ int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
 		ft_printf("[!] (1)Bad / Unhandled answer from server.\n");
 		return (-1);
 	}
+	free(rsp);
 	if ((ret = send(vault->csd, file->fdump, file->fstat.st_size, 0)) < 0)
 	{
 		ft_printf("[!] (2)Command not send or truncated. [%ld / %ld]\n", ret, file->fstat.st_size);
 		return (-1);
 	}
 	send(vault->csd, "\x0a\x0d", 2, 0);
-	rsp2 = cmd_receiver(vault->csc);
-	if (rsp2 == NULL || rsp_handler_put(rsp2) < 0)
+	rsp = cmd_receiver(vault->csc);
+	if (rsp == NULL || rsp_handler_put(rsp) < 0)
 	{
 		ft_printf("[!] (2)Bad / Unhandled answer from server.\n");
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/19 16:31:22 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 11:56:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,8 @@ int		cmd_cd(t_vault *vault, char *str)
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[FAILURE] Error sendind cd commande \n");
 	free(cmd);
-	rsp = cmd_receiver(vault->csc);
+	if ((rsp = cmd_receiver(vault->csc)) == NULL)
+		return (-1);
 	handle_cd_rsp(vault, rsp);
 	// cmd_list(vault, ft_strdup(str));
 	return (1);

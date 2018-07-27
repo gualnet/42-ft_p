@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:10:48 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 19:04:48 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 11:25:33 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ char	*cmd_receiver(int sock)
 		else if (size == 0)
 		{
 			ft_printf("\033[33m[INFO] size == 0\n\033[0m");
-			ft_printf("\033[35m NOT HANDLED\n\033[0m");
 			ft_printf("CONTENT BUF[%s]\n", buf);
 			ft_printf("CONTENT CMD[%s]\n", cmd);
+			if (cmd == NULL)
+				ft_printf("[ERROR] No response from server !\n");
 			break ;
 		}
 		else if (size > 0 && size < BUF_SIZE)

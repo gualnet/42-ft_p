@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 16:37:16 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 12:05:18 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ char	*srv_com_echange(t_vault *vault, ssize_t *size)
 	char	*rsp;
 	char	*data;
 
-	rsp = cmd_receiver(vault->csc);
+	if (rsp = cmd_receiver(vault->csc) == NULL)
+		return (NULL);
 	if (rsp_handler(rsp) < 0)
 		return (NULL);
 	free(rsp);
 	data = dtp_receiver(vault->csd, size);
-	rsp = cmd_receiver(vault->csc);
+	if ((rsp = cmd_receiver(vault->csc)) == NULL)
+		return (NULL);
 	free(rsp);
 	return (data);
 }

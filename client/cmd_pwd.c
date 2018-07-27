@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 12:07:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 12:08:36 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int		cmd_pwd(t_vault *vault, char *str, int print)
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[*] Error sendind ls command \n");
 	free(cmd);
-	cmd = cmd_receiver(vault->csc);
+	if ((cmd = cmd_receiver(vault->csc)) == NULL)
+		return (-1);
 	if ((ret = trait(vault, cmd)) < 0)
 	{
 		ft_printf("[ERROR] %s\n", cmd);
@@ -58,7 +59,8 @@ int		cmd_pwd(t_vault *vault, char *str, int print)
 		print_pwd(vault);
 	if (ret != 2)
 		return (1);
-	cmd = cmd_receiver(vault->csc);
+	if ((cmd = cmd_receiver(vault->csc)) == NULL)
+		return (-1);
 	if (trait(vault, cmd) < 0)
 	{
 		ft_printf("[ERROR] %s\n", cmd);

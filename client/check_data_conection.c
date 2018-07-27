@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 20:53:39 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 12:09:30 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 11:53:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int		check_data_conection(t_vault *vault)
 	char	*con_param;
 	char	**split;
 
-	con_param = pasv(vault);
-	split = ft_strsplit(con_param, ' ');
+	if ((con_param = pasv(vault)) == NULL)
+		return (-1);
+	if ((split = ft_strsplit(con_param, ' ')) == NULL)
+		return (-1);
 	if (split[0] != NULL && ft_strncmp("227", split[0], 3) == 0)
 	{
 		create_dtp_sock(vault, con_param);

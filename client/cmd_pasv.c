@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 15:59:16 by galy              #+#    #+#             */
-/*   Updated: 2018/07/11 12:58:25 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 11:52:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*pasv(t_vault *vault)
 	str = "PASV \r\n";
 	send(vault->csc, str, ft_strlen(str), 0);
 
-	str = cmd_receiver(vault->csc);
+	if ((str = cmd_receiver(vault->csc)) == NULL)
+		return (NULL);
 	if ((tmp = ft_strchr(str, '\r')) != NULL || \
 	(tmp = ft_strchr(str, '\n')) != NULL)
 	{

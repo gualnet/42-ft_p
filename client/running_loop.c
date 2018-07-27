@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/24 15:56:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 11:18:45 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	running_loop(t_vault *vault, char *name)
 	ft_printf("[<] ");
 	while (1)
 	{
+		ft_printf("Running loop\n");
 		tmp = NULL;
 		ft_bzero(buf, BUF_SIZE);
 		rs = read(1, buf, BUF_SIZE);
