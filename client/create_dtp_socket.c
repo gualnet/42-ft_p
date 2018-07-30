@@ -64,19 +64,16 @@ int		create_dtp_sock(t_vault *vault, char *params)
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
 
-	ft_printf("TOP00 [%d]\n", vault->csd);
 	if ((addr = bit_play(params, &port)) == NULL)
 	{
 		ft_printf("[*] Error determining addr and port for data connection\n");
 		return (-1);
 	}
 	free(params);
-	ft_printf("TOP01 [%d]\n", vault->csd);
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
 	if ((vault->csd = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
-	ft_printf("TOP02 [%d]\n", vault->csd);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	if ((sin.sin_addr.s_addr = inet_addr(addr)) == INADDR_NONE)
@@ -84,10 +81,8 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		ft_printf("ECHEC dtp sock crea\n");
 		return (-3);
 	}
-	ft_printf("TOP03 [%d]\n", vault->csd);
 	if (connect(vault->csd, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 	{
-		ft_printf("TOP04 [%d]\n", vault->csd);
 		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", vault->csd);
 		return (-4);
 	}

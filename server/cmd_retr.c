@@ -43,8 +43,11 @@ void	retr_cmd_response(t_vault *vault, int status)
 		msg = "425 Error opening data connection.\x0a\x0d";
 	else if (status == -3)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
+	else if (status == -4)
+		msg = "226 Requested file action unsuccessful, closing data connection.\x0a\x0d";
 	else
 		msg = "451 File transfer aborted, local processing error.\x0a\x0d";
+	ft_printf("[SEND] [%s]\n", msg);
 	sender_sock(vault, msg);
 }
 
@@ -71,7 +74,7 @@ int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 	// ft_printf("file path to download[%s]\n", fi->path);
 	free(tmp);
 	truncate_end_signs(fi->path);
-	ft_printf("file path to download[%s]\n", fi->path);
+	// ft_printf("file path to download[%s]\n", fi->path);
 	if ((fi->fd = open(fi->path, O_RDONLY | O_NONBLOCK)) < 0)
 	{
 		ft_printf("[ERROR] Unable to open \'%s\'", fi->path);
@@ -98,29 +101,30 @@ int		cmd_retr(t_vault *vault, char *cmd)
 		return (-1);
 	}
 	file = cmd + 5;
-	ft_printf("file to download[%s]\n", file);
+	// ft_printf("file to download[%s]\n", file);
 	if ((ret = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
 		if (ret < -1)
 			ft_printf("[%d][ERROR] Abort file transfer.\n", getpid());
-		retr_cmd_response(vault, ret); //file check.. open dtp
-		ft_printf("je quitte la func cmd_retr sur une erreur d;overture de fichier\n");
-		return (-1);
+		// retr_cmd_response(vault, ret); //file check.. open dtp
+		// ft_printf("je quitte la func cmd_retr sur une erreur d;overture de fichier\n");
+		// return (-1);
 	}
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 	{
-		ft_printf("[%d]step001\n", getpid());
+		// ft_printf("[%d]step001\n", getpid());
 		retr_cmd_response(vault, -2); // dtp connexion error
 	}
 	if (vault->csc != -1)
 	{
-		ft_printf("[%d]step002\n", getpid());
-		retr_cmd_response(vault, 2);
+		// ft_printf("[%d]step002\n", getpid());
+		retr_cmd_response(vault, ret);
 	}
 	if (vault->csd != -1)
 	{
-		ft_printf("[%d]step003\n", getpid());
-		retr_dtp_response(vault, &fi);
+		// ft_printf("[%d]step003\n", getpid());
+		if (ret > 0)
+			retr_dtp_response(vault, &fi);
 		// ft_printf("[%d]step003-2\n", getpid());
 		ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
@@ -141,7 +145,9 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	close(fi.fd);
 	munmap(fi.fdump, fi.fstat.st_size);
 	free(fi.path);
-	retr_cmd_response(vault, 3);
+	
+	if (ret > 0)
+		retr_cmd_response(vault, 3);
 
 	return (0);
 }

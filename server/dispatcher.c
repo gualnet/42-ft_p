@@ -24,7 +24,7 @@ int	cmd_auth(t_vault *vault)
 
 int		dispatcher(t_vault *vault, char *buff)
 {
-	ft_printf("\n[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
+	// ft_printf("\n[%d]====DISPATCHER====\n====%s====\n", getpid(), buff);
 	if (strncmp(buff, "AUTH", 4) == 0)
 		return (cmd_auth(vault));
 	else if (strncmp(buff, "USER", 4) == 0)

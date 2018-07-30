@@ -78,6 +78,6 @@ char	*cmd_receiver(int sock)
 			ft_printf("CONTENT CMD[%s]\n", cmd);
 		}
 	}
-	ft_printf("[DEBUG] CMD RECEIVER END[%s]\n", cmd);
+	// ft_printf("[DEBUG] CMD RECEIVER END[%s]\n", cmd);
 	return (cmd);
 }
