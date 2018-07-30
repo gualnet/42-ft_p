@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 18:34:21 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 12:42:20 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 18:47:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ int		cmd_pasv(t_vault *vault)
 {
 	if (vault->dtp_sock == 0)
 		vault->dtp_sock = create_dtp_socket(vault);
-	// ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
-	// ft_printf("vault->csd[%d]\n", vault->csd);
+
+	ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
+	ft_printf("vault->csd[%d]\n", vault->csd);
+
 	pasv_response(vault);
+
+	ft_printf("End PASV\n");
+
 	return (0);
 }

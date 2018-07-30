@@ -6,16 +6,30 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:55:14 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:05:29 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
+int		welcome_msg(t_vault *vault)
+{
+	char *welcome;
+
+	ft_printf("Waiting for server response\n");
+	welcome = cmd_receiver(vault->csc);
+	if (welcome != NULL && ft_strstr(welcome, "220 ") != NULL)
+	{
+		ft_printf("[*]Connection SUCCESS\n\n");
+		free(welcome);
+		return (1);
+	}
+	else
+		return (-1);
+}
 
 int		create_cmd_sock(t_vault *vault, char **argv)
 {
-	// int					sock;
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
 
@@ -25,27 +39,22 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 		return (-1);
 	if ((vault->csc = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
-
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(ft_atoi(argv[2]));
 	if ((sin.sin_addr.s_addr = inet_addr(argv[1])) == INADDR_NONE)
 	{
-		ft_printf("\n[*]Error code [%d]: addres not well formated\n", vault->csc);
+		ft_printf("\n[*]Error code [%d]: addres not well formated\n", \
+		vault->csc);
 		return (-3);
 	}
 	if (connect(vault->csc, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 	{
-		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", vault->csc);
+		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", \
+		vault->csc);
 		return (-4);
 	}
-
-	char *welcome;
-	ft_printf("Waiting for server response\n");
-	welcome = cmd_receiver(vault->csc);
-	if (welcome != NULL && ft_strstr(welcome, "220 ") != NULL)
-		ft_printf("[*]Connection SUCCESS\n\n");
-	else
-		return (-4);
+	if (welcome_msg(vault) != 1)
+		return (-5);
 	return (1);
 }
 

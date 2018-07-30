@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 17:04:53 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 18:42:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,11 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	close(fi.fd);
 	free(fi.path);
 	free(file_name);
+
+
+	//// TEST CLOSING DTP SOCK TO AVOID TRANSFER FAILURE
+
+	ft_printf("On arrive a la fin \n");
+
 	return (0);
 }

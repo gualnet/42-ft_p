@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 12:05:18 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:07:35 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ int		rsp_handler(char *rsp)
 	int		code;
 
 	code = ft_atoi(rsp);
+	free(rsp);
 	if (100 < code && code < 300)
 		return (1);
+	if (code > 400)
+		return (-1);
 	
 	return (-1);
 }
@@ -50,8 +53,6 @@ int		init_data_con(t_vault *vault)
 		ft_printf("Echec 001\n");
 		return (-1);
 	}
-	// else
-	// 	ft_printf("Data con init OK\n");=
 	return (1);
 }
 
@@ -60,15 +61,17 @@ char	*srv_com_echange(t_vault *vault, ssize_t *size)
 	char	*rsp;
 	char	*data;
 
-	if (rsp = cmd_receiver(vault->csc) == NULL)
+	if ((rsp = cmd_receiver(vault->csc) )== NULL)
 		return (NULL);
+	ft_printf("01 [%s]\n", rsp);
 	if (rsp_handler(rsp) < 0)
 		return (NULL);
-	free(rsp);
+	// if (init_data_con(vault) < 0)
+	// 	return (NULL);
 	data = dtp_receiver(vault->csd, size);
 	if ((rsp = cmd_receiver(vault->csc)) == NULL)
 		return (NULL);
-	free(rsp);
+	ft_printf("02 [%s]\n", rsp);
 	return (data);
 }
 
@@ -96,16 +99,18 @@ int		cmd_get_file(t_vault *vault, char *str)
 	ssize_t	size;
 
 	file_name = NULL;
-
-	// ft_printf("CMD [%s]\n", str);
-	if (init_data_con(vault) < 0)
-		return (-1);
-
 	if ((cmd = prep_cmd(str, &file_name)) == NULL)
 		return (-1);
 	free(str);
-	send(vault->csc, cmd, ft_strlen(cmd), 0);
-	str = srv_com_echange(vault, &size);
+
+	if (init_data_con(vault) < 0)
+		return (-1);
+	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
+		ft_printf("[Error] Unexpected error "
+		"while sending initial cmd to the server.\n");
+	ft_printf("00 [%s]\n", cmd);
+	if ((str = srv_com_echange(vault, &size)) == NULL)
+		return (-1);
 	if (str != NULL && size > 0)
 		data_to_file(file_name, str, size);
 

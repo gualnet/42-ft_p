@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 18:31:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 12:08:36 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:32:40 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		cmd_pwd(t_vault *vault, char *str, int print)
 	char	*cmd;
 	short	ret;
 
+	// ft_printf("====CALL PWD====\n");
 	free(str);
 	if ((cmd = ft_strdup("PWD\r\n")) == NULL)
 		return (-1);

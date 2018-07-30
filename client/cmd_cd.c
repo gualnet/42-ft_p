@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:56:26 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:32:28 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int		verif_dir(char **lines, char *str)
 	match = 0;
 	while (lines[i] != NULL)
 	{
-		if (ft_strstr(lines[i], tmp) != NULL && ft_strstr(lines[i], tmp) != lines[i])
+		if (ft_strstr(lines[i], tmp) != NULL && \
+		ft_strstr(lines[i], tmp) != lines[i])
 		{
 			inlines = ft_strsplit(lines[i], ' ');
 			while (inlines[j] != NULL)
@@ -135,13 +136,11 @@ int		cmd_cd(t_vault *vault, char *str)
 		return (-1);
 	}
 	cmd = build_cmd(str);
-	// ft_printf("\033[33mCMD_CD SEND (%d char)[%s]\n\033[0m", ft_strlen(cmd), cmd);
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[FAILURE] Error sendind cd commande \n");
 	free(cmd);
 	if ((rsp = cmd_receiver(vault->csc)) == NULL)
 		return (-1);
 	handle_cd_rsp(vault, rsp);
-	// cmd_list(vault, ft_strdup(str));
 	return (1);
 }

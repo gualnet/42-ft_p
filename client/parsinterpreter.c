@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:19:22 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 16:04:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ char	*force_cmd_toupper(char *str)
 	int		i;
 	char	*tmp;
 
-	tmp = ft_strchr(str, ' ');
+	tmp = NULL;
+	if ((tmp = ft_strchr(str, ' ')) == NULL)
+		tmp = ft_strchr(str, '\t');
 	// ft_printf("TMP+[%s]\n", tmp);
 	if (tmp == NULL)
 	{
@@ -36,7 +38,7 @@ char	*force_cmd_toupper(char *str)
 
 int		cmd_box(t_vault *vault, char *str)
 {
-	ft_printf("\n=====CMD_BOX=====\n");
+	// ft_printf("\n=====CMD_BOX=====\n");
 	// ft_printf("\n=====[%s]=====\n", str);
 	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD", 3) == 0)
@@ -52,7 +54,6 @@ int		cmd_box(t_vault *vault, char *str)
 	if (ft_strncmp(str, "PUT ", 4) == 0 || ft_strncmp(str, "PUT\t", 4) == 0)
 		return (cmd_put_file(vault, str));
 
-	
 	if (ft_strncmp(str, "HELP", 4) == 0)
 	{
 		int i = 0;
@@ -62,16 +63,15 @@ int		cmd_box(t_vault *vault, char *str)
 			ft_putchar('.');
 			i++;
 		}
-		ft_printf("\n\tSOS lol ;)\n");
+		ft_printf(" SOS ;)\n");
 		return (1);
 	}
-	
 	return (-888);
 }
 
 int		parsinterpreter(t_vault *vault, char *str)
 {
-	ft_printf("\n=====PARSINTERPRETER=====\n");
+	// ft_printf("\n=====PARSINTERPRETER=====\n");
 	char	*tmp;
 	int		ret;
 
@@ -83,8 +83,12 @@ int		parsinterpreter(t_vault *vault, char *str)
 		free(tmp);
 
 	ret = cmd_box(vault, str);
-	// if (ret == -999)
-	// 	ft_printf("ici je quitte\n");
+	if (ret < 0 && vault->csd > 2)
+	{
+		ft_printf("bingo close\n");
+		close(vault->csd);
+		vault->csd = 0;
+	}
 	if (ret == -888)
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");
 	return (ret);

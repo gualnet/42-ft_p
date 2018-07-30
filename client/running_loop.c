@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:18:45 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 12:46:51 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 char	*overflow_prot(int rs, char *buf)
 {
 	char	*tmp;
-	// char	*tmp2;
 	char	*input;
 
+	ft_printf("\t=====Overflow Prot=====\n");
 	tmp = ft_strdup(buf);
-	// ft_printf("strlen(%d)(%d)\n", ft_strlen(tmp), BUF_SIZE);
 	if (ft_strlen(tmp) >= BUF_SIZE)
 		tmp[BUF_SIZE] = '\0';
 
@@ -78,7 +77,6 @@ void	running_loop(t_vault *vault, char *name)
 	ft_printf("[<] ");
 	while (1)
 	{
-		ft_printf("Running loop\n");
 		tmp = NULL;
 		ft_bzero(buf, BUF_SIZE);
 		rs = read(1, buf, BUF_SIZE);

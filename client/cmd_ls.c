@@ -6,25 +6,48 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:54:31 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:37:05 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
 
-void	ls_cmd_response_handler(char *str)
+void	ls_cmd_response_handler(char *str, int print)
 {
 	int		code;
 
 	code = 0;
 	code = ft_atoi(str);
-	if (code == 250)
+	if (code == 250 && print != CMD_NOPRINT)
 		ft_printf("[SUCCESS] Command ended without error.\n");
 	else if (code > 400)
 		ft_printf("[ERROR] An error has occured in the server process.\n");
 	else if (code == 0)
 		ft_printf("[!] Unhandled message [%s]\n", str);
 	free(str);
+}
+
+void	print_dir_content_2(t_vault *vault, char **line)
+{
+	int		i;
+	int		cpt;
+
+	i = 1;
+	cpt = 0;
+	ft_printf("\n\n\033[37;1;4mFile:\033[0m\n");
+	while (vault->s_dir_content[i] != NULL)
+	{
+		line = ft_strsplit(vault->s_dir_content[i], ' ');
+		if (line[0][0] != 'd' && line[8] != NULL)
+			ft_printf("%s\t", line[8]);
+		ft_freestrsplited(line);
+		if (cpt != 0 && ((cpt % 4) == 0))
+		{
+			ft_printf("\n", cpt);
+			cpt = 0;
+		}
+		i++;
+	}
 }
 
 void	print_dir_content(t_vault *vault)
@@ -52,22 +75,7 @@ void	print_dir_content(t_vault *vault)
 		}
 		i++;
 	}
-	i = 1;
-	cpt = 0;
-	ft_printf("\n\n\033[36;1;4mFile:\033[0m\n");
-	while (vault->s_dir_content[i] != NULL)
-	{
-		line = ft_strsplit(vault->s_dir_content[i], ' ');
-		if (line[0][0] != 'd' && line[8] != NULL)
-			ft_printf("%s\t", line[8]);
-		ft_freestrsplited(line);
-		if (cpt != 0 && ((cpt % 4) == 0))
-		{
-			ft_printf("\n", cpt);
-			cpt = 0;
-		}
-		i++;
-	}
+	print_dir_content_2(vault, line);
 	ft_printf("\n\n");
 }
 
@@ -94,22 +102,10 @@ int		data_process(t_vault *vault, char *data)
 	return (1);
 }
 
-int		cmd_ls(t_vault *vault, char *str, int	print)
+int		cmd_ls_2(t_vault *vault, char *str, int	print)
 {
 	char	*data;
-	short	ret;
 
-	ret = check_data_conection(vault);
-	free(str);
-	if (ret < 0)
-		return (ret);
-
-	str = "LIST \r\n";
-	send(vault->csc, str, ft_strlen(str), 0);
-
-	if ((str = cmd_receiver(vault->csc)) == NULL)
-		return (-1);
-	ls_cmd_response_handler(str);
 	if ((data = cmd_receiver(vault->csd)) == NULL)
 	{
 		ft_printf("[Error] No data received from server\n)");
@@ -125,7 +121,28 @@ int		cmd_ls(t_vault *vault, char *str, int	print)
 		print_dir_content(vault);
 	if ((str = cmd_receiver(vault->csc)) == NULL)
 		return (-1);
-	ls_cmd_response_handler(str);
+	ls_cmd_response_handler(str, print);
+	return (1);
+}
+
+int		cmd_ls(t_vault *vault, char *str, int print)
+{
+	short	ret;
+
+	ret = check_data_conection(vault);
+	free(str);
+	if (ret < 0)
+		return (ret);
+
+	str = "LIST \r\n";
+	send(vault->csc, str, ft_strlen(str), 0);
+
+	if ((str = cmd_receiver(vault->csc)) == NULL)
+		return (-1);
+	ls_cmd_response_handler(str, print);
+	
+	cmd_ls_2(vault, str, print);
+
 	if (close(vault->csd) == -1)
 		ft_printf("vault->csd not closed properly\n");
 	else

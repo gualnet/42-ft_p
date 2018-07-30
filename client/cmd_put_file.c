@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 12:06:32 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/27 15:47:36 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,15 @@ char	*extract_filename(char *str)
 int		prep_data(char *filename, t_file_info *file)
 {
 	if ((file->fd = open(filename, O_RDONLY | O_NONBLOCK)) < 0)
+	{
+		ft_printf("[Error] Unable to open \'%s\'\n", filename);
 		return (-2);
+	}
 	if (fstat(file->fd, &file->fstat) == -1)
 		return (-3);
-	
 	if ((file->fdump = (void*)mmap(NULL, file->fstat.st_size, PROT_READ, \
 	MAP_FILE | MAP_PRIVATE, file->fd, 0)) == MAP_FAILED)
 		return (-4);
-	ft_printf("[dev]PREP DATA OK size [%d]\n", file->fstat.st_size);
 	return (1);
 }
 
@@ -75,7 +76,8 @@ int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
 
 	if ((ret = send(vault->csc, cmd, ft_strlen(cmd), 0)) < 0)
 	{
-		ft_printf("[!] (1)Command not send or truncated. [%ld / %ld]\n", ret, file->fstat.st_size);
+		ft_printf("[!] (1)Command not sent or truncated. [%ld / %ld]\n", \
+		ret, file->fstat.st_size);
 		return (-1);
 	}
 	rsp = cmd_receiver(vault->csc);
@@ -87,7 +89,8 @@ int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
 	free(rsp);
 	if ((ret = send(vault->csd, file->fdump, file->fstat.st_size, 0)) < 0)
 	{
-		ft_printf("[!] (2)Command not send or truncated. [%ld / %ld]\n", ret, file->fstat.st_size);
+		ft_printf("[!] (2)Command not sent or truncated. [%ld / %ld]\n", \
+		ret, file->fstat.st_size);
 		return (-1);
 	}
 	send(vault->csd, "\x0a\x0d", 2, 0);
@@ -106,28 +109,27 @@ int		cmd_put_file(t_vault *vault, char *str)
 	char		*filename;
 	t_file_info	file;
 
-	if (init_data_con_bis(vault) < 0)
-		return (-1);
 	if ((filename = extract_filename(str)) == NULL)
 		return (-1);
 	free(str);
 	int ret;
 	if ((ret = prep_data(filename, &file)) < 0)
 	{
-		ft_printf("PB IN PREP DATA...[%d]\n", ret);
+		if (ret < -2)
+			ft_printf("[Error] (%d) Abort file transfer.\n", ret);
 		return (-1);
 	}
+	if (init_data_con_bis(vault) < 0)
+		return (-1);
 	if ((cmd = ft_strjoin3("STOR ", filename, "\x0a\x0d")) == NULL)
 		return (-1);
-	free(filename);
-	srv_com_exchange_put(vault, cmd, &file);
+	if (srv_com_exchange_put(vault, cmd, &file) < 0)
+		return (-1);
 	ft_printf("[SUCCESS] \'%s\' sent.\n", filename);
+	free(filename);
 	if (close(vault->csd) == -1)
 		ft_printf("[!] Data socket not closed properly.\n");
 	else
-	{
 		vault->csd = 0;
-		// ft_printf("[*] Data conection closed\n");
-	}
 	return (1);
 }

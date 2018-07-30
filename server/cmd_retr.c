@@ -71,9 +71,12 @@ int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi)
 	// ft_printf("file path to download[%s]\n", fi->path);
 	free(tmp);
 	truncate_end_signs(fi->path);
-	// ft_printf("file path to download[%s]\n", fi->path);
+	ft_printf("file path to download[%s]\n", fi->path);
 	if ((fi->fd = open(fi->path, O_RDONLY | O_NONBLOCK)) < 0)
+	{
+		ft_printf("[ERROR] Unable to open \'%s\'", fi->path);
 		return (-1);
+	}
 	if (fstat(fi->fd, &fi->fstat) == -1)
 		return (-2);
 	if ((fi->fdump = (void*)mmap(NULL, fi->fstat.st_size, PROT_READ, \
@@ -87,6 +90,7 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	char		*file;
 	pid_t		cp_pid;
 	t_file_info	fi;
+	int			ret;
 
 	if (verif_cmd_minimum_len(cmd, ML_RETR) != 1)
 	{
@@ -95,25 +99,27 @@ int		cmd_retr(t_vault *vault, char *cmd)
 	}
 	file = cmd + 5;
 	ft_printf("file to download[%s]\n", file);
-	if ((prep_transfer_retr(vault, file, &fi)) < 0)
+	if ((ret = prep_transfer_retr(vault, file, &fi)) < 0)
 	{
-		ft_printf("[%d] Pb in prep_transfert\n", getpid());
-		retr_cmd_response(vault, 1); //file check.. open dtp
+		if (ret < -1)
+			ft_printf("[%d][ERROR] Abort file transfer.\n", getpid());
+		retr_cmd_response(vault, ret); //file check.. open dtp
+		ft_printf("je quitte la func cmd_retr sur une erreur d;overture de fichier\n");
 		return (-1);
 	}
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 	{
-		// ft_printf("[%d]step001\n", getpid());
+		ft_printf("[%d]step001\n", getpid());
 		retr_cmd_response(vault, -2); // dtp connexion error
 	}
 	if (vault->csc != -1)
 	{
-		// ft_printf("[%d]step002\n", getpid());
+		ft_printf("[%d]step002\n", getpid());
 		retr_cmd_response(vault, 2);
 	}
 	if (vault->csd != -1)
 	{
-		// ft_printf("[%d]step003\n", getpid());
+		ft_printf("[%d]step003\n", getpid());
 		retr_dtp_response(vault, &fi);
 		// ft_printf("[%d]step003-2\n", getpid());
 		ft_printf("[%d] fork dtp close\n", getpid());

@@ -29,6 +29,7 @@ int		state_machine(t_vault *vault, uint state)
 	{
 		read_sock(vault, buff);
 		state = dispatcher(vault, buff);
+		ft_printf("retour dans la state machine...\n");
 	}
 	ft_printf("quit state machine\n");
 	return (1);
