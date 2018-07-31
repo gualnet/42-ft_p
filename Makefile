@@ -28,8 +28,8 @@ LIBFLAG		=	-L./libft -lftall
 INCDIR		=	inc
 OBJDIR		=	obj
 LIBDIR		=	libft
-SRVDIR		=	server
-CLTDIR		=	client
+SRVDIR		=	src_server
+CLTDIR		=	src_client
 
 ####COLOR-SET####
 
@@ -79,10 +79,10 @@ all			:	reset_cursor make_lib OBJD serveur client
 common		: 
 
 serveur		: $(SRVOBJP)
-	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o ftp_server
+	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o serveur
 
 client		: $(CLTOBJP)
-	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o ftp_client
+	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o client
 #	@printf "$(CUR_RST)$(CGREEN)BUILD MALLOC		: SUCCESS$(CRESET)$(CUR_CLR)\n"
 
 clean		:
@@ -93,8 +93,8 @@ clean		:
 
 mini_clean	:
 
-	@$(RM) -f $(NAME)_server
-	@$(RM) -f $(NAME)_client
+	@$(RM) -f serveur
+	@$(RM) -f client
 	@$(RM) -f $(OBJP)
 	@$(RM) -rf $(OBJDIR)
 
