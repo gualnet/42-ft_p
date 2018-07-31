@@ -66,8 +66,8 @@ void	init_vault(t_vault *vault)
 {
 	// ft_printf("\t=====CALL INIT VAULT=====\n");
 	vault->dtp_sock = 0;
-	// vault->cwd = ft_strdup(".");
 	vault->cwd = loop_getcwd();
+	vault->root_wd = ft_strdup(vault->cwd);
 	
 
 }

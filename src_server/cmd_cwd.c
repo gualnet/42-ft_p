@@ -32,13 +32,21 @@ void	cwd_cmd_response(t_vault *vault, int status)
 	{
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	}
+	else if (status == -3)
+	{
+		msg = "550 Requested action not taken. "
+		"File unavailable (e.g., file not found, no access).\x0a\x0d";
+	}
 	sender_sock(vault, msg);
 }
 
 int		dot_dot(t_vault *vault)
 {
 	size_t	len;
+	char	*tmp;
 
+	if ((tmp = ft_strdup(vault->cwd)) == NULL)
+		return (-1);
 	len = ft_strlen(vault->cwd);
 	while (len != 0)
 	{
@@ -49,27 +57,30 @@ int		dot_dot(t_vault *vault)
 		}
 		len--;
 	}
-	return (0);
+	if (ft_strlen(vault->root_wd) >= ft_strlen(vault->cwd))
+	{
+		free(vault->cwd);
+		vault->cwd = tmp;
+		return (-3);
+	}
+	else
+		free(tmp);
+	return (1);
 }
 
 int		partial_path(t_vault *vault, char *cmd)
 {
 	char	*tmp;
-	// trouver ou changer pour avoir le bon path enregister dans le vault
-	ft_printf("00>vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
+
+	// ft_printf("00>vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, "/");
 	free(tmp);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, cmd + 4);
 	free(tmp);
-	// for (int i = 0; vault->cwd[i] != '\0'; i++)
-	// 	ft_printf("TEST[%d][%d][%c]\n",i,vault->cwd[i],vault->cwd[i]);
 	truncate_end_signs(vault->cwd);
-	ft_printf("-->vault->cwd [%s]\n", vault->cwd);
-	// for (int i = 0; vault->cwd[i] != '\0'; i++)
-	// 	ft_printf("TEST[%d][%d][%c]\n",i,vault->cwd[i],vault->cwd[i]);
-	
+	// ft_printf("-->vault->cwd [%s]\n", vault->cwd);
 	return (1);
 }
 
@@ -78,22 +89,14 @@ int		goto_new_rep(t_vault *vault, char *cmd)
 	char	*tmp;
 
 	if (ft_strncmp("CWD ..\x0a\x0d", cmd, ft_strlen("CWD ..\x0a\x0d")) == 0)
-	{
-		dot_dot(vault);
-		return (1);
-	}
+		return (dot_dot(vault));
 	else if (ft_strchr(cmd, '/') == NULL)
-	{
 		return (partial_path(vault, cmd));
-	}
 	free(vault->cwd);
 	vault->cwd = ft_strdup(cmd + 4);
 	tmp = ft_strchr(vault->cwd, '\r');
 	if (tmp != NULL)
-	{
 		tmp[0] = '\0';
-		// ft_printf("=========%s========\n", vault->cwd);
-	}
 	else
 		return (-1);
 	return (1);

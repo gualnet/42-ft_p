@@ -47,7 +47,7 @@ int		cmd_box(t_vault *vault, char *str)
 		return (cmd_ls(vault, str, CMD_PRINT));
 	if (ft_strncmp(str, "QUIT", 4) == 0)
 		return (cmd_quit(vault, str));
-	if (ft_strncmp(str, "CD ", 3) == 0 || ft_strncmp(str, "cd\t", 3) == 0)
+	if (ft_strncmp(str, "CD ", 3) == 0 || ft_strncmp(str, "CD\t", 3) == 0)
 		return (cmd_cd(vault, str), CMD_PRINT);
 	if (ft_strncmp(str, "GET ", 4) == 0 || ft_strncmp(str, "GET\t", 4) == 0)
 		return (cmd_get_file(vault, str));

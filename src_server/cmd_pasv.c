@@ -55,12 +55,12 @@ int		cmd_pasv(t_vault *vault)
 	if (vault->dtp_sock == 0)
 		vault->dtp_sock = create_dtp_socket(vault);
 
-	ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
-	ft_printf("vault->csd[%d]\n", vault->csd);
+	// ft_printf("vault->dtp_sock[%d]\n", vault->dtp_sock);
+	// ft_printf("vault->csd[%d]\n", vault->csd);
 
 	pasv_response(vault);
 
-	ft_printf("End PASV\n");
+	// ft_printf("End PASV\n");
 
 	return (0);
 }

@@ -38,6 +38,7 @@ typedef struct			s_vault
 	//	-----	-----	-----
 	char				*name;
 	char				*passw;
+	char				*root_wd;
 	char				*cwd;
 	//	-----	-----	-----
 	t_inet_info			n_info;

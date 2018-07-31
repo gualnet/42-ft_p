@@ -28,7 +28,7 @@ void	handle_cd_rsp(t_vault *vault, char *rsp)
 		ft_printf("[SUCCESS] %s\n", vault->s_cwd);
 	}
 	else if (code > 400 )
-		ft_printf("[FAILURE] \n");
+		ft_printf("[FAILURE] %sq", rsp);
 	else
 		ft_printf("CODE NON HANDLED\n");
 	free(rsp);
@@ -122,7 +122,7 @@ int		cmd_cd(t_vault *vault, char *str)
 	}
 	if (ft_strncmp(str + 3, ".\x0d", 2) == 0)
 	{
-		ft_printf("[SUCCESS] %s\n", vault->s_cwd);
+		ft_printf("[SUCCESS] You are already in:\n%s\n", vault->s_cwd);
 		return (1);
 	}
 	if ((ret = verif_dir(vault->s_dir_content, str)) < 0)

@@ -35,7 +35,6 @@ char	*reparsing_dir_info(char *str)
 
 void	fork_work(t_vault *vault, int *tube)
 {
-	// ft_printf("======FORK WORK=====\n");
 	dup2 (tube[1], STDOUT_FILENO);
 	close(tube[0]);
 	close(tube[1]);
@@ -45,7 +44,6 @@ void	fork_work(t_vault *vault, int *tube)
 
 char	*father_work(int *tube, pid_t pid)
 {
-	// ft_printf("======Father WORK=====\n");
 	int				ret;
 	char			*msg;
 	char			*tmp;
@@ -65,7 +63,7 @@ char	*father_work(int *tube, pid_t pid)
 	}
 	ret = 0;
 	while (ret == 0)
-		ret = wait4(pid, &ret, 0, &rusage); //wait pour la fin d'exec du fork pour faire propre
+		ret = wait4(pid, &ret, 0, &rusage);
 	return (msg);
 }
 
@@ -85,11 +83,11 @@ char	*search_dir_info(t_vault *vault)
 		ft_printf("SDI_ error creating pipe\n");
 		exit(96);
 	}
-	if (pid == 0) //fils
+	if (pid == 0)
 	{
 		fork_work(vault, tube);
 	}
-	if (pid != 0) //parent
+	if (pid != 0)
 	{
 		msg = father_work(tube, pid);
 	}
@@ -100,9 +98,7 @@ void	list_dtp_response(t_vault *vault)
 {
 	char			*msg;
 
-	// ft_printf("DIR to open [%s]\n", vault->cwd);
 	msg = search_dir_info(vault);
-	// ft_printf("INTERMED MSG[%d][%s]\n", ft_strlen(msg), msg);
 	if (ft_strlen(msg) == 0)
 		exit(99);
 	msg = reparsing_dir_info(msg);
@@ -118,22 +114,13 @@ void	list_cmd_response(t_vault *vault, int status, int wstatus)
 	if (status == 0)
 	{
 		if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)
-		{
-			// ft_printf("LE FILS A QUITTE CORRECTEMENT\n");
 			msg = "250 Requested file action completed..\x0a\x0d";
-		}
 		else if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0) || \
 		WIFSIGNALED(wstatus))
-		{
-			// ft_printf("LE FILS A QUITTE sur erreur\n");
 			msg = "451 Local error in processing...\x0a\x0d";
-		}
 		else if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 99)
-		{
-			// ft_printf("LE FILS A QUITTE Erreur le dossier n'existe pas\n");
 			msg = "450 Requested Directory action not taken. \
 			Directory unavailable...\x0a\x0d";
-		}
 	}
 	else if (status == 1)
 		msg = "125 Data connection already open; transfer starting.\x0a\x0d";
