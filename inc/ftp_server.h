@@ -6,49 +6,49 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/07/20 11:03:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/31 18:03:42 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTP_SERVER_H
 # define FTP_SERVER_H
 
-#include <sys/socket.h>
-#include <netdb.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+# include <sys/socket.h>
+# include <netdb.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
 
-#include <dirent.h>
-#include <fcntl.h>
-#include <sys/types.h> 
-#include <sys/stat.h> 
-#include <unistd.h>
-#include <sys/mman.h>
+# include <dirent.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <unistd.h>
+# include <sys/mman.h>
 
-#include "ftp_struct.h"
-#include "libft.h"
-#include "ft_printf.h"
+# include "ftp_struct.h"
+# include "libft.h"
+# include "ft_printf.h"
 
 /*
 **	Defines
 */
 
-#define R_BUFF_SIZE			1024	// read buffer size
-#define	GETCWD_BUF_SIZE		128
-#define CMD_SOCK_QUEUE		10
-#define DTP_SOCK_QUEUE		1
-#define CMD_SOCK			1
-#define DTP_SOCK			2
+# define R_BUFF_SIZE		1024
+# define GETCWD_BUF_SIZE	128
+# define CMD_SOCK_QUEUE		10
+# define DTP_SOCK_QUEUE		1
+# define CMD_SOCK			1
+# define DTP_SOCK			2
 
 /*
 **	Min Cmd Len
 */
-#define ML_MKD	7
-#define ML_CWD	5
-#define ML_RETR	8
-#define ML_STOR	6
-#define ML_DELE	8
-#define ML_RMD	8
+# define ML_MKD	7
+# define ML_CWD	5
+# define ML_RETR	8
+# define ML_STOR	6
+# define ML_DELE	8
+# define ML_RMD	8
 
 /*
 **	Func
@@ -69,8 +69,7 @@ int		wait_for_conn(t_vault *vault);
 int		verif_cmd_minimum_len(char *cmd, size_t cmd_len);
 char	*loop_getcwd(void);
 void	truncate_end_signs(char *str);
-
-//????
+char	*dtp_receiver(int sock, ssize_t	*size);
 void	list_dtp_response(t_vault *vault);
 
 int		cmd_pwd(t_vault *vault);

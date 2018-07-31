@@ -39,7 +39,12 @@ void	print_dir_content_2(t_vault *vault, char **line)
 	{
 		line = ft_strsplit(vault->s_dir_content[i], ' ');
 		if (line[0][0] != 'd' && line[8] != NULL)
-			ft_printf("%s\t", line[8]);
+		{
+			if (line[0][9] == 'x' && line[8] != NULL)
+				ft_printf("\033[31m %s\t\033[0m", line[8]);
+			else
+				ft_printf("%s\t", line[8]);
+		}
 		ft_freestrsplited(line);
 		if (cpt != 0 && ((cpt % 4) == 0))
 		{
