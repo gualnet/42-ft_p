@@ -47,21 +47,17 @@ void	stor_cmd_response(t_vault *vault, int status)
 
 int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 {
-	char	*buf[R_BUFF_SIZE + 1];
-	char	*tmp;
-	ssize_t	rs;
+	char	*data;
+	ssize_t	data_size;
 
-	while (1)
+	if ((data = dtp_receiver(vault->dtp_sock, &data_size)) == NULL)
 	{
-		ft_bzero(buf, R_BUFF_SIZE + 1);
-		rs = recv(vault->csd, buf, R_BUFF_SIZE, 0);
-		if ((tmp = ft_strstr((char*)buf, "\x0a\x0d")) != NULL)
-			write(fi->fd, buf, rs - 2);
-		else
-			write(fi->fd, buf, rs);
-		if (rs == 0 || rs < R_BUFF_SIZE)
-			break ;
+		ft_printf("[ERROR] Data reception failed\n");
+		return (-1);
 	}
+	data_size -= 2;
+	if (write(fi->fd, data, data_size) < 0)
+		ft_printf("[ERROR] Unable to write into \'%s\'\n", fi->path);
 	return (1);
 }
 
@@ -116,7 +112,8 @@ int		cmd_stor(t_vault *vault, char *cmd)
 		stor_cmd_response(vault, 2);
 	if (vault->csd != -1)
 	{
-		stor_dtp_listen(vault, &fi);
+		if (stor_dtp_listen(vault, &fi) < 0)
+			exit(1);
 		// ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}

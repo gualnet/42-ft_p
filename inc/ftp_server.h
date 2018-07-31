@@ -69,6 +69,7 @@ int		wait_for_conn(t_vault *vault);
 int		verif_cmd_minimum_len(char *cmd, size_t cmd_len);
 char	*loop_getcwd(void);
 void	truncate_end_signs(char *str);
+char	*dtp_receiver(int sock, ssize_t	*size);
 
 //????
 void	list_dtp_response(t_vault *vault);
