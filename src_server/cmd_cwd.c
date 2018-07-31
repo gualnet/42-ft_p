@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/12 21:21:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/31 18:42:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	cwd_cmd_response(t_vault *vault, int status)
 	else if (status == -3)
 	{
 		msg = "550 Requested action not taken. "
-		"File unavailable (e.g., file not found, no access).\x0a\x0d";
+		"File unavailable (e.g., file not found, no access)\x0a\x0d";
 	}
 	sender_sock(vault, msg);
 }
@@ -57,7 +57,7 @@ int		dot_dot(t_vault *vault)
 		}
 		len--;
 	}
-	if (ft_strlen(vault->root_wd) >= ft_strlen(vault->cwd))
+	if (ft_strlen(vault->root_wd) > ft_strlen(vault->cwd))
 	{
 		free(vault->cwd);
 		vault->cwd = tmp;

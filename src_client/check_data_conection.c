@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/12 20:53:39 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 11:53:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/31 18:10:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ int		check_data_conection(t_vault *vault)
 	if ((split = ft_strsplit(con_param, ' ')) == NULL)
 		return (-1);
 	if (split[0] != NULL && ft_strncmp("227", split[0], 3) == 0)
-	{
 		create_dtp_sock(vault, con_param);
-	}
 	else
 	{
 		ft_printf("Bad response from server, data "

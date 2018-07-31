@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 15:05:29 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/31 18:12:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 	sin.sin_port = htons(ft_atoi(argv[2]));
 	if ((sin.sin_addr.s_addr = inet_addr(argv[1])) == INADDR_NONE)
 	{
-		ft_printf("\n[*]Error code [%d]: addres not well formated\n", \
-		vault->csc);
+		ft_printf("\n[ERROR] Addres not well formated\n");
 		return (-3);
 	}
 	if (connect(vault->csc, (struct sockaddr*)&sin, sizeof(sin)) < 0)
 	{
-		ft_printf("\n[*]Error code [%d]: Server unreachable or too busy\n", \
-		vault->csc);
+		ft_printf("\n[ERROR] Server unreachable or too busy\n");
 		return (-4);
 	}
 	if (welcome_msg(vault) != 1)
@@ -70,8 +68,6 @@ int		main(int argc, char **argv)
 	init_vault(&vault);
 	if (create_cmd_sock(&vault, argv) < 0)
 		return (-1);
-	
 	running_loop(&vault, argv[0]);
-
 	return (1);
 }
