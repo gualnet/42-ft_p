@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:57:42 by galy              #+#    #+#             */
-/*   Updated: 2018/06/22 17:05:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/07/31 18:08:44 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,13 @@ typedef struct			s_file_info
 	char				*path;
 	int					fd;
 	void				*fdump;
-	struct stat 		fstat;
+	struct stat			fstat;
 }						t_file_info;
 
 typedef struct			s_inet_info
 {
 	struct sockaddr_in	cmd_sin;
 	struct sockaddr_in	dtp_sin;
-	// dtp_sock_addr
-	// dtp_sock_port
 }						t_inet_info;
 
 typedef struct			s_vault
@@ -35,14 +33,13 @@ typedef struct			s_vault
 	int					csd;
 	int					dtp_sock;
 	unsigned int		cslen;
-	//	-----	-----	-----
+
 	char				*name;
 	char				*passw;
 	char				*root_wd;
 	char				*cwd;
-	//	-----	-----	-----
+
 	t_inet_info			n_info;
 }						t_vault;
-
 
 #endif
