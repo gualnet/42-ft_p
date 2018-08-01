@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/31 18:46:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/01 14:53:26 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		rsp_handler(char *rsp)
 	free(rsp);
 	if (100 < code && code < 300)
 		return (1);
+	if (code == 501)
+		ft_printf("[ERROR] Bad parameter / file can't be reached.");
 	if (code > 400)
 		return (-1);
 	return (-1);

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 15:37:05 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/01 15:02:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,77 +27,10 @@ void	ls_cmd_response_handler(char *str, int print)
 	free(str);
 }
 
-void	print_dir_content_2(t_vault *vault, char **line)
-{
-	int		i;
-	int		cpt;
-
-	i = 1;
-	cpt = 0;
-	ft_printf("\n\n\033[37;1;4mFile:\033[0m\n");
-	while (vault->s_dir_content[i] != NULL)
-	{
-		line = ft_strsplit(vault->s_dir_content[i], ' ');
-		if (line[0][0] != 'd' && line[8] != NULL)
-		{
-			if (line[0][9] == 'x' && line[8] != NULL)
-				ft_printf("\033[31m %s\t\033[0m", line[8]);
-			else
-				ft_printf("%s\t", line[8]);
-		}
-		ft_freestrsplited(line);
-		if (cpt != 0 && ((cpt % 4) == 0))
-		{
-			ft_printf("\n", cpt);
-			cpt = 0;
-		}
-		i++;
-	}
-}
-
-void	print_dir_content(t_vault *vault)
-{
-	int		i;
-	char	**line;
-	int		cpt;
-
-	i = 1;
-	cpt = 0;
-	ft_printf("\n\033[36;1;4mDir:\033[0m\n");
-	while (vault->s_dir_content[i] != NULL)
-	{
-		line = ft_strsplit(vault->s_dir_content[i], ' ');
-		if (line[0][0] == 'd' && line[8] != NULL)
-		{
-			ft_printf("\033[36m%s\t\033[0m", line[8]);
-			cpt++;
-		}
-		ft_freestrsplited(line);
-		if (cpt != 0 && ((cpt % 4) == 0))
-		{
-			ft_printf("\n", cpt);
-			cpt = 0;
-		}
-		i++;
-	}
-	print_dir_content_2(vault, line);
-	ft_printf("\n\n");
-}
-
-char	*join_names(char *full_old, char *new_part)
-{
-	char	*full_new;
-
-	full_new = ft_strjoin3(full_old, "\t\n", new_part);
-	free(full_old);
-
-	return (full_new);
-}
-
 int		data_process(t_vault *vault, char *data)
 {
 	char	**data_lines;
-	// ft_printf("DATA [%s]\n", data);
+
 	if ((data_lines = ft_strsplit(data, '\n')) == NULL)
 	{
 		ft_printf("NO DATA TO BE PRINTED");
@@ -107,7 +40,7 @@ int		data_process(t_vault *vault, char *data)
 	return (1);
 }
 
-int		cmd_ls_2(t_vault *vault, char *str, int	print)
+int		cmd_ls_2(t_vault *vault, char *str, int print)
 {
 	char	*data;
 
@@ -138,23 +71,15 @@ int		cmd_ls(t_vault *vault, char *str, int print)
 	free(str);
 	if (ret < 0)
 		return (ret);
-
 	str = "LIST \r\n";
 	send(vault->csc, str, ft_strlen(str), 0);
-
 	if ((str = cmd_receiver(vault->csc)) == NULL)
 		return (-1);
 	ls_cmd_response_handler(str, print);
-	
 	cmd_ls_2(vault, str, print);
-
 	if (close(vault->csd) == -1)
 		ft_printf("vault->csd not closed properly\n");
 	else
-	{
 		vault->csd = 0;
-		// ft_printf("[*] Data conection closed\n");
-	}
-	// ft_printf("ICI la liste [%s]\n", data);
 	return (1);
 }

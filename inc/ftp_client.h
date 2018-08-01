@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/07/31 18:35:49 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/01 18:06:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ int					cmd_cd(t_vault *vault, char *str);
 int					verif_dir(char **lines, char *str);
 
 int					cmd_ls(t_vault *vault, char *str, int	print);
+void				print_dir_content(t_vault *vault);
+
 int					cmd_get_file(t_vault *vault, char *str);
 int					cmd_put_file(t_vault *vault, char *str);
+int					srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file);
 int					cmd_quit(t_vault *vault, char *str);
 
 #endif

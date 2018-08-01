@@ -6,36 +6,11 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 15:47:36 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/01 18:14:31 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_client.h"
-
-int		init_data_con_bis(t_vault *vault)
-{
-	// ft_printf("init data con START\n");
-	if (check_data_conection(vault) < 0)
-	{
-		ft_printf("Echec 001\n");
-		return (-1);
-	}
-	// else
-	// 	ft_printf("Data con init OK\n");
-	// ft_printf("init data con END\n");
-	return (1);
-}
-
-int		rsp_handler_put(char *rsp)
-{
-	int		code;
-
-	code = ft_atoi(rsp);
-	if (100 < code && code < 300)
-		return (1);
-	free(rsp);
-	return (-1);
-}
 
 char	*extract_filename(char *str)
 {
@@ -69,61 +44,35 @@ int		prep_data(char *filename, t_file_info *file)
 	return (1);
 }
 
-int		srv_com_exchange_put(t_vault *vault, char *cmd, t_file_info *file)
-{
-	char	*rsp;
-	ssize_t	ret;
-
-	if ((ret = send(vault->csc, cmd, ft_strlen(cmd), 0)) < 0)
-	{
-		ft_printf("[!] (1)Command not sent or truncated. [%ld / %ld]\n", \
-		ret, file->fstat.st_size);
-		return (-1);
-	}
-	rsp = cmd_receiver(vault->csc);
-	if (rsp == NULL || rsp_handler_put(rsp) < 0)
-	{
-		ft_printf("[!] (1)Bad / Unhandled answer from server.\n");
-		return (-1);
-	}
-	free(rsp);
-	if ((ret = send(vault->csd, file->fdump, file->fstat.st_size, 0)) < 0)
-	{
-		ft_printf("[!] (2)Command not sent or truncated. [%ld / %ld]\n", \
-		ret, file->fstat.st_size);
-		return (-1);
-	}
-	send(vault->csd, "\x0a\x0d", 2, 0);
-	rsp = cmd_receiver(vault->csc);
-	if (rsp == NULL || rsp_handler_put(rsp) < 0)
-	{
-		ft_printf("[!] (2)Bad / Unhandled answer from server.\n");
-		return (-1);
-	}
-	return (1);
-}
-
-int		cmd_put_file(t_vault *vault, char *str)
+int		cmd_put_file_2(t_vault *vault, char *filename)
 {
 	char		*cmd;
-	char		*filename;
+	int			ret;
 	t_file_info	file;
 
-	if ((filename = extract_filename(str)) == NULL)
-		return (-1);
-	free(str);
-	int ret;
 	if ((ret = prep_data(filename, &file)) < 0)
 	{
 		if (ret < -2)
 			ft_printf("[Error] (%d) Abort file transfer.\n", ret);
 		return (-1);
 	}
-	if (init_data_con_bis(vault) < 0)
+	if (check_data_conection(vault) < 0)
 		return (-1);
 	if ((cmd = ft_strjoin3("STOR ", filename, "\x0a\x0d")) == NULL)
 		return (-1);
 	if (srv_com_exchange_put(vault, cmd, &file) < 0)
+		return (-1);
+	return (1);
+}
+
+int		cmd_put_file(t_vault *vault, char *str)
+{
+	char		*filename;
+
+	if ((filename = extract_filename(str)) == NULL)
+		return (-1);
+	free(str);
+	if (cmd_put_file_2(vault, filename) < 0)
 		return (-1);
 	ft_printf("[SUCCESS] \'%s\' sent.\n", filename);
 	free(filename);
