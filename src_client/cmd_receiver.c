@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:10:48 by galy              #+#    #+#             */
-/*   Updated: 2018/08/02 17:05:51 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 18:35:21 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,41 @@ char	*rcv_step_1(char *cmd)
 	return (tmp);
 }
 
-char	*cmd_receiver(int sock)
+int		rcv_inner_loop(t_strings *bucstr)
 {
-	char	buf[BUF_SIZE + 1];
-	char	*cmd;
-	char	*tmp;
-	ssize_t	size;
-
-	cmd = NULL;
-	while (1)
+	if (bucstr->size == 0)
 	{
-		ft_bzero(buf, BUF_SIZE + 1);
-		if ((size = recv(sock, buf, BUF_SIZE, 0)) < 0)
-			ft_printf("[*] Error receiving message from server !\n");
-		if ((tmp = rcv_step_1(cmd)) == NULL)
-			return (NULL);
-		if (size == BUF_SIZE)
+		if (bucstr->cmd == NULL)
+			ft_printf("[ERROR] No response from server !\n");
+		return (1);
+	}
+	else
+	{
+		bucstr->cmd = ft_strjoin(bucstr->tmp, bucstr->buf);
+		free(bucstr->tmp);
+		if ((bucstr->tmp = ft_strchr(bucstr->cmd, '\r')) != NULL)
 		{
-			cmd = ft_strjoin(tmp, buf);
-			free(tmp);
-			if ((tmp = ft_strchr(cmd, '\r')) != NULL)
-			{
-				tmp[0] = '\0';
-				break ;
-			}
-		}
-		else if (size == 0)
-		{
-			if (cmd == NULL)
-				ft_printf("[ERROR] No response from server !\n");
-			break ;
-		}
-		else if (size > 0 && size < BUF_SIZE)
-		{
-			cmd = ft_strjoin(tmp, buf);
-			free(tmp);
-			if ((tmp = ft_strchr(cmd, '\r')) != NULL)
-				tmp[0] = '\0';
-			break ;
+			bucstr->tmp[0] = '\0';
+			return (1);
 		}
 	}
-	return (cmd);
+	return (0);
+}
+
+char	*cmd_receiver(int sock)
+{
+	t_strings	bucstr;
+
+	bucstr.cmd = NULL;
+	while (1)
+	{
+		ft_bzero(bucstr.buf, BUF_SIZE + 1);
+		if ((bucstr.size = recv(sock, bucstr.buf, BUF_SIZE, 0)) < 0)
+			ft_printf("[*] Error receiving message from server !\n");
+		if ((bucstr.tmp = rcv_step_1(bucstr.cmd)) == NULL)
+			return (NULL);
+		if (rcv_inner_loop(&bucstr) == 1)
+			break ;
+	}
+	return (bucstr.cmd);
 }

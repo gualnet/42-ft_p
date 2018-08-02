@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/08/01 18:06:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 18:38:03 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct		s_vault
 	char			*c_cwd;
 	char			*c_dir_content_name;
 	char			**c_dir_content;
-
 }					t_vault;
 
 typedef struct		s_file_info
@@ -55,6 +54,15 @@ typedef struct		s_file_info
 	struct stat		fstat;
 	unsigned long	dump_len;
 }					t_file_info;
+
+typedef struct		s_strings
+{
+	char			buf[BUF_SIZE + 1];
+	char			*cmd;
+	char			*tmp;
+	ssize_t			size;
+	int				breaker;
+}					t_strings;
 
 void				usage(char *str);
 void				running_loop(t_vault *vault, char *name);

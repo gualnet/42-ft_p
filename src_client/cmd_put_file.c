@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/08/01 18:14:31 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 18:40:15 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int		prep_data(char *filename, t_file_info *file)
 	if ((file->fdump = (void*)mmap(NULL, file->fstat.st_size, PROT_READ, \
 	MAP_FILE | MAP_PRIVATE, file->fd, 0)) == MAP_FAILED)
 		return (-4);
+	ft_printf("PREP DATA OK\n");
 	return (1);
 }
 

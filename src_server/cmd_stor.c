@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 18:42:17 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 18:58:19 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 	char	*data;
 	ssize_t	data_size;
 
+	ft_printf("\nstor_dtp_listen\n");
 	if ((data = dtp_receiver(vault->dtp_sock, &data_size)) == NULL)
 	{
 		ft_printf("[ERROR] Data reception failed\n");
 		return (-1);
 	}
+	ft_printf("\ndata received [%s]\n", data);
 	data_size -= 2;
 	if (write(fi->fd, data, data_size) < 0)
 		ft_printf("[ERROR] Unable to write into \'%s\'\n", fi->path);
@@ -114,7 +116,7 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	{
 		if (stor_dtp_listen(vault, &fi) < 0)
 			exit(1);
-		// ft_printf("[%d] fork dtp close\n", getpid());
+		ft_printf("[%d] fork dtp close\n", getpid());
 		exit(0);
 	}
 	wait_4_fork(cp_pid);

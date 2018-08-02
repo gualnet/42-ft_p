@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/01 17:58:50 by galy              #+#    #+#             */
-/*   Updated: 2018/08/01 18:19:00 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 18:45:45 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		srv_com_exchange_put_2(t_vault *vault, t_file_info *file)
 	int		ret;
 	char	*rsp;
 
+	ft_printf("DUMP[%s]\n", file->fdump);
 	if ((ret = send(vault->csd, file->fdump, file->fstat.st_size, 0)) < 0)
 	{
 		ft_printf("[!] (2)Command not sent or truncated. [%ld / %ld]\n", \
