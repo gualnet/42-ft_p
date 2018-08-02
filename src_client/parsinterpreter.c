@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/08/01 15:14:09 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 15:05:35 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ char	*force_cmd_toupper(char *str)
 	tmp = NULL;
 	if ((tmp = ft_strchr(str, ' ')) == NULL)
 		tmp = ft_strchr(str, '\t');
-	// ft_printf("TMP+[%s]\n", tmp);
 	if (tmp == NULL)
 	{
 		tmp = str + ft_strlen(str);
 	}
-	// ft_printf("TMP++[%c][%d]\n", tmp);
 	i = 0;
-	// ft_printf("str[%s]\n", str);
 	while ((str + i) < tmp)
 	{
 		str[i] = ft_toupper(str[i]);
@@ -38,9 +35,6 @@ char	*force_cmd_toupper(char *str)
 
 int		cmd_box(t_vault *vault, char *str)
 {
-	// ft_printf("\n=====CMD_BOX=====\n");
-	// ft_printf("\n=====[%s]=====\n", str);
-	// ft_printf("len(%d)\n", ft_strlen(str));
 	if (ft_strncmp(str, "PWD\x0d", 4) == 0)
 		return (cmd_pwd(vault, str, CMD_PRINT));
 	if (ft_strncmp(str, "LS\x0d", 3) == 0)
@@ -48,29 +42,16 @@ int		cmd_box(t_vault *vault, char *str)
 	if (ft_strncmp(str, "QUIT\x0d", 5) == 0)
 		return (cmd_quit(vault, str));
 	if (ft_strncmp(str, "CD ", 3) == 0 || ft_strncmp(str, "CD\t", 3) == 0)
-		return (cmd_cd(vault, str), CMD_PRINT);
+		return (cmd_cd(vault, str));
 	if (ft_strncmp(str, "GET ", 4) == 0 || ft_strncmp(str, "GET\t", 4) == 0)
 		return (cmd_get_file(vault, str));
 	if (ft_strncmp(str, "PUT ", 4) == 0 || ft_strncmp(str, "PUT\t", 4) == 0)
 		return (cmd_put_file(vault, str));
-	if (ft_strncmp(str, "HELP", 4) == 0)
-	{
-		int i = 0;
-		while (i < 4)
-		{
-			sleep(1);
-			ft_putchar('.');
-			i++;
-		}
-		ft_printf(" SOS ;)\n");
-		return (1);
-	}
 	return (-888);
 }
 
 int		parsinterpreter(t_vault *vault, char *str)
 {
-	// ft_printf("\n=====PARSINTERPRETER=====\n");
 	char	*tmp;
 	int		ret;
 

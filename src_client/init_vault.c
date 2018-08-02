@@ -6,17 +6,16 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 16:22:35 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 10:57:04 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/02 15:02:43 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"ftp_client.h"
+#include "ftp_client.h"
 
 void	free_vault(t_vault *vault)
 {
 	if (vault == NULL)
 		return ;
-	
 	if (vault->name != NULL)
 		free(vault->name);
 	if (vault->passw != NULL)
@@ -35,7 +34,7 @@ void	free_vault(t_vault *vault)
 		free(vault->c_dir_content_name);
 }
 
-void	zero_vault(t_vault *vault)
+void	init_vault(t_vault *vault)
 {
 	vault->csc = 0;
 	vault->csd = 0;
@@ -46,10 +45,4 @@ void	zero_vault(t_vault *vault)
 	vault->s_cwd = NULL;
 	vault->s_dir_content_name = NULL;
 	vault->s_dir_content = NULL;
-}
-
-void	init_vault(t_vault *vault)
-{
-	ft_printf("\t=====CALL INIT VAULT=====\n");
-	zero_vault(vault);
 }
