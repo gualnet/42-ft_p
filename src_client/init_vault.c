@@ -38,8 +38,6 @@ void	init_vault(t_vault *vault)
 {
 	vault->csc = 0;
 	vault->csd = 0;
-	vault->cmd_sock = 0;
-	vault->dtp_sock = 0;
 	vault->name = NULL;
 	vault->passw = NULL;
 	vault->s_cwd = NULL;

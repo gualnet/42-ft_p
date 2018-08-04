@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ftp_server.h"
+#include <errno.h>
 
 int		read_sock(t_vault *vault, char *buff)
 {
@@ -90,24 +91,25 @@ char	*dtp_receiver(int sock, ssize_t	*size)
 		ft_bzero(buf, R_BUFF_SIZE + 1);
 		size_2 = *size;
 		if ((*size += recv(sock, buf, R_BUFF_SIZE, 0)) < 0)
-			ft_printf("[*] Error receiving message from server !\n");
-		ft_printf("RCV[%lld] [%s]", size, buf);
-		if (*size == size_2)
-			break ;
+			ft_printf("[*] Error receiving message from client ! [%d] \n", *size);
 		if (msg != NULL)
 		{
 			tmp = msg;
-			msg = malloc(*size);
+			if ((msg = malloc(*size)) == NULL)
+				return (NULL);
 			ft_memcpy(msg, tmp, size_2);
 			ft_memcpy(msg + size_2, buf, *size - size_2);
 			free(tmp);
 		}
 		else
 		{
-			msg = malloc(*size);
+			if ((msg = malloc(*size)) == NULL)
+				return (NULL);
 			ft_memcpy(msg, buf, *size);
 		}
+		if (*size == size_2 || *size < size_2 + R_BUFF_SIZE)
+			break ;
 	}
-	ft_printf("retour de dtp_receiver\n");
+	ft_printf("\nretour de dtp_receiver [%s]\n", msg);
 	return (msg);
 }

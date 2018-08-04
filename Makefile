@@ -66,7 +66,6 @@ CLTSRC			=	\
 				cmd_get_file.c         cmd_quit.c             usage.c \
 				cmd_ls.c               cmd_receiver.c         cmd_ls_2.c \
 				create_dtp_socket.c
-
 ####FUNC####
 
 SRVOBJP		=	$(addprefix $(OBJDIR)/$(SRVDIR)/, $(SRVSRC:.c=.o))

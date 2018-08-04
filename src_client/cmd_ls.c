@@ -65,12 +65,9 @@ int		cmd_ls_2(t_vault *vault, char *str, int print)
 
 int		cmd_ls(t_vault *vault, char *str, int print)
 {
-	short	ret;
-
-	ret = check_data_conection(vault);
 	free(str);
-	if (ret < 0)
-		return (ret);
+	if (check_data_conection(vault) < 0)
+		return (-1);
 	str = "LIST \r\n";
 	send(vault->csc, str, ft_strlen(str), 0);
 	if ((str = cmd_receiver(vault->csc)) == NULL)

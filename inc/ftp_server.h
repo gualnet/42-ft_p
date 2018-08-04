@@ -33,7 +33,8 @@
 **	Defines
 */
 
-# define R_BUFF_SIZE		1024
+# define R_BUFF_SIZE		2048
+// # define R_BUFF_SIZE		1024
 # define GETCWD_BUF_SIZE	128
 # define CMD_SOCK_QUEUE		10
 # define DTP_SOCK_QUEUE		1

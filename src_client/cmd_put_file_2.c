@@ -28,13 +28,16 @@ int		srv_com_exchange_put_2(t_vault *vault, t_file_info *file)
 	int		ret;
 	char	*rsp;
 
-	ft_printf("DUMP[%s]\n", file->fdump);
-	if ((ret = send(vault->csd, file->fdump, file->fstat.st_size, 0)) < 0)
+	ft_printf("csd [%d]\n", vault->csd);
+	ft_printf("csc [%d]\n", vault->csc);
+
+	if ((ret = send(vault->csd, file->fdump, (size_t)file->fstat.st_size, 0)) < 0)
 	{
 		ft_printf("[!] (2)Command not sent or truncated. [%ld / %ld]\n", \
 		ret, file->fstat.st_size);
-		return (-1);
+		// return (-1);
 	}
+	ft_printf("RET [%d]\n", ret);
 	if (send(vault->csd, "\x0a\x0d", 2, 0) < 2)
 	{
 		ft_printf("[ERROR] Unable to send the command.\n");

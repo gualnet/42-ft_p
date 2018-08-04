@@ -55,12 +55,12 @@ int		wait_for_conn(t_vault *vault)
 			ft_printf("New connection accepted...\n");
 			if ((cp_pid = create_child_dtp_process(vault)) > 0)
 			{
-				// ft_printf("[%d] Parent BREAKING LOOP\n", getpid());
+				ft_printf("[%d] Parent BREAKING LOOP\n", getpid());
 				break ;
 			}
 			else
 			{
-				// ft_printf("[%d] Child BREAKING LOOP\n", getpid());
+				ft_printf("[%d] Child BREAKING LOOP\n", getpid());
 				break ;
 			}
 		}

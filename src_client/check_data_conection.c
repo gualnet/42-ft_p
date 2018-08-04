@@ -22,7 +22,10 @@ int		check_data_conection(t_vault *vault)
 	if ((split = ft_strsplit(con_param, ' ')) == NULL)
 		return (-1);
 	if (split[0] != NULL && ft_strncmp("227", split[0], 3) == 0)
-		create_dtp_sock(vault, con_param);
+	{
+		if (create_dtp_sock(vault, con_param) < 0)
+			return (-1);
+	}
 	else
 	{
 		ft_printf("Bad response from server, data "

@@ -57,8 +57,6 @@ int		cmd_put_file_2(t_vault *vault, char *filename)
 			ft_printf("[Error] (%d) Abort file transfer.\n", ret);
 		return (-1);
 	}
-	if (check_data_conection(vault) < 0)
-		return (-1);
 	if ((cmd = ft_strjoin3("STOR ", filename, "\x0a\x0d")) == NULL)
 		return (-1);
 	if (srv_com_exchange_put(vault, cmd, &file) < 0)
@@ -70,6 +68,8 @@ int		cmd_put_file(t_vault *vault, char *str)
 {
 	char		*filename;
 
+	if (check_data_conection(vault) < 0)
+		return (-1);
 	if ((filename = extract_filename(str)) == NULL)
 		return (-1);
 	free(str);

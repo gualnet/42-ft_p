@@ -87,11 +87,14 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		ft_printf("[*] Error determining addr and port for data connection\n");
 		return (-1);
 	}
+	ft_printf("Addr [%s] Params [%s]\n", addr, params);
 	free(params);
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
+	ft_printf("vault->csd [%d]\n", vault->csd);
 	if ((vault->csd = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
+	ft_printf("vault->csd [%d]\n", vault->csd);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	if ((sin.sin_addr.s_addr = inet_addr(addr)) == INADDR_NONE)
@@ -99,5 +102,7 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		ft_printf("ECHEC dtp sock crea\n");
 		return (-3);
 	}
-	return (dtp_connect(vault, sin));
+	if (dtp_connect(vault, sin) < 0)
+		return (-4);
+	return (1);
 }

@@ -33,9 +33,6 @@ typedef struct		s_vault
 	int				csc;
 	int				csd;
 
-	int				cmd_sock;
-	int				dtp_sock;
-
 	char			*name;
 	char			*passw;
 	char			*s_cwd;
