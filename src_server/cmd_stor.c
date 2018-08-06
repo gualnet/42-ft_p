@@ -50,14 +50,11 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 	ssize_t	data_size;
 
 	data_size = 0;
-	ft_printf("\nstor_dtp_listen\n");
-	ft_printf("\nvault->dtp_sock [%d], SIZE [%d] \n", vault->dtp_sock, data_size);
 	if ((data = dtp_receiver(vault->csd, &data_size)) == NULL)
 	{
 		ft_printf("[ERROR] Data reception failed\n");
 		return (-1);
 	}
-	ft_printf("\ndata received/size [%s]/[%d]\n", data, data_size);
 	data_size -= 2;
 	if (write(fi->fd, data, data_size) < 0)
 		ft_printf("[ERROR] Unable to write into \'%s\'\n", fi->path);
@@ -75,7 +72,6 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 		tmp[0] = '\0';
 	else
 		return (-5);
-	ft_printf("file path to download[%s]\n", fi->path);
 	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT, 0640)) < 0)
 		return (-1);
 	return (1);
@@ -129,11 +125,6 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	close(fi.fd);
 	free(fi.path);
 	free(file_name);
-
-
 	//// TEST CLOSING DTP SOCK TO AVOID TRANSFER FAILURE
-
-	ft_printf("On arrive a la fin \n");
-
 	return (0);
 }

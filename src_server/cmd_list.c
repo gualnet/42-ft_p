@@ -24,7 +24,7 @@ char	*reparsing_dir_info(char *str)
 	tmp = banana[0];
 	while (banana[i] != NULL)
 	{
-		tmp = ft_strjoin(tmp, "\n");
+		tmp = ft_strjoin(tmp, " \n ");
 		msg = ft_strjoin(tmp, banana[i]);
 		free(tmp);
 		tmp = msg;
@@ -99,9 +99,11 @@ void	list_dtp_response(t_vault *vault)
 	char			*msg;
 
 	msg = search_dir_info(vault);
+	ft_printf("info: [%s]\n", msg);
 	if (ft_strlen(msg) == 0)
 		exit(99);
 	msg = reparsing_dir_info(msg);
+	ft_printf("info: [%s]\n", msg);
 	sender_dtp(vault, msg);
 	free(msg);
 }
