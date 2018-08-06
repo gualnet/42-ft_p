@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 18:47:07 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:13:52 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 17:45:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rmd_cmd_response(t_vault *vault, int status)
 {
-	char *msg;
+	char	*msg;
 
 	msg = "";
 	if (status == 1)
@@ -32,20 +32,20 @@ void	rmd_cmd_response(t_vault *vault, int status)
 
 int		del_dir(char *dir)
 {
-	pid_t	pid;
-	int		status;
-	int		option;
-	struct	rusage rusage;
+	pid_t			pid;
+	int				status;
+	int				option;
+	struct rusage	rusage;
 
 	option = 0;
-	if ((pid = fork()) < 0) //echec
+	if ((pid = fork()) < 0)
 		return (-4);
-	if (pid == 0) // fork
+	if (pid == 0)
 	{
 		execl("/bin/rm", "rm", "-r", dir, NULL);
 		exit(0);
 	}
-	if (pid != 0) // father
+	if (pid != 0)
 		wait4(pid, &status, option, &rusage);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{

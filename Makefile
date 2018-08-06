@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/02 16:44:06 by galy             ###   ########.fr        #
+#    Updated: 2018/08/06 18:05:52 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,12 @@ CUR_CLR		=	\033[K
 SRVSRC			=	\
 				create_child.c		create_server.c		server.c		usage.c \
 				init_connexion.c	state_machine.c		reader_sender.c verif_cmd_form.c \
-				dispatcher.c		data_ex_ch.c		\
+				dispatcher.c		data_ex_ch.c		cmd_list_2.c	cmd_retr_2.c \
 				cmd_user_pass.c		cmd_type.c			cmd_syst.c		cmd_pwd.c \
 				cmd_pasv.c			cmd_list.c			cmd_cwd.c		cmd_stor.c \
 				cmd_retr.c			cmd_mkd.c			cmd_noop.c		cmd_mode.c \
-				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c
+				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c \
+				create_socket.c
 
 CLTSRC			=	\
 				check_data_conection.c cmd_pasv.c             dtp_receiver.c \

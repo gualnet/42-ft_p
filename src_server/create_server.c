@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:52:10 by galy              #+#    #+#             */
-/*   Updated: 2018/07/27 18:26:44 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 18:04:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,10 @@ void	reg_vault_sin_param(t_vault *vault, int port, int sock_type)
 	}
 }
 
-int		new_socket(t_vault *vault, int port, int sock_type)
+int		type_spe(int sock, int sock_type)
 {
-	int					sock;
-	int					ret_l;
-	struct protoent		*proto;
-	struct sockaddr_in	*sin; //socket address info internet form - here the cmd sock
+	int		ret_l;
 
-	if ((proto = getprotobyname("tcp")) == NULL)
-		return (-1);
-	if ((sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
-		return (-2);
-
-	reg_vault_sin_param(vault, port, sock_type);
-	if (sock_type == CMD_SOCK)
-		sin = &vault->n_info.cmd_sin;
-	if (sock_type == DTP_SOCK)
-		sin = &vault->n_info.dtp_sin;
-	if (bind(sock, (const struct sockaddr*)sin, sizeof(*sin)) < 0)
-	{
-		ft_printf("Binding error\n");
-		return (-1);
-	}
 	if (sock_type == CMD_SOCK)
 		ret_l = listen(sock, CMD_SOCK_QUEUE);
 	else if (sock_type == DTP_SOCK)
@@ -59,17 +41,43 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 		ft_printf("Listening error\n");
 		return (-1);
 	}
+	return (1);
+}
+
+/*
+** socket address info internet form - here the cmd sock
+*/
+
+int		new_socket(t_vault *vault, int port, int sock_type)
+{
+	int					sock;
+	struct protoent		*proto;
+	struct sockaddr_in	*sin;
+
+	if ((proto = getprotobyname("tcp")) == NULL)
+		return (-1);
+	if ((sock = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
+		return (-2);
+	reg_vault_sin_param(vault, port, sock_type);
+	if (sock_type == CMD_SOCK)
+		sin = &vault->n_info.cmd_sin;
+	if (sock_type == DTP_SOCK)
+		sin = &vault->n_info.dtp_sin;
+	if (bind(sock, (const struct sockaddr*)sin, sizeof(*sin)) < 0)
+	{
+		ft_printf("Binding error\n");
+		return (-3);
+	}
+	if (type_spe(sock, sock_type) == -1)
+		return (-4);
 	return (sock);
 }
 
 void	init_vault(t_vault *vault)
 {
-	// ft_printf("\t=====CALL INIT VAULT=====\n");
 	vault->dtp_sock = 0;
 	vault->cwd = loop_getcwd();
 	vault->root_wd = ft_strdup(vault->cwd);
-	
-
 }
 
 int		create_server(t_vault *vault, int port)
@@ -85,32 +93,6 @@ int		create_server(t_vault *vault, int port)
 	}
 	cmd_pwd(vault);
 	ft_printf("Server is listening on port :%d\n", \
-	ntohs(vault->n_info.cmd_sin.sin_port) );
-	return (sock);
-}
-
-int		create_dtp_socket(t_vault *vault)
-{
-	int	sock;
-	int i;
-	int port;
-
-	i = 1;
-	while (i < 10)
-	{
-		port = ntohs(vault->n_info.cmd_sin.sin_port);
-		port += i * 2;
-		ft_printf("DTP PORT [%d] - ", port);
-		if ((sock = new_socket(vault, port, DTP_SOCK)) > 1)
-			break ;
-		i++;
-	}
-	if (sock < 1)
-	{
-		ft_printf("new dtp socket error (sock[%d])\n", sock);
-		return (-1);
-	}
-	ft_printf("Data transfert socket listening on port :%d\n", \
-	ntohs(vault->n_info.dtp_sin.sin_port) );
+	ntohs(vault->n_info.cmd_sin.sin_port));
 	return (sock);
 }

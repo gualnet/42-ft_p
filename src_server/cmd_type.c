@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 15:50:35 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 16:04:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 17:54:47 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	type_response(t_vault *vault)
 	char *msg;
 
 	msg = "200 \x0a\x0d";
-	
 	sender_sock(vault, msg);
 }
 

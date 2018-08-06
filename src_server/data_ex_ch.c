@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 18:23:01 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 12:47:56 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 18:56:21 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,21 @@
 pid_t	create_child_dtp_process(t_vault *vault)
 {
 	pid_t	cp_pid;
-	
+
 	if ((cp_pid = fork()) < 0)
 	{
-		ft_printf("DATA fork failed..\n");
+		ft_printf("[ERROR] Fork for data process failed.\n");
 		return (-1);
 	}
-	else if (cp_pid > 0) // if parent
+	else if (cp_pid > 0)
 	{
-		// ft_printf("[%d][%d]father closing dtp\n", (int)getpid(), (int)getppid());
 		close(vault->csd);
 		vault->csd = -1;
 	}
-	else // sinon fils
+	else
 	{
-		ft_printf("DATA fork successed: PID[%d] - PPID[%d]\n", (int)getpid(), (int)getppid());
-		// ft_printf("[%d][%d]fork closing cmd\n", (int)getpid(), (int)getppid());
 		close(vault->csc);
 		vault->csc = -1;
-
 	}
 	return (cp_pid);
 }
@@ -45,25 +41,43 @@ int		wait_for_conn(t_vault *vault)
 
 	while (1)
 	{
-		if ((vault->csd = accept(vault->dtp_sock, (struct sockaddr*)&csin, &(vault->cslen))) < 0)
+		if ((vault->csd = accept(vault->dtp_sock, \
+		(struct sockaddr*)&csin, &(vault->cslen))) < 0)
 		{
-			ft_printf("Accept error\n");
+			ft_printf("[ERROR] New connection not accepted.\n");
 			return (-1);
 		}
 		else
 		{
-			ft_printf("New connection accepted...\n");
-			if ((cp_pid = create_child_dtp_process(vault)) > 0)
-			{
-				ft_printf("[%d] Parent BREAKING LOOP\n", getpid());
-				break ;
-			}
-			else
-			{
-				ft_printf("[%d] Child BREAKING LOOP\n", getpid());
-				break ;
-			}
+			ft_printf("[INFO] New connection accepted from\n"
+			"From: [%s]\n", inet_ntoa(csin.sin_addr)); // pb a la premiere connexion
+			cp_pid = create_child_dtp_process(vault);
+			break ;
 		}
 	}
 	return (cp_pid);
+}
+
+int		wait_for_cmd_conn(t_vault *vault, int cmd_sock)
+{
+	struct sockaddr_in	csin;
+
+	while (1)
+	{
+		if ((vault->csc = accept(cmd_sock, \
+		(struct sockaddr*)&csin, &(vault->cslen))) < 0)
+		{
+			ft_printf("[ERROR] New connection not accepted.\n");
+			return (-1);
+		}
+		else
+		{
+			sleep(1);
+			ft_printf("[INFO] New connection from"
+			" [%s]\n", inet_ntoa(csin.sin_addr));
+			if (create_child_process(vault) < 0)
+				break ;
+		}
+	}
+	return (1);
 }

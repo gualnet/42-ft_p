@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 17:46:48 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 19:04:53 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 14:21:22 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	dele_cmd_response(t_vault *vault, int status)
 	if (status == 1)
 		msg = "250 Requested file action completed.\x0a\x0d";
 	else if (status == -1)
-		msg = "451 Requested file action aborted, local processing error.\x0a\x0d";
+		msg = "451 Requested file action aborted, "
+		"local processing error.\x0a\x0d";
 	else if (status == -2)
 		msg = "450 Requested file action not taken, file unavailable\x0a\x0d";
 	else if (status == -5)
@@ -42,27 +43,23 @@ char	*prep_file_name(char *cmd)
 
 int		del_file(char *file)
 {
-	pid_t	pid;
-	int		status;
-	int		option;
-	struct	rusage rusage;
+	pid_t			pid;
+	int				status;
+	int				option;
+	struct rusage	rusage;
 
 	option = 0;
-	if ((pid = fork()) < 0) //echec
+	if ((pid = fork()) < 0)
 		return (-4);
-	if (pid == 0) // fork
+	if (pid == 0)
 	{
 		execl("/bin/rm", "rm", file, NULL);
 		exit(0);
 	}
-	if (pid != 0) // father
+	if (pid != 0)
 		wait4(pid, &status, option, &rusage);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-	{
-		// ft_printf("le fichier \"%s\" n'est pas dispo return[%d]\n", file);
 		return (-2);
-	}
-	// ft_printf("le fichier \"%s\" a ete supp return[%d]\n", file);
 	return (1);
 }
 

@@ -6,16 +6,15 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:51:46 by galy              #+#    #+#             */
-/*   Updated: 2018/06/28 10:29:04 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 17:56:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
 
-
 void	user_response(t_vault *vault, int num)
 {
-	char *msg;
+	char	*msg;
 
 	if (num == 1)
 		msg = "331 Please specify the password\x0a\x0d";
@@ -24,14 +23,13 @@ void	user_response(t_vault *vault, int num)
 	else if (num == -1)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
 	else
-		msg = "451 Requested action aborted: local error in processing\x0a\x0d";	// error in param command
-
+		msg = "451 Requested action aborted local error in processing\x0a\x0d";
 	sender_sock(vault, msg);
 }
 
 int		cmd_user(t_vault *vault, char *cmd)
 {
-	int i;
+	int	i;
 
 	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
@@ -54,7 +52,7 @@ int		cmd_user(t_vault *vault, char *cmd)
 int		cmd_pass(t_vault *vault, char *cmd)
 {
 	int i;
-	
+
 	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
 		user_response(vault, -1);

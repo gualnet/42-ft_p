@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:44:23 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 17:42:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 18:42:20 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	free_vault(t_vault *vault)
 int		main(int argc, char **argv)
 {
 	int					port;
-	int					sock;
-	struct sockaddr_in	csin;
+	int					cmd_sock;
 	t_vault				vault;
 	
 	if (argc != 2)
@@ -37,38 +36,69 @@ int		main(int argc, char **argv)
 
 	ft_printf("[INFO] MASTER PROCESS PID: [%d]\n", (int)getpid());
 	port = ft_atoi(argv[1]);
-	if ((sock = create_server(&vault, port)) < 0)
+	if ((cmd_sock = create_server(&vault, port)) < 0)
 		return (-1);
-	while (1)
-	{
-		if ((vault.csc = accept(sock, (struct sockaddr*)&csin, &(vault.cslen))) < 0)
-		{
-			ft_printf("Accept error\n");
-			return (-1);
-		}
-		else
-		{
-			ft_printf("[%d] (1)New connection accepted...\n", getpid());
-			if (create_child_process(&vault) > 0)
-			{
-				printf("[%d] Continue master loop\n", (int)getpid());
-			}
-			else
-			{
-				ft_printf("[%d] BREAKING LOOP\n", getpid());
-				break ;
-			}
-		}
-	}
-	// ft_printf("\nOUT LOOP\n");
+	wait_for_cmd_conn(&vault, cmd_sock);
+	ft_printf("\nOUT LOOP\n");
 	if (vault.csc != -1)
 	{
 		ft_printf("[%d] closing client socket connector\n", getpid());
 		close(vault.csc);
 	}
-	close(sock);
+	close(cmd_sock);
 	ft_printf("[%d] closing socket\n", getpid());
-	free_vault(&vault);
+	// free_vault(&vault);
 	ft_printf("[%d] the end\n", getpid());
 	return (1);
 }
+
+// int		main(int argc, char **argv)
+// {
+// 	int					port;
+// 	int					sock;
+// 	struct sockaddr_in	csin;
+// 	t_vault				vault;
+	
+// 	if (argc != 2)
+// 	{
+// 		usage(argv[0]);
+// 		return (-1);
+// 	}
+
+// 	ft_printf("[INFO] MASTER PROCESS PID: [%d]\n", (int)getpid());
+// 	port = ft_atoi(argv[1]);
+// 	if ((sock = create_server(&vault, port)) < 0)
+// 		return (-1);
+// 	while (1)
+// 	{
+// 		if ((vault.csc = accept(sock, (struct sockaddr*)&csin, &(vault.cslen))) < 0)
+// 		{
+// 			ft_printf("Accept error\n");
+// 			return (-1);
+// 		}
+// 		else
+// 		{
+// 			ft_printf("[%d] (1)New connection accepted...\n", getpid());
+// 			if (create_child_process(&vault) > 0)
+// 			{
+// 				printf("[%d] Continue master loop\n", (int)getpid());
+// 			}
+// 			else
+// 			{
+// 				ft_printf("[%d] BREAKING LOOP\n", getpid());
+// 				break ;
+// 			}
+// 		}
+// 	}
+// 	// ft_printf("\nOUT LOOP\n");
+// 	if (vault.csc != -1)
+// 	{
+// 		ft_printf("[%d] closing client socket connector\n", getpid());
+// 		close(vault.csc);
+// 	}
+// 	close(sock);
+// 	ft_printf("[%d] closing socket\n", getpid());
+// 	free_vault(&vault);
+// 	ft_printf("[%d] the end\n", getpid());
+// 	return (1);
+// }

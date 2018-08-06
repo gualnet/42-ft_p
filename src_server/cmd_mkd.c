@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 19:30:13 by galy              #+#    #+#             */
-/*   Updated: 2018/06/26 18:47:48 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 14:27:04 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	mkd_cmd_response(t_vault *vault, int status)
 {
-	char *msg;
+	char	*msg;
 
 	msg = "";
 	if (status == 1)
@@ -23,49 +23,45 @@ void	mkd_cmd_response(t_vault *vault, int status)
 		msg = "451 File transfer aborted, local processing error.\x0a\x0d";
 	else if (status == -5)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
-	sender_sock(vault, msg);	
+	sender_sock(vault, msg);
 }
 
 int		create_dir(char *dir_name)
 {
-	pid_t	pid;
-	int		status;
-	int		option;
-	struct	rusage rusage;
+	pid_t			pid;
+	int				status;
+	int				option;
+	struct rusage	rusage;
 
 	option = 0;
-	if ((pid = fork()) < 0) //echec
-	{
-		// ft_printf("MKD fork failed\n");
+	if ((pid = fork()) < 0)
 		return (-4);
-	}
-	if (pid == 0) // fork
+	if (pid == 0)
 	{
 		execl("/bin/mkdir", "mkdir", "-p", dir_name, NULL);
 		exit(0);
 	}
-	if (pid != 0) // father
+	if (pid != 0)
 		wait4(pid, &status, option, &rusage);
 	return (1);
 }
 
 char	*prep_dir_creat(char *cmd)
 {
-	char *dir;
-	char *tmp;
+	char	*dir;
+	char	*tmp;
 
 	if ((dir = ft_strdup(cmd + 4)) == NULL)
 		return (NULL);
 	if ((tmp = ft_strchr(dir, '\r')) != NULL)
 		tmp[0] = '\0';
 	return (dir);
-	
 }
 
 int		cmd_mkd(t_vault *vault, char *cmd)
 {
-	int ret;
-	char *tmp;
+	int		ret;
+	char	*tmp;
 
 	ret = 0;
 	if (verif_cmd_minimum_len(cmd, ML_MKD) != 1)

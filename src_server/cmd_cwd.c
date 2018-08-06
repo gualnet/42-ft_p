@@ -6,37 +6,33 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/07/31 18:42:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 14:18:54 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ftp_server.h"
 
-// 501 Erreur de syntaxe dans le paramètres ou arguments.
-// 550 Service fichier non traité. Fichier non accessible (ex., fichier non trouvé, accèsrefusé).
+/*
+** 501 Erreur de syntaxe dans le paramètres ou arguments.
+** 550 Service fichier non traité. Fichier non accessible
+**	(ex., fichier non trouvé, accèsrefusé).
+*/
 
 void	cwd_cmd_response(t_vault *vault, int status)
 {
 	char *msg;
-	
+
 	msg = "";
 	if (status == 1)
-	{
 		msg = "212 Directory status.\x0a\x0d";
-	}
 	else if (status == -1)
-	{
-		msg = "451 Requested action aborted, local error in processing.\x0a\x0d";
-	}
+		msg = "451 Requested action aborted, "
+		"local error in processing.\x0a\x0d";
 	else if (status == -2)
-	{
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
-	}
 	else if (status == -3)
-	{
 		msg = "550 Requested action not taken. "
 		"File unavailable (e.g., file not found, no access)\x0a\x0d";
-	}
 	sender_sock(vault, msg);
 }
 
@@ -72,7 +68,6 @@ int		partial_path(t_vault *vault, char *cmd)
 {
 	char	*tmp;
 
-	// ft_printf("00>vault->cwd [%p][%s]\n", vault->cwd, vault->cwd);
 	tmp = vault->cwd;
 	vault->cwd = ft_strjoin(tmp, "/");
 	free(tmp);
@@ -80,7 +75,6 @@ int		partial_path(t_vault *vault, char *cmd)
 	vault->cwd = ft_strjoin(tmp, cmd + 4);
 	free(tmp);
 	truncate_end_signs(vault->cwd);
-	// ft_printf("-->vault->cwd [%s]\n", vault->cwd);
 	return (1);
 }
 

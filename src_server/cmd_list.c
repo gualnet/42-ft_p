@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/17 15:18:27 by galy              #+#    #+#             */
-/*   Updated: 2018/07/26 12:49:13 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/06 14:24:25 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*reparsing_dir_info(char *str)
 
 void	fork_work(t_vault *vault, int *tube)
 {
-	dup2 (tube[1], STDOUT_FILENO);
+	dup2(tube[1], STDOUT_FILENO);
 	close(tube[0]);
 	close(tube[1]);
 	execl("/bin/ls", "ls", "-la", vault->cwd, NULL);
@@ -84,62 +84,19 @@ char	*search_dir_info(t_vault *vault)
 		exit(96);
 	}
 	if (pid == 0)
-	{
 		fork_work(vault, tube);
-	}
 	if (pid != 0)
-	{
 		msg = father_work(tube, pid);
-	}
 	return (ft_strdup(msg));
-}
-
-void	list_dtp_response(t_vault *vault)
-{
-	char			*msg;
-
-	msg = search_dir_info(vault);
-	ft_printf("info: [%s]\n", msg);
-	if (ft_strlen(msg) == 0)
-		exit(99);
-	msg = reparsing_dir_info(msg);
-	ft_printf("info: [%s]\n", msg);
-	sender_dtp(vault, msg);
-	free(msg);
-}
-
-void	list_cmd_response(t_vault *vault, int status, int wstatus)
-{
-	char *msg;
-	
-	msg = "";
-	if (status == 0)
-	{
-		if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)
-			msg = "250 Requested file action completed..\x0a\x0d";
-		else if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0) || \
-		WIFSIGNALED(wstatus))
-			msg = "451 Local error in processing...\x0a\x0d";
-		else if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 99)
-			msg = "450 Requested Directory action not taken. \
-			Directory unavailable...\x0a\x0d";
-	}
-	else if (status == 1)
-		msg = "125 Data connection already open; transfer starting.\x0a\x0d";
-	else if (status == 2)
-		msg = "250 Requested file action completed.\x0a\x0d";
-	else if (status == 5)
-		msg = "425 Error opening data connection.\x0a\x0d";
-	sender_sock(vault, msg);
 }
 
 int		cmd_list(t_vault *vault)
 {
-	int		status;
-	int		option;
-	struct	rusage rusage;
-	pid_t	cp_pid;
-	
+	int				status;
+	int				option;
+	pid_t			cp_pid;
+	struct rusage	rusage;
+
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 		list_cmd_response(vault, 5, 0);
 	if (vault->csc != -1)
