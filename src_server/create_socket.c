@@ -23,17 +23,16 @@ int		create_dtp_socket(t_vault *vault)
 	{
 		port = ntohs(vault->n_info.cmd_sin.sin_port);
 		port += i * 2;
-		ft_printf("DTP PORT [%d] - ", port);
 		if ((sock = new_socket(vault, port, DTP_SOCK)) > 1)
 			break ;
 		i++;
 	}
 	if (sock < 1)
 	{
-		ft_printf("new dtp socket error (sock[%d])\n", sock);
+		ft_printf("[ERROR] Unable to create a new data socket (%d).\n", sock);
 		return (-1);
 	}
-	ft_printf("Data transfert socket listening on port :%d\n", \
+	ft_printf("[INFO] New data transfert socket listening on port : %d.\n", \
 	ntohs(vault->n_info.dtp_sin.sin_port));
 	return (sock);
 }

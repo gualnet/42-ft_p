@@ -75,12 +75,12 @@ char	*search_dir_info(t_vault *vault)
 
 	if (pipe(tube) == -1)
 	{
-		ft_printf("SDI_ error creating pipe\n");
+		ft_printf("[ERROR] SDI_ fork com...\n");
 		exit(97);
 	}
 	if ((pid = fork()) == -1)
 	{
-		ft_printf("SDI_ error creating pipe\n");
+		ft_printf("[ERROR] Fork failed to create.\n");
 		exit(96);
 	}
 	if (pid == 0)

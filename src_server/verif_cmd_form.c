@@ -19,7 +19,7 @@
 
 int		verif_cmd_minimum_len(char *cmd, size_t cmd_len)
 {
-	size_t size;
+	size_t	size;
 
 	if ((size = ft_strlen(cmd)) < cmd_len)
 	{
@@ -27,5 +27,4 @@ int		verif_cmd_minimum_len(char *cmd, size_t cmd_len)
 		return (-1);
 	}
 	return (1);
-
 }

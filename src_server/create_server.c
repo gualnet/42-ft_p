@@ -64,35 +64,39 @@ int		new_socket(t_vault *vault, int port, int sock_type)
 	if (sock_type == DTP_SOCK)
 		sin = &vault->n_info.dtp_sin;
 	if (bind(sock, (const struct sockaddr*)sin, sizeof(*sin)) < 0)
-	{
-		ft_printf("Binding error\n");
 		return (-3);
-	}
 	if (type_spe(sock, sock_type) == -1)
 		return (-4);
 	return (sock);
 }
 
-void	init_vault(t_vault *vault)
+int		init_vault(t_vault *vault)
 {
 	vault->dtp_sock = 0;
-	vault->cwd = loop_getcwd();
-	vault->root_wd = ft_strdup(vault->cwd);
+	if ((vault->cwd = loop_getcwd()) == NULL)
+	{
+		ft_printf("[ERROR] Initialisation failed..\n");
+		return (-1);
+	}
+	else
+		vault->root_wd = ft_strdup(vault->cwd);
+	return (1);
 }
 
 int		create_server(t_vault *vault, int port)
 {
 	int	sock;
 
-	init_vault(vault);
+	if (init_vault(vault) < 0)
+		return (-1);
 	sock = new_socket(vault, port, CMD_SOCK);
 	if (sock < 1)
 	{
-		ft_printf("new server socket error\n");
+		ft_printf("[ERROR] Unable to create a new "
+		"socket on port [%d] (err %d)\n", port, sock);
 		return (-1);
 	}
-	cmd_pwd(vault);
-	ft_printf("Server is listening on port :%d\n", \
+	ft_printf("[INFO] Server is listening on port [%d]\n", \
 	ntohs(vault->n_info.cmd_sin.sin_port));
 	return (sock);
 }

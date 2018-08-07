@@ -83,7 +83,7 @@ void	pasv_response(t_vault *vault)
 	char *msg;
 	char *tmp;
 
-	test_gethostbyname(); // test
+	// test_gethostbyname(); // test
 	msg = build_pasive_addr(vault);
 	tmp = ft_strjoin("227 ", msg);
 	free(msg);

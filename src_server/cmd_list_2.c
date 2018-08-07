@@ -17,11 +17,11 @@ void	list_dtp_response(t_vault *vault)
 	char			*msg;
 
 	msg = search_dir_info(vault);
-	ft_printf("info: [%s]\n", msg);
+	// ft_printf("info: [%s]\n", msg);
 	if (ft_strlen(msg) == 0)
 		exit(99);
 	msg = reparsing_dir_info(msg);
-	ft_printf("info: [%s]\n", msg);
+	// ft_printf("info: [%s]\n", msg);
 	sender_dtp(vault, msg);
 	free(msg);
 }

@@ -14,11 +14,9 @@
 
 int		init_connexion(t_vault *vault)
 {
-	char *snd_msg = "220 \x0a\x0d";
-	
-	// ft_printf("[%d]Send :[%s]\n", getpid(), snd_msg);
+	char *msg;
 
-	sender_sock(vault, snd_msg);
-	
+	msg = "220 \x0a\x0d";
+	sender_sock(vault, msg);
 	return (0);
 }

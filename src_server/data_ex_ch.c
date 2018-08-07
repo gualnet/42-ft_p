@@ -49,8 +49,8 @@ int		wait_for_conn(t_vault *vault)
 		}
 		else
 		{
-			ft_printf("[INFO] New connection accepted from\n"
-			"From: [%s]\n", inet_ntoa(csin.sin_addr)); // pb a la premiere connexion
+			// ft_printf("[INFO] New data connection accepted from\n"
+			// "From: [%s]\n", inet_ntoa(csin.sin_addr));
 			cp_pid = create_child_dtp_process(vault);
 			break ;
 		}
@@ -72,8 +72,7 @@ int		wait_for_cmd_conn(t_vault *vault, int cmd_sock)
 		}
 		else
 		{
-			sleep(1);
-			ft_printf("[INFO] New connection from"
+			ft_printf("[INFO] New cmd connection from"
 			" [%s]\n", inet_ntoa(csin.sin_addr));
 			if (create_child_process(vault) < 0)
 				break ;
