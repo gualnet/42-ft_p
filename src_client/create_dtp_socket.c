@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:48:14 by galy              #+#    #+#             */
-/*   Updated: 2018/08/02 14:57:01 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 18:30:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	*bit_play(char *params, int *port)
 		i++;
 	}
 	tmp2 = bit_play_2(port, split, tmp2, tmp3);
-	ft_printf("RETURN BITPLAY [%s]\n", tmp2);
 	return (tmp2);
 }
 
@@ -87,14 +86,11 @@ int		create_dtp_sock(t_vault *vault, char *params)
 		ft_printf("[*] Error determining addr and port for data connection\n");
 		return (-1);
 	}
-	ft_printf("Addr [%s] Params [%s]\n", addr, params);
 	free(params);
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
-	ft_printf("vault->csd [%d]\n", vault->csd);
 	if ((vault->csd = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
-	ft_printf("vault->csd [%d]\n", vault->csd);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	if ((sin.sin_addr.s_addr = inet_addr(addr)) == INADDR_NONE)

@@ -6,11 +6,11 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/06 18:05:52 by galy             ###   ########.fr        #
+#    Updated: 2018/08/08 19:44:51 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY		: serveur, client
+.PHONY		: serveur client
 
 NAME		=	ftp
 CC			=	gcc
@@ -57,7 +57,7 @@ SRVSRC			=	\
 				cmd_pasv.c			cmd_list.c			cmd_cwd.c		cmd_stor.c \
 				cmd_retr.c			cmd_mkd.c			cmd_noop.c		cmd_mode.c \
 				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c \
-				create_socket.c
+				create_socket.c		dtp_receiver.c
 
 CLTSRC			=	\
 				check_data_conection.c cmd_pasv.c             dtp_receiver.c \
@@ -75,22 +75,23 @@ CLTOBJP		=	$(addprefix $(OBJDIR)/$(CLTDIR)/, $(CLTSRC:.c=.o))
 
 ####RULEZ####
 
-all			:	reset_cursor make_lib OBJD serveur client
+all			:	reset_screen serveur client
 
-common		: 
+serveur		:  make_lib save_cursor $(SRVOBJP)
+	@$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $(SRVOBJP) -o serveur
+	@printf "$(CUR_RST)$(CGREEN)BUILD FT_P SERVER	: SUCCESS$(CRESET)$(CUR_CLR)\n"
+	@printf "$(CUR_SVE)"
 
-serveur		: $(SRVOBJP)
-	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o serveur
-
-client		: $(CLTOBJP)
-	$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $^ -o client
-#	@printf "$(CUR_RST)$(CGREEN)BUILD MALLOC		: SUCCESS$(CRESET)$(CUR_CLR)\n"
+client		: make_lib save_cursor $(CLTOBJP)
+	@$(CC) $(CFLAGS) -I$(INCDIR) $(LIBFLAG) $(CLTOBJP) -o client
+	@printf "$(CUR_RST)$(CGREEN)BUILD FT_P CLIENT	: SUCCESS$(CRESET)$(CUR_CLR)\n"
+	@printf "$(CUR_SVE)"
 
 clean		:
 	@make clean - C $(LIBDIR)
 	@$(RM) -f $(OBJP)
 	@$(RM) -rf $(OBJDIR)
-#	@printf "$(CYELLOW)MALLOC	: CLEANED$(CRESET)\n"
+#	@printf "$(CYELLOW)FTP	: CLEANED$(CRESET)\n"
 
 mini_clean	:
 
@@ -100,32 +101,49 @@ mini_clean	:
 	@$(RM) -rf $(OBJDIR)
 
 fclean		: mini_clean
-	# @make fclean -C $(LIBDIR)
-	@printf "$(CYELLOW)RAZ MALLOC	: Ok$(CRESET)\n"
+	@make fclean -C $(LIBDIR)
+	@printf "$(CYELLOW)RAZ FT_P	: Ok$(CRESET)\n"
 	@printf "\n"
 
 re			: fclean all
 
+# - Clear the screen, move to (0,0):
+#   \033[2J
+# - Erase to end of line:
+#   \033[K
+
+# - Save cursor position:
+#   \033[s
+# - Restore cursor position:
+#   \033[u
 
 ####MORE_RULEZ####
 
 $(OBJDIR)/$(SRVDIR)/%.o	:	$(SRVDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)/$(SRVDIR)
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@printf "$(CUR_RST)$(CYELLOW)BUILD FT_P SERVER	: $<$(CRESET)$(CUR_CLR)\n"
 
 $(OBJDIR)/$(CLTDIR)/%.o	:	$(CLTDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR)/$(CLTDIR)
 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+	@printf "$(CUR_RST)$(CYELLOW)BUILD FT_P CLIENT	: $<$(CRESET)$(CUR_CLR)\n"
 
-# $(OBJDIR)/$(CLTDIR)/%.o	:	$(CLTDIR)/%.c
-# 	@$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
-#	@printf "$(CUR_RST)$(CUR_SVE)$(CYELLOW)BUILD MALLOC		: $<$(CRESET)$(CUR_CLR)"
 
 make_lib	:
 	@make -C $(LIBDIR)
 
-reset_cursor :
+save_cursor :
 	@printf "$(CUR_SVE)"
 
-OBJD		:
-	@mkdir -p $(OBJDIR)
-	@mkdir -p $(OBJDIR)/$(SRVDIR)
-	@mkdir -p $(OBJDIR)/$(CLTDIR)
+reset_screen :
+	@printf "\033[2J"
+	@printf "\033[500A"
+	
+
+# OBJD		:
+#	@mkdir -p $(OBJDIR)
+#	@mkdir -p $(OBJDIR)/$(SRVDIR)
+#	@mkdir -p $(OBJDIR)/$(CLTDIR)

@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/18 18:23:01 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 18:56:21 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 18:34:03 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int		wait_for_conn(t_vault *vault)
 		}
 		else
 		{
-			// ft_printf("[INFO] New data connection accepted from\n"
-			// "From: [%s]\n", inet_ntoa(csin.sin_addr));
 			cp_pid = create_child_dtp_process(vault);
 			break ;
 		}

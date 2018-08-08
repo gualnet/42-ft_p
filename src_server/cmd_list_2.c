@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 14:24:10 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 14:37:39 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 18:31:32 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void	list_dtp_response(t_vault *vault)
 	char			*msg;
 
 	msg = search_dir_info(vault);
-	// ft_printf("info: [%s]\n", msg);
 	if (ft_strlen(msg) == 0)
 		exit(99);
 	msg = reparsing_dir_info(msg);
-	// ft_printf("info: [%s]\n", msg);
 	sender_dtp(vault, msg);
 	free(msg);
 }

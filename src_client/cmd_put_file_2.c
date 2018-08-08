@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/01 17:58:50 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 15:57:05 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 18:29:11 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		rsp_handler_put(char *rsp)
 int		srv_com_exchange_put_2(t_vault *vault, t_file_info *file)
 {
 	int		ret;
-	// char	*rsp;
 
 	if ((ret = send(vault->csd, file->fdump, \
 	(size_t)file->fstat.st_size, 0)) < 0)
@@ -40,15 +39,6 @@ int		srv_com_exchange_put_2(t_vault *vault, t_file_info *file)
 		ft_printf("[ERROR] Unable to send the command.\n");
 		return (-1);
 	}
-	ft_printf("02COUCOU\n");
-	// rsp = cmd_receiver(vault->csc);
-	ft_printf("03COUCOU\n");
-	// if (rsp == NULL || rsp_handler_put(rsp) < 0)
-	// {
-	// 	ft_printf("[!] (2)Bad / Unhandled answer from server.\n");
-	// 	return (-1);
-	// }
-	ft_printf("04COUCOU\n");
 	return (1);
 }
 

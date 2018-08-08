@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 17:40:09 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 18:33:24 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 		ft_printf("[ERROR] Data reception failed\n");
 		return (-1);
 	}
-	// data_size -= 2;
 	if (write(fi->fd, data, data_size) < 0)
 		ft_printf("[ERROR] Unable to write into \'%s\'\n", fi->path);
 	return (1);
@@ -70,7 +69,6 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
-	
 	free(tmp);
 	if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
 		tmp[-1] = '\0';
