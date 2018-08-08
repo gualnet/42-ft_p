@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 17:50:36 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 17:40:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	stor_cmd_response(t_vault *vault, int status)
 		msg = "425 Error opening data connection.\x0a\x0d";
 	else if (status == -5)
 		msg = "501 Syntax error in parameters or arguments\x0a\x0d";
+	ft_printf("MSG TO SEND [%s]\n", msg);
 	sender_sock(vault, msg);
 }
 
@@ -57,7 +58,7 @@ int		stor_dtp_listen(t_vault *vault, t_file_info *fi)
 		ft_printf("[ERROR] Data reception failed\n");
 		return (-1);
 	}
-	data_size -= 2;
+	// data_size -= 2;
 	if (write(fi->fd, data, data_size) < 0)
 		ft_printf("[ERROR] Unable to write into \'%s\'\n", fi->path);
 	return (1);
@@ -69,9 +70,10 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
+	
 	free(tmp);
 	if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
-		tmp[0] = '\0';
+		tmp[-1] = '\0';
 	else
 		return (-5);
 	if ((fi->fd = open(fi->path, O_RDWR | O_NONBLOCK | O_CREAT, 0640)) < 0)
@@ -79,7 +81,7 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 	return (1);
 }
 
-void	stor_father_son_work(t_vault *vault, t_file_info *fi, pid_t cp_pid)
+void	stor_father_fork_work(t_vault *vault, t_file_info *fi, pid_t cp_pid)
 {
 	int				status;
 	int				option;
@@ -87,13 +89,9 @@ void	stor_father_son_work(t_vault *vault, t_file_info *fi, pid_t cp_pid)
 
 	option = 0;
 	if (vault->csc != -1)
-	{
-		ft_printf("ENV CMD ");
 		stor_cmd_response(vault, 2);
-	}
 	if (vault->csd != -1)
 	{
-		ft_printf("ENV DTP ");
 		if (stor_dtp_listen(vault, fi) < 0)
 			exit(1);
 		ft_printf("[%d] fork dtp close\n", getpid());
@@ -121,7 +119,7 @@ int		cmd_stor(t_vault *vault, char *cmd)
 		return (-1);
 	if ((cp_pid = wait_for_conn(vault)) == -1)
 		stor_cmd_response(vault, -2);
-	stor_cmd_response(vault, 3);
+	stor_father_fork_work(vault, &fi, cp_pid);
 	close(fi.fd);
 	free(fi.path);
 	free(file_name);

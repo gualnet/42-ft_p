@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/06 14:24:10 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 14:25:16 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 14:37:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	list_cmd_response(t_vault *vault, int status, int wstatus)
 			Directory unavailable...\x0a\x0d";
 	}
 	else if (status == 1)
-		msg = "125 Data connection already open; transfer starting.\x0a\x0d";
+		msg = "125 Data connection already opened, transfer starting.\x0a\x0d";
 	else if (status == 2)
 		msg = "250 Requested file action completed.\x0a\x0d";
 	else if (status == 5)

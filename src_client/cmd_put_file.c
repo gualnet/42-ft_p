@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/08/02 18:40:15 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/08 15:27:53 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ int		cmd_put_file_2(t_vault *vault, char *filename)
 
 	if ((ret = prep_data(filename, &file)) < 0)
 	{
+		ft_printf("00COUCOU\n");
 		if (ret < -2)
 			ft_printf("[Error] (%d) Abort file transfer.\n", ret);
 		return (-1);
 	}
+	ft_printf("01COUCOU\n");
 	if ((cmd = ft_strjoin3("STOR ", filename, "\x0a\x0d")) == NULL)
 		return (-1);
 	if (srv_com_exchange_put(vault, cmd, &file) < 0)
