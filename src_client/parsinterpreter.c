@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/08/02 15:05:35 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/09 15:36:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ int		cmd_box(t_vault *vault, char *str)
 		return (cmd_get_file(vault, str));
 	if (ft_strncmp(str, "PUT ", 4) == 0 || ft_strncmp(str, "PUT\t", 4) == 0)
 		return (cmd_put_file(vault, str));
+	if (ft_strncmp(str, "MKD ", 4) == 0 || ft_strncmp(str, "MKD\t", 4) == 0)
+		return (cmd_mkd(vault, str));
+	if (ft_strncmp(str, "RMD ", 4) == 0 || ft_strncmp(str, "RMD\t", 4) == 0)
+		return (cmd_rmd(vault, str));
 	return (-888);
 }
 

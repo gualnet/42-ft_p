@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/08 19:44:51 by galy             ###   ########.fr        #
+#    Updated: 2018/08/09 15:37:39 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ CLTSRC			=	\
 				cmd_cd_2.c             cmd_pwd.c              running_loop.c \
 				cmd_get_file.c         cmd_quit.c             usage.c \
 				cmd_ls.c               cmd_receiver.c         cmd_ls_2.c \
-				create_dtp_socket.c
+				create_dtp_socket.c    cmd_mkd.c              cmd_rmd.c
 ####FUNC####
 
 SRVOBJP		=	$(addprefix $(OBJDIR)/$(SRVDIR)/, $(SRVSRC:.c=.o))
@@ -101,7 +101,7 @@ mini_clean	:
 	@$(RM) -rf $(OBJDIR)
 
 fclean		: mini_clean
-	@make fclean -C $(LIBDIR)
+	# @make fclean -C $(LIBDIR)
 	@printf "$(CYELLOW)RAZ FT_P	: Ok$(CRESET)\n"
 	@printf "\n"
 

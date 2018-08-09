@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 19:30:13 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 14:27:04 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/09 15:00:59 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ int		cmd_mkd(t_vault *vault, char *cmd)
 		mkd_cmd_response(vault, -5);
 	else if ((tmp = prep_dir_creat(cmd)) == NULL)
 		mkd_cmd_response(vault, -4);
-	else if ((ret = create_dir(tmp)) < 0)
+	else
+	{
+		ret = create_dir(tmp);
 		mkd_cmd_response(vault, ret);
-	mkd_cmd_response(vault, ret);
+	}
 	return (1);
 }

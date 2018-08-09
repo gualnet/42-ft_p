@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/07/31 18:12:17 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/09 14:30:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		welcome_msg(t_vault *vault)
 {
 	char *welcome;
 
-	ft_printf("Waiting for server response\n");
 	welcome = cmd_receiver(vault->csc);
 	if (welcome != NULL && ft_strstr(welcome, "220 ") != NULL)
 	{
@@ -28,20 +27,44 @@ int		welcome_msg(t_vault *vault)
 		return (-1);
 }
 
+char	*verified_addr(char **argv)
+{
+	char	*tmp1;
+	char	*tmp2;
+	int		i;
+
+	if ((tmp1 = ft_strdup(argv[1])) == NULL)
+		return (NULL);
+	if ((tmp2 = ft_strtrim(tmp1)) == NULL)
+		return (NULL);
+	free(tmp1);
+	i = 0;
+	while (tmp2[i] != '\0')
+	{
+		tmp2[i] = ft_tolower(tmp2[i]);
+		i++;
+	}
+	if (ft_strcmp("localhost", tmp2) == 0)
+		return ("TRUE");
+	free(tmp2);
+	return (NULL);
+}
+
 int		create_cmd_sock(t_vault *vault, char **argv)
 {
 	struct protoent		*proto;
 	struct sockaddr_in	sin;
+	char				*v_addr;
 
-	ft_printf("[*]Connecting to [%s : %s] : ", argv[1], argv[2]);
-	vault->csd = 0;
+	ft_printf("[*]Connecting to [%s : %s]...\n", argv[1], argv[2]);
+	v_addr = (verified_addr(argv) == NULL) ? argv[1] : "127.0.0.1";
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
 	if ((vault->csc = socket(PF_INET, SOCK_STREAM, proto->p_proto)) < 0)
 		return (-2);
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(ft_atoi(argv[2]));
-	if ((sin.sin_addr.s_addr = inet_addr(argv[1])) == INADDR_NONE)
+	if ((sin.sin_addr.s_addr = inet_addr(v_addr)) == INADDR_NONE)
 	{
 		ft_printf("\n[ERROR] Addres not well formated\n");
 		return (-3);
