@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 18:59:54 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/09 15:50:38 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,17 @@
 /*
 **	Defines
 */
-#ifdef __gnu_linux__
-	#define SYST_ID	1
-#endif
-#ifdef __APPLE__
-	#define SYST_ID	2
-#endif
-#ifdef __MACH__
-	#define SYST_ID	2
-#endif
+# ifdef __gnu_linux__
+#  define SYST_ID	1
+# endif
+# ifdef __APPLE__
+#  define SYST_ID	2
+# endif
+# ifdef __MACH__
+#  define SYST_ID	2
+# endif
 
 # define R_BUFF_SIZE		2048
-// # define R_BUFF_SIZE		1024
 # define GETCWD_BUF_SIZE	128
 # define CMD_SOCK_QUEUE		10
 # define DTP_SOCK_QUEUE		1

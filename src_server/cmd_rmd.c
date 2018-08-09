@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/26 18:47:07 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 17:45:09 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/09 15:45:17 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int		del_dir(char *dir)
 		wait4(pid, &status, option, &rusage);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 	{
-		ft_printf("le dir \"%s\" n'est pas dispo return[%d]\n", dir);
+		ft_printf("[ERROR] rmd dir \"%s\"\n", dir);
 		return (-2);
 	}
-	ft_printf("le dir \"%s\" a ete supp return[%d]\n", dir);
+	ft_printf("Dir \"%s\" removed.\n", dir);
 	return (1);
 }
 
@@ -83,7 +83,6 @@ int		cmd_rmd(t_vault *vault, char *cmd)
 		rmd_cmd_response(vault, -1);
 		return (-1);
 	}
-	ft_printf("DIR TO DELETE[%s]\n", dir);
 	ret = del_dir(dir);
 	rmd_cmd_response(vault, ret);
 	free(dir);
