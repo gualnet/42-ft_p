@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 15:50:38 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/10 15:39:10 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	list_dtp_response(t_vault *vault);
 char	*search_dir_info(t_vault *vault);
 char	*reparsing_dir_info(char *str);
 int		prep_transfer_retr(t_vault *vault, char *file, t_file_info *fi);
+int		check_path_validity(t_vault *vault, char *req_path);
+void	cwd_cmd_response(t_vault *vault, int status);
 
 int		cmd_pwd(t_vault *vault);
 int		cmd_syst(t_vault *vault);
