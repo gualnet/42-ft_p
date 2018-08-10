@@ -21,9 +21,6 @@ char	*build_pasive_addr(t_vault *vault)
 	int					port;
 
 	sin = &vault->n_info.dtp_sin;
-	/*
-	** BESOIN D'UN PLAN POUR RECUP L'IP
-	*/
 	if (ntohs(sin->sin_port) != 0)
 		msg = "127,0,0,1,";
 	else
