@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/10 15:38:41 by galy             ###   ########.fr        #
+#    Updated: 2018/08/20 18:01:11 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@
 NAME		=	ftp
 CC			=	gcc
 
-# CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-Wall -Werror -Wextra
+# CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
 # CFLAGS		=	-Wall -Werror -Wextra -g
-CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
 # CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
 
 LIBFLAG		=	-L./libft -lftall
@@ -90,10 +90,9 @@ client		: make_lib save_cursor $(CLTOBJP)
 	@printf "$(CUR_SVE)"
 
 clean		:
-	@make clean - C $(LIBDIR)
-	@$(RM) -f $(OBJP)
-	@$(RM) -rf $(OBJDIR)
-#	@printf "$(CYELLOW)FTP	: CLEANED$(CRESET)\n"
+	@make clean -C $(LIBDIR)
+	@$(RM) -r $(OBJDIR)
+	@printf "$(CYELLOW)FTP	: CLEANED$(CRESET)\n"
 
 mini_clean	:
 
@@ -103,21 +102,12 @@ mini_clean	:
 	@$(RM) -rf $(OBJDIR)
 
 fclean		: mini_clean
-	# @make fclean -C $(LIBDIR)
+	@make fclean -C $(LIBDIR)
 	@printf "$(CYELLOW)RAZ FT_P	: Ok$(CRESET)\n"
 	@printf "\n"
 
 re			: fclean all
 
-# - Clear the screen, move to (0,0):
-#   \033[2J
-# - Erase to end of line:
-#   \033[K
-
-# - Save cursor position:
-#   \033[s
-# - Restore cursor position:
-#   \033[u
 
 ####MORE_RULEZ####
 

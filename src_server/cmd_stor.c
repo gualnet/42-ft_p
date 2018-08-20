@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 08:49:15 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 18:33:24 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 17:58:50 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ int		prep_transfer_stor(t_vault *vault, char *file_name, t_file_info *fi)
 	tmp = ft_strjoin(vault->cwd, "/");
 	fi->path = ft_strjoin(tmp, file_name);
 	free(tmp);
-	if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
+	if ((tmp = ft_strstr(fi->path, "\x0a\x0d")) != NULL)
+		tmp[0] = '\0';
+	else if ((tmp = ft_strchr(fi->path, '\x0a')) != NULL)
 		tmp[-1] = '\0';
 	else
 		return (-5);
@@ -105,12 +107,14 @@ int		cmd_stor(t_vault *vault, char *cmd)
 	int			ret;
 	pid_t		cp_pid;
 
+	ft_printf("CMD [%s]\n", cmd);
 	if (verif_cmd_minimum_len(cmd, ML_STOR) != 1)
 	{
 		stor_cmd_response(vault, -5);
 		return (-1);
 	}
 	file_name = ft_strdup(cmd + 5);
+	ft_printf("filename [%s]\n", file_name);
 	if ((ret = prep_transfer_stor(vault, file_name, &fi)) < 0)
 		stor_cmd_response(vault, ret);
 	if (ret < 0)

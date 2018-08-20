@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/09 15:02:06 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 15:42:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 16:34:28 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		check_folder_name(char *folder)
 {
 	int		i;
 
-	ft_printf("folder [%s]\n", folder);
 	i = 0;
 	while (folder[i] != '\0')
 	{
@@ -48,6 +47,7 @@ int		cmd_mkd(t_vault *vault, char *str)
 	if (check_folder_name(str + 4) != 1)
 	{
 		ft_printf("[ERROR] The folder name contain non printable char\n");
+		free(str);
 		return (0);
 	}
 	if (send(vault->csc, str, ft_strlen(str), 0) != (ssize_t)ft_strlen(str))
@@ -59,5 +59,6 @@ int		cmd_mkd(t_vault *vault, char *str)
 		handle_mkd_rsp(rsp);
 		free(rsp);
 	}
+	free(str);
 	return (1);
 }

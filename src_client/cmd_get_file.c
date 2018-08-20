@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/16 17:56:17 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 15:23:37 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 17:07:08 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*prep_cmd(char *str, char **file)
 	return (cmd);
 }
 
-char	*srv_com_echange(t_vault *vault, ssize_t *size)
+char	*srv_com_echange(t_vault *vault, ssize_t *size, char *file_name)
 {
 	char	*rsp;
 	char	*data;
@@ -51,10 +51,14 @@ char	*srv_com_echange(t_vault *vault, ssize_t *size)
 	if ((rsp = cmd_receiver(vault->csc)) == NULL)
 		return (NULL);
 	if (rsp_handler(rsp) < 0)
+	{
+		free(file_name);
 		return (NULL);
+	}
 	data = dtp_receiver(vault->csd, size);
 	if ((rsp = cmd_receiver(vault->csc)) == NULL)
 		return (NULL);
+	free(rsp);
 	return (data);
 }
 
@@ -71,6 +75,7 @@ int		data_to_file(char *file_name, char *data, ssize_t size)
 	close(fd);
 	free(data);
 	ft_printf("[SUCCESS] \'%s\' created.\n", file_name);
+	free(file_name);
 	return (1);
 }
 
@@ -89,16 +94,14 @@ int		cmd_get_file(t_vault *vault, char *str)
 	if (send(vault->csc, cmd, ft_strlen(cmd), 0) < 0)
 		ft_printf("[Error] Unexpected error "
 		"while sending initial cmd to the server.\n");
-	if ((str = srv_com_echange(vault, &size)) == NULL)
+	free(cmd);
+	if ((str = srv_com_echange(vault, &size, file_name)) == NULL)
 		return (-1);
 	if (str != NULL && size > 0)
 		data_to_file(file_name, str, size);
 	if (close(vault->csd) == -1)
 		ft_printf("[!] Data socket not closed properly.\n");
 	else
-	{
 		vault->csd = 0;
-		ft_printf("[*] Data conection closed\n");
-	}
 	return (1);
 }

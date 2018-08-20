@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 16:28:28 by galy              #+#    #+#              #
-#    Updated: 2018/07/11 12:16:52 by galy             ###   ########.fr        #
+#    Updated: 2018/08/20 18:02:35 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ CUR_RST		=	\033[u
 CUR_CLR		=	\033[K
 
 OBJLIBFT	=	$(addprefix $(DIRLIBFT)/, $(SRCLIBFT:.c=.o))
-OBJGNL	=	$(addprefix $(DIRGNL)/, $(SRCGNL:.c=.o))
+OBJGNL		=	$(addprefix $(DIRGNL)/, $(SRCGNL:.c=.o))
 OBJFTPRINTF	=	$(addprefix $(DIRFTPRINTF)/, $(SRCFTPRINTF:.c=.o))
 
 all : reset_cursor $(NAME)
@@ -91,7 +91,6 @@ clean :
 	@printf "$(CYELLOW)LIBFT	: CLEANED $(CRESET)\n"
 
 fclean :
-	@printf "$(CMAGENTA) call fclean libftall $(CRESET)\n"
 	@make fclean -C ./libft
 	@make fclean -C ./get_next_line
 	@make fclean -C ./ft_printf

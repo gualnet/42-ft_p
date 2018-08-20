@@ -6,12 +6,16 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 18:57:42 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 18:39:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 14:38:05 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FTP_STRUCT_H
 # define FTP_STRUCT_H
+
+/*
+**	Struct
+*/
 
 typedef struct			s_file_info
 {

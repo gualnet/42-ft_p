@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 18:48:14 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 18:30:24 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 16:00:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,9 @@ int		create_dtp_sock(t_vault *vault, char *params)
 	sin.sin_family = AF_INET;
 	sin.sin_port = htons(port);
 	if ((sin.sin_addr.s_addr = inet_addr(addr)) == INADDR_NONE)
-	{
-		ft_printf("ECHEC dtp sock crea\n");
 		return (-3);
-	}
 	if (dtp_connect(vault, sin) < 0)
 		return (-4);
+	free(addr);
 	return (1);
 }

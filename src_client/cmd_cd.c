@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/07/31 18:35:08 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 16:51:14 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ int		cmd_cd(t_vault *vault, char *str)
 		ft_printf("[FAILURE] Error in parameters\n");
 		return (-1);
 	}
-	return (cmd_cd_2(vault, str));
 	free(str);
+	return (cmd_cd_2(vault, str));
 }

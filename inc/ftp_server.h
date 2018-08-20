@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:47:37 by galy              #+#    #+#             */
-/*   Updated: 2018/08/10 15:39:10 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 14:49:56 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 /*
 **	Defines
 */
+
 # ifdef __gnu_linux__
 #  define SYST_ID	1
 # endif
@@ -53,12 +54,13 @@
 /*
 **	Min Cmd Len
 */
-# define ML_MKD	7
-# define ML_CWD	5
+
+# define ML_MKD		7
+# define ML_CWD		5
 # define ML_RETR	8
 # define ML_STOR	6
 # define ML_DELE	8
-# define ML_RMD	8
+# define ML_RMD		7
 
 /*
 **	Func

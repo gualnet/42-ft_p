@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/29 12:39:59 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 15:36:39 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 17:11:20 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,13 @@ int		parsinterpreter(t_vault *vault, char *str)
 	ret = cmd_box(vault, str);
 	if (ret < 0 && vault->csd > 2)
 	{
-		ft_printf("bingo close\n");
 		close(vault->csd);
 		vault->csd = 0;
 	}
 	if (ret == -888)
+	{
+		free(str);
 		ft_printf("\n[*] Unvalid commande see \"help\"\n");
+	}
 	return (ret);
 }
