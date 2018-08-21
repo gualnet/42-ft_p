@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/08/20 16:51:14 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/21 16:54:48 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		cmd_cd_2(t_vault *vault, char *str)
 	char	*cmd;
 	char	*rsp;
 
+	ft_printf("STR [%s]\n");
 	if ((cmd = build_cmd(str)) == NULL)
 	{
 		ft_printf("[ERROR] Unable to send the command\n");
@@ -81,6 +82,7 @@ int		cmd_cd_2(t_vault *vault, char *str)
 	if ((rsp = cmd_receiver(vault->csc)) == NULL)
 		return (-1);
 	handle_cd_rsp(vault, rsp);
+	free(str);
 	return (1);
 }
 
@@ -108,6 +110,5 @@ int		cmd_cd(t_vault *vault, char *str)
 		ft_printf("[FAILURE] Error in parameters\n");
 		return (-1);
 	}
-	free(str);
 	return (cmd_cd_2(vault, str));
 }

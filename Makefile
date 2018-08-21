@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/20 18:01:11 by galy             ###   ########.fr        #
+#    Updated: 2018/08/21 17:01:15 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,7 @@ mini_clean	:
 	@$(RM) -rf $(OBJDIR)
 
 fclean		: mini_clean
-	@make fclean -C $(LIBDIR)
+	# @make fclean -C $(LIBDIR)
 	@printf "$(CYELLOW)RAZ FT_P	: Ok$(CRESET)\n"
 	@printf "\n"
 
