@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/31 18:34:29 by galy              #+#    #+#             */
-/*   Updated: 2018/08/20 16:52:13 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/21 16:51:41 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		verif_dir_loop(char **lines, char *tmp, int match)
 
 	i = 1;
 	j = 0;
+	inlines = NULL;
 	while (lines[i] != NULL)
 	{
 		if (ft_strstr(lines[i], tmp) != NULL && \
@@ -48,10 +49,10 @@ int		verif_dir_loop(char **lines, char *tmp, int match)
 					match = 1;
 				j++;
 			}
+			free_2d_char_tab(inlines);
 		}
 		i++;
 	}
-	free_2d_char_tab(inlines);
 	return (match);
 }
 
