@@ -9,8 +9,8 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-				"${workspaceFolder}",
-				"${workspaceFolder}/inc"
+                "${workspaceFolder}",
+                "${workspaceFolder}/inc"
             ],
             "defines": [],
             "macFrameworkPath": [
@@ -22,5 +22,5 @@
             "intelliSenseMode": "clang-x64"
         }
     ],
-    "version": 4
+    "version": 3
 }
