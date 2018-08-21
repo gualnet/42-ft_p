@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 12:07:18 by galy              #+#    #+#             */
-/*   Updated: 2018/08/02 15:17:29 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/21 17:44:56 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*running_loop_2(int rs, char *buf)
 	tmp = NULL;
 	while (buf[i] != '\0' && i < BUF_SIZE)
 		i++;
+	if (i == 0)
+		return (NULL);
 	if (rs > BUF_SIZE - 2)
 	{
 		tmp = overflow_prot(rs, buf);
@@ -81,7 +83,7 @@ void	running_loop(t_vault *vault, char *name)
 		ft_bzero(buf, BUF_SIZE);
 		rs = read(1, buf, BUF_SIZE);
 		tmp = running_loop_2(rs, buf);
-		if (parsinterpreter(vault, tmp) == -999)
+		if (tmp != NULL && parsinterpreter(vault, tmp) == -999)
 			break ;
 		ft_printf("[<] ");
 	}

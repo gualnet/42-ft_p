@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/30 14:08:05 by galy              #+#    #+#             */
-/*   Updated: 2018/08/21 16:54:48 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/21 17:34:36 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int		cmd_cd_2(t_vault *vault, char *str)
 	char	*cmd;
 	char	*rsp;
 
-	ft_printf("STR [%s]\n");
 	if ((cmd = build_cmd(str)) == NULL)
 	{
 		ft_printf("[ERROR] Unable to send the command\n");
