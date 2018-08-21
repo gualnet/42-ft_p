@@ -5,15 +5,15 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(lldb) Launch",
+			"name": "(lldb) Launch server",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/ftp_server",
-			"args": ["1210"],
+			"args": ["1211"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
-			"externalConsole": false,
+			"externalConsole": true,
 			"MIMode": "lldb",
 			"preLaunchTask": "make"
 		}
