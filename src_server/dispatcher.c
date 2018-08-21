@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/14 14:31:42 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 14:57:52 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 15:17:30 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		dispatcher(t_vault *vault, char *buff)
 	if (strncmp(buff, "QUIT", 4) == 0 || buff[0] == '\0')
 	{
 		ft_printf("[INFO] A client closed the connection\n");
+		exit(0);
 		return (999);
 	}
 	else

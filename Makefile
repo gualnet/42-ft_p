@@ -6,7 +6,7 @@
 #    By: galy <galy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0001/01/01 01:01:01 by galy              #+#    #+#              #
-#    Updated: 2018/08/09 15:37:39 by galy             ###   ########.fr        #
+#    Updated: 2018/08/20 18:01:11 by galy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ NAME		=	ftp
 CC			=	gcc
 
 CFLAGS		=	-Wall -Werror -Wextra
-# CFLAGS		=	-Wall -Werror -Wextra -g
 # CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address
+# CFLAGS		=	-Wall -Werror -Wextra -g
 # CFLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g
 
 LIBFLAG		=	-L./libft -lftall
@@ -50,23 +50,25 @@ CUR_CLR		=	\033[K
 ####FILES####
 
 SRVSRC			=	\
-				create_child.c		create_server.c		server.c		usage.c \
-				init_connexion.c	state_machine.c		reader_sender.c verif_cmd_form.c \
-				dispatcher.c		data_ex_ch.c		cmd_list_2.c	cmd_retr_2.c \
-				cmd_user_pass.c		cmd_type.c			cmd_syst.c		cmd_pwd.c \
-				cmd_pasv.c			cmd_list.c			cmd_cwd.c		cmd_stor.c \
-				cmd_retr.c			cmd_mkd.c			cmd_noop.c		cmd_mode.c \
-				cmd_port.c			cmd_dele.c			cmd_rmd.c		truncate_end_signs.c \
-				create_socket.c		dtp_receiver.c
+				cmd_cwd.c            cmd_pasv.c           cmd_type.c           init_connexion.c \
+				cmd_cwd_2.c          cmd_port.c           cmd_user_pass.c      reader_sender.c \
+				cmd_dele.c           cmd_pwd.c            create_child.c       server.c \
+				cmd_list.c           cmd_retr.c           create_server.c      state_machine.c \
+				cmd_list_2.c         cmd_retr_2.c         create_socket.c      truncate_end_signs.c \
+				cmd_mkd.c            cmd_rmd.c            data_ex_ch.c         usage.c \
+				cmd_mode.c           cmd_stor.c           dispatcher.c         verif_cmd_form.c \
+				cmd_noop.c           cmd_syst.c           dtp_receiver.c
 
 CLTSRC			=	\
-				check_data_conection.c cmd_pasv.c             dtp_receiver.c \
-				client.c               cmd_put_file.c         init_vault.c \
-				cmd_cd.c               cmd_put_file_2.c       parsinterpreter.c \
-				cmd_cd_2.c             cmd_pwd.c              running_loop.c \
-				cmd_get_file.c         cmd_quit.c             usage.c \
-				cmd_ls.c               cmd_receiver.c         cmd_ls_2.c \
-				create_dtp_socket.c    cmd_mkd.c              cmd_rmd.c
+				check_data_conection.c cmd_mkd.c              cmd_rmd.c \
+				client.c               cmd_pasv.c             create_dtp_socket.c \
+				cmd_cd.c               cmd_put_file.c         dtp_receiver.c \
+				cmd_cd_2.c             cmd_put_file_2.c       init_vault.c \
+				cmd_get_file.c         cmd_pwd.c              parsinterpreter.c \
+				cmd_ls.c               cmd_quit.c             running_loop.c \
+				cmd_ls_2.c             cmd_receiver.c         usage.c
+
+
 ####FUNC####
 
 SRVOBJP		=	$(addprefix $(OBJDIR)/$(SRVDIR)/, $(SRVSRC:.c=.o))
@@ -88,10 +90,9 @@ client		: make_lib save_cursor $(CLTOBJP)
 	@printf "$(CUR_SVE)"
 
 clean		:
-	@make clean - C $(LIBDIR)
-	@$(RM) -f $(OBJP)
-	@$(RM) -rf $(OBJDIR)
-#	@printf "$(CYELLOW)FTP	: CLEANED$(CRESET)\n"
+	@make clean -C $(LIBDIR)
+	@$(RM) -r $(OBJDIR)
+	@printf "$(CYELLOW)FTP	: CLEANED$(CRESET)\n"
 
 mini_clean	:
 
@@ -101,21 +102,12 @@ mini_clean	:
 	@$(RM) -rf $(OBJDIR)
 
 fclean		: mini_clean
-	# @make fclean -C $(LIBDIR)
+	@make fclean -C $(LIBDIR)
 	@printf "$(CYELLOW)RAZ FT_P	: Ok$(CRESET)\n"
 	@printf "\n"
 
 re			: fclean all
 
-# - Clear the screen, move to (0,0):
-#   \033[2J
-# - Erase to end of line:
-#   \033[K
-
-# - Save cursor position:
-#   \033[s
-# - Restore cursor position:
-#   \033[u
 
 ####MORE_RULEZ####
 

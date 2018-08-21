@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_freestrsplited.c                                :+:      :+:    :+:   */
+/*   cmd_cwd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/11 12:06:47 by galy              #+#    #+#             */
-/*   Updated: 2018/08/20 14:25:19 by galy             ###   ########.fr       */
+/*   Created: 2018/08/10 15:35:27 by galy              #+#    #+#             */
+/*   Updated: 2018/08/10 15:43:39 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "ftp_server.h"
 
-void	ft_freestrsplited(char **banana)
+int		check_path_validity(t_vault *vault, char *req_path)
 {
-	int i;
+	size_t	i;
+	int		cpt;
 
 	i = 0;
-	while (banana[i] != NULL)
+	cpt = 0;
+	while (req_path[i] != '\0')
 	{
-		free(banana[i]);
+		if (req_path[i] == '/')
+			cpt++;
 		i++;
 	}
-	free(banana);
+	if (cpt <= 1)
+		return (1);
+	i = 0;
+	while (vault->root_wd[i] == req_path[i])
+		i++;
+	if (i < ft_strlen(vault->root_wd))
+	{
+		cwd_cmd_response(vault, -3);
+		return (-1);
+	}
+	return (1);
 }

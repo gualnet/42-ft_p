@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/04 12:43:41 by galy              #+#    #+#             */
-/*   Updated: 2018/08/01 15:02:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 16:32:13 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,24 @@ void	ls_cmd_response_handler(char *str, int print)
 	free(str);
 }
 
+void	free_s_dir_content(t_vault *vault)
+{
+	char	**tab;
+	int		i;
+
+	ft_printf("coucou");
+	if ((tab = vault->s_dir_content) == NULL)
+		return ;
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	if (tab != NULL)
+		free(tab);
+}
+
 int		data_process(t_vault *vault, char *data)
 {
 	char	**data_lines;
@@ -36,7 +54,9 @@ int		data_process(t_vault *vault, char *data)
 		ft_printf("NO DATA TO BE PRINTED");
 		return (-1);
 	}
+	free_s_dir_content(vault);
 	vault->s_dir_content = data_lines;
+	free(data);
 	return (1);
 }
 

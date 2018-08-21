@@ -6,10 +6,9 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/06 12:36:16 by galy              #+#    #+#             */
-/*   Updated: 2018/07/06 13:54:57 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 14:26:40 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "libft.h"
 #include <stdlib.h>
@@ -29,14 +28,14 @@ char const *s3)
 		len++;
 	}
 	i = 0;
-	while (s2[i]!= '\0')
+	while (s2[i] != '\0')
 	{
 		dst[len] = s2[i];
 		i++;
 		len++;
 	}
 	i = 0;
-	while (s3[i]!= '\0')
+	while (s3[i] != '\0')
 	{
 		dst[len] = s3[i];
 		i++;
@@ -44,7 +43,7 @@ char const *s3)
 	}
 }
 
-char	*ft_strjoin3(char const*s1, char const *s2, char const *s3)
+char		*ft_strjoin3(char const *s1, char const *s2, char const *s3)
 {
 	char	*dst;
 	size_t	len;
@@ -60,6 +59,5 @@ char	*ft_strjoin3(char const*s1, char const *s2, char const *s3)
 		return (NULL);
 	ft_bzero(dst, len + 1);
 	cpy_to_dst(dst, s1, s2, s3);
-	
 	return (dst);
 }

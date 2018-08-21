@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 16:20:17 by galy              #+#    #+#             */
-/*   Updated: 2018/08/06 14:18:54 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/10 15:35:52 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int		cmd_cwd(t_vault *vault, char *cmd)
 		cwd_cmd_response(vault, -2);
 		return (-1);
 	}
+	if (check_path_validity(vault, cmd + 4) != 1)
+		return (-1);
 	if (vault->cwd == NULL)
 	{
 		if ((vault->cwd = loop_getcwd()) == NULL)

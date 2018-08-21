@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/17 17:35:36 by galy              #+#    #+#             */
-/*   Updated: 2018/08/08 18:29:05 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 17:13:20 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		prep_data(char *filename, t_file_info *file)
 	if ((file->fd = open(filename, O_RDONLY | O_NONBLOCK)) < 0)
 	{
 		ft_printf("[Error] Unable to open \'%s\'\n", filename);
+		free(filename);
 		return (-2);
 	}
 	if (fstat(file->fd, &file->fstat) == -1)
@@ -41,7 +42,6 @@ int		prep_data(char *filename, t_file_info *file)
 	if ((file->fdump = (void*)mmap(NULL, file->fstat.st_size, PROT_READ, \
 	MAP_FILE | MAP_PRIVATE, file->fd, 0)) == MAP_FAILED)
 		return (-4);
-	ft_printf("PREP DATA OK\n");
 	return (1);
 }
 
@@ -61,6 +61,7 @@ int		cmd_put_file_2(t_vault *vault, char *filename)
 		return (-1);
 	if (srv_com_exchange_put(vault, cmd, &file) < 0)
 		return (-1);
+	free(cmd);
 	return (1);
 }
 

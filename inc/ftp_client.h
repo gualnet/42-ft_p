@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:06:19 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 15:49:50 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 16:49:46 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,22 @@
 # include "libft.h"
 # include "ft_printf.h"
 
+/*
+**	Defines
+*/
+
 # define BUF_SIZE		1024
 # define CMD_PRINT		1
 # define CMD_NOPRINT	0
+
+/*
+**	Struct
+*/
 
 typedef struct		s_vault
 {
 	int				csc;
 	int				csd;
-
 	char			*name;
 	char			*passw;
 	char			*s_cwd;
@@ -61,6 +68,10 @@ typedef struct		s_strings
 	int				breaker;
 }					t_strings;
 
+/*
+**	Func
+*/
+
 void				usage(char *str);
 void				running_loop(t_vault *vault, char *name);
 int					parsinterpreter(t_vault *vault, char *str);
@@ -73,6 +84,7 @@ char				*dtp_receiver(int sock, ssize_t	*size);
 void				init_vault(t_vault *vault);
 void				free_vault(t_vault *vault);
 char				*loop_getcwd(void);
+void				free_2d_char_tab(char **tab);
 
 int					cmd_pwd(t_vault *vault, char *str, int print);
 int					cmd_cd(t_vault *vault, char *str);

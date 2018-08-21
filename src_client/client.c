@@ -6,7 +6,7 @@
 /*   By: galy <galy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/27 14:05:56 by galy              #+#    #+#             */
-/*   Updated: 2018/08/09 14:30:46 by galy             ###   ########.fr       */
+/*   Updated: 2018/08/20 15:21:09 by galy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ char	*verified_addr(char **argv)
 		i++;
 	}
 	if (ft_strcmp("localhost", tmp2) == 0)
+	{
+		free(tmp2);
 		return ("TRUE");
+	}
 	free(tmp2);
 	return (NULL);
 }
@@ -56,7 +59,7 @@ int		create_cmd_sock(t_vault *vault, char **argv)
 	struct sockaddr_in	sin;
 	char				*v_addr;
 
-	ft_printf("[*]Connecting to [%s : %s]...\n", argv[1], argv[2]);
+	ft_printf("[%d]Connecting to [%s : %s]...\n", getpid(), argv[1], argv[2]);
 	v_addr = (verified_addr(argv) == NULL) ? argv[1] : "127.0.0.1";
 	if ((proto = getprotobyname("tcp")) == NULL)
 		return (-1);
